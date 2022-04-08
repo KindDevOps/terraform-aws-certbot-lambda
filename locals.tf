@@ -1,3 +1,5 @@
 locals {
-  tags = merge(var.tags, map("Application", "certbot-lambda"))
+  tags = merge(var.tags, tomap({
+    "Application" = "certbot-lambda"
+  }))
 }

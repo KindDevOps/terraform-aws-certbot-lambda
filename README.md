@@ -1,11 +1,5 @@
-<div align="center">
-    <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-certbot-lambda/master/figures/binbash-logo.png"
-     alt="binbash" width="250"/>
-</div>
-<div align="right">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-certbot-lambda/master/figures/binbash-leverage-terraform-logo.png"
-  alt="leverage" width="130"/>
-</div>
+Thist is fork from original https://github.com/binbashar/terraform-aws-certbot-lambda which present in terraform registry as [certbot-lambda module](https://registry.terraform.io/modules/binbashar/certbot-lambda/aws/latest). \
+Unfortunately latest  certbot-lambda module v.0.8.0 [uncompatible with terraform version >0.15](https://github.com/binbashar/terraform-aws-certbot-lambda/issues/5). So - I fixed this! 
 
 # Certbot Lambda
 

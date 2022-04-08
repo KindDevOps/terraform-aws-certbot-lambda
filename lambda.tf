@@ -3,7 +3,7 @@
 # LetsEncrypt certificates and stores them in an S3 bucket.
 #
 module "certbot_lambda_jenkins" {
-  source = "github.com/binbashar/terraform-aws-lambda?ref=v1.2.0"
+  source = "github.com/KindDevOps/terraform-aws-lambda?ref=v1.3.0"
 
   function_name = "${var.name_prefix}-${var.name}"
   description   = "CertBot Lambda that creates and renews certificates for ${var.certificate_domains}"
