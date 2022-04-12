@@ -24,6 +24,12 @@ variable "tags" {
   default     = {}
 }
 
+variable "certificate_arn" {
+  description = "Certificate ARN to update to"
+  default     = "*"
+}
+
+
 #
 # LetsEncrypt Certificate Settings
 #
@@ -32,5 +38,5 @@ variable "contact_email" {
 }
 
 variable "certificate_domains" {
-  description = "Domains that will be included in the certificate"
+  description = "Comma separated domains list that will be included in the certificate"
 }

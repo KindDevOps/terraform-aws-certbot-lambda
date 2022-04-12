@@ -5,7 +5,7 @@
 module "certbot_lambda_jenkins" {
   source = "github.com/KindDevOps/terraform-aws-lambda?ref=v1.3.0"
 
-  function_name = "${var.name_prefix}-${var.name}"
+  function_name = "${var.name_prefix}_${var.name}"
   description   = "CertBot Lambda that creates and renews certificates for ${var.certificate_domains}"
   handler       = "main.lambda_handler"
   runtime       = "python3.6"
@@ -23,6 +23,7 @@ module "certbot_lambda_jenkins" {
     variables = {
       EMAIL     = var.contact_email
       DOMAINS   = var.certificate_domains
+      CERT_ARN  = var.certificate_arn
       S3_BUCKET = aws_s3_bucket.certificates_store.id
       S3_PREFIX = var.name
     }
@@ -66,6 +67,15 @@ data "aws_iam_policy_document" "bucket_permissions" {
     ]
     resources = [
       "arn:aws:route53:::hostedzone/${var.hosted_zone_id}"
+    ]
+  }
+
+  statement {
+    actions = [
+      "acm:ImportCertificate"
+    ]
+    resources = [
+      "${var.certificate_arn}"
     ]
   }
 }
