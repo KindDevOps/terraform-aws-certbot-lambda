@@ -72,9 +72,47 @@ def upload_certs(s3_bucket, s3_prefix):
             print(f'Uploading: {local_path} => s3://{s3_bucket}/{s3_key}')
             client.upload_file(local_path, s3_bucket, s3_key)
 
-# def download_certs(s3_bucket, s3_prefix, domains):
-#     client = boto3.client('s3')
-#     cert_dir = os.path.join(CERTBOT_DIR, 'live')
+# https://code-examples.net/en/q/1e70b70
+def download_cert_s3(s3_bucket, s3_prefix, domains):
+# certbot-lambda-certificates-4-test-voximplant-com/4-test-voximplant-com/4.test.voximplant.com/cert.pem
+# {   bucket                                      }/{ prefix            }/{     domains     }/
+    s3_client = boto3.client('s3')
+    domains = re.sub("\.$", "", domains)
+    target = os.path.join(CERTBOT_DIR, 'live')
+    #s3_path = os.path.join(s3_prefix, domains)
+    s3_path = s3_prefix
+
+    # Handle missing / at end of prefix
+    if not s3_path.endswith('/'):
+        s3_path += '/'
+
+    paginator = s3_client.get_paginator('list_objects_v2')
+    for result in paginator.paginate(Bucket=s3_bucket, Prefix=s3_path):
+        # Download each file individually
+        for key in result['Contents']:
+            # Calculate relative path
+            rel_path = key['Key'][len(s3_path):]
+            # Skip paths ending in /
+            if not key['Key'].endswith('/'):
+                local_file_path = os.path.join(target, rel_path)
+                # Make sure directories exist
+                local_file_dir = os.path.dirname(local_file_path)
+                if not os.path.exists(local_file_dir):
+                    os.makedirs(local_file_dir)
+                print(f'Downloading {key} to {local_file_path}')
+                s3_client.download_file(s3_bucket, key['Key'], local_file_path)
+
+# def acm_check_cert(cert_arn):
+#     client = boto3.client('acm')
+#     try:
+#         response = client.acm_client.get_certificate(CertificateArn=cert_arn)
+#         print("Got certificate %s and its chain.", cert_arn)
+#         cert_metadata = client.describe(cert_arn)
+#         print(f'Cert Metadata: {cert_metadata}')
+#     except ClientError:
+#         print("Couldn't get certificate %s.", cert_arn)
+#     else:
+#         return response
 
 # def check_existing_acm_cert(cert_arn,domains):
 #     pass
@@ -84,29 +122,29 @@ def update_acm(domains, cert_arn):
 
     cert_dir = os.path.join(os.path.join(CERTBOT_DIR, 'live'), domains)
     cert_dir = re.sub("\.$", "", cert_dir)
+    
     certificate=open(os.path.join(cert_dir, 'cert.pem'), 'rb').read()
     privatekey=open(os.path.join(cert_dir, 'privkey.pem'), 'rb').read()
     chain=open(os.path.join(cert_dir, 'chain.pem'), 'rb').read()
 
-
-    if (cert_arn == '*'):
-        response = client.import_certificate(
-            Certificate=certificate,
-            PrivateKey=privatekey,
-            CertificateChain=chain
-        )
-    else:
+    try:
+        response = client.describe(cert_arn)
+        print(response)
         response = client.import_certificate(
             CertificateArn=cert_arn,
             Certificate=certificate,
             PrivateKey=privatekey,
             CertificateChain=chain
         )
-
-    print(response)
-    print('Certificates uploaded to ACM suceessfully')
+    except:
+        print(f'Can not get cert {cert_arn}. Uploading as new cert to ACM...')
+        response = client.import_certificate(
+            Certificate=certificate,
+            PrivateKey=privatekey,
+            CertificateChain=chain
+        )
+    print(f'Certificates uploaded to ACM successfully. {response}')
     
-
 def guarded_handler(event, context):
     # Contact email for LetsEncrypt notifications
     email = os.environ.get('EMAIL')
@@ -119,8 +157,11 @@ def guarded_handler(event, context):
     # Certificate ARN in ACM to update to 
     cert_arn = os.environ.get('CERT_ARN')
 
-    obtain_certs(email, domains)
-    upload_certs(s3_bucket, s3_prefix)
+    try:
+        obtain_certs(email, domains)
+        upload_certs(s3_bucket, s3_prefix)
+    except:
+        download_cert_s3(s3_bucket, s3_prefix, domains)
     update_acm(domains, cert_arn)
 
     return 'Certificates obtained and uploaded successfully.'
