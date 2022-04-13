@@ -5,6 +5,7 @@ import shutil
 import boto3
 import certbot.main
 import re
+from datetime import datetime, date
 
 # Let’s Encrypt acme-v02 server that supports wildcard certificates
 CERTBOT_SERVER = 'https://acme-v02.api.letsencrypt.org/directory'
@@ -61,8 +62,7 @@ def obtain_certs(email, domains):
 # │       ├── chain.pem
 # │       ├── fullchain.pem
 # │       └── privkey.pem
-def upload_certs(s3_bucket, s3_prefix):
-    client = boto3.client('s3')
+def upload_certs(s3_client, s3_bucket, s3_prefix):
     cert_dir = os.path.join(CERTBOT_DIR, 'live')
     for dirpath, _dirnames, filenames in os.walk(cert_dir):
         for filename in filenames:
@@ -70,13 +70,12 @@ def upload_certs(s3_bucket, s3_prefix):
             relative_path = os.path.relpath(local_path, cert_dir)
             s3_key = os.path.join(s3_prefix, relative_path)
             print(f'Uploading: {local_path} => s3://{s3_bucket}/{s3_key}')
-            client.upload_file(local_path, s3_bucket, s3_key)
+            s3_client.upload_file(local_path, s3_bucket, s3_key)
 
 # https://code-examples.net/en/q/1e70b70
-def download_cert_s3(s3_bucket, s3_prefix, domains):
+def download_cert_s3(s3_client, s3_bucket, s3_prefix, domains):
 # certbot-lambda-certificates-4-test-voximplant-com/4-test-voximplant-com/4.test.voximplant.com/cert.pem
 # {   bucket                                      }/{ prefix            }/{     domains     }/
-    s3_client = boto3.client('s3')
     domains = re.sub("\.$", "", domains)
     target = os.path.join(CERTBOT_DIR, 'live')
     #s3_path = os.path.join(s3_prefix, domains)
@@ -102,24 +101,24 @@ def download_cert_s3(s3_bucket, s3_prefix, domains):
                 print(f'Downloading {key} to {local_file_path}')
                 s3_client.download_file(s3_bucket, key['Key'], local_file_path)
 
-# def acm_check_cert(cert_arn):
-#     client = boto3.client('acm')
-#     try:
-#         response = client.acm_client.get_certificate(CertificateArn=cert_arn)
-#         print("Got certificate %s and its chain.", cert_arn)
-#         cert_metadata = client.describe(cert_arn)
-#         print(f'Cert Metadata: {cert_metadata}')
-#     except ClientError:
-#         print("Couldn't get certificate %s.", cert_arn)
-#     else:
-#         return response
+def acm_cert_is_valid(acm_client, cert_arn):
+    try:
+        response = acm_client.describe_certificate(CertificateArn=cert_arn)
+        cert_exp_date = response['Certificate']['NotAfter']
+        need_renew_date = datetime(cert_exp_date.year, cert_exp_date.month - 1, cert_exp_date.day)
+        print('Certificate Not After ')
+        print(response['Certificate']['NotAfter'])
+        print(f'Cert renew will be performed after')
+        print(need_renew_date)
+        if (datetime.now() > need_renew_date): return False
+        return True
+    except Exception as e:
+        print(f'Exception - {e}')
+        print(f"Could not get certificate {cert_arn}, or check its renewal date...")
+        return False
 
-# def check_existing_acm_cert(cert_arn,domains):
-#     pass
-## 
-def update_acm(domains, cert_arn):
-    client = boto3.client('acm')
 
+def update_acm(acm_client, domains, cert_arn):
     cert_dir = os.path.join(os.path.join(CERTBOT_DIR, 'live'), domains)
     cert_dir = re.sub("\.$", "", cert_dir)
     
@@ -128,9 +127,9 @@ def update_acm(domains, cert_arn):
     chain=open(os.path.join(cert_dir, 'chain.pem'), 'rb').read()
 
     try:
-        response = client.describe(cert_arn)
-        print(response)
-        response = client.import_certificate(
+        response = acm_client.describe_certificate(CertificateArn=cert_arn)
+        print('Certificate Not After - ' + response['Certificate']['NotAfter'])
+        response = acm_client.import_certificate(
             CertificateArn=cert_arn,
             Certificate=certificate,
             PrivateKey=privatekey,
@@ -138,7 +137,7 @@ def update_acm(domains, cert_arn):
         )
     except:
         print(f'Can not get cert {cert_arn}. Uploading as new cert to ACM...')
-        response = client.import_certificate(
+        response = acm_client.import_certificate(
             Certificate=certificate,
             PrivateKey=privatekey,
             CertificateChain=chain
@@ -157,12 +156,27 @@ def guarded_handler(event, context):
     # Certificate ARN in ACM to update to 
     cert_arn = os.environ.get('CERT_ARN')
 
-    try:
-        obtain_certs(email, domains)
-        upload_certs(s3_bucket, s3_prefix)
-    except:
-        download_cert_s3(s3_bucket, s3_prefix, domains)
-    update_acm(domains, cert_arn)
+    #Initialize boto3 clients
+    acm_client = boto3.client('acm')
+    s3_client = boto3.client('s3')
+
+    if (not acm_cert_is_valid(acm_client, cert_arn)):
+        try:
+            obtain_certs(email, domains)
+            upload_certs(s3_client, s3_bucket, s3_prefix)
+        except Exception as e:
+            print('Obtaining and uploading certificate failed...')
+            print(f'Exception - {e}')
+            try:
+                download_cert_s3(s3_client, s3_bucket, s3_prefix, domains)
+            except Exception as e:
+                print('Downloading certificate from S3 failed...')
+                print(f'Exception - {e}')
+        try:
+            update_acm(acm_client, domains, cert_arn)
+        except Exception as e:
+            print('Updating cert in ACM failed...')
+            print(f'Exception - {e}')        
 
     return 'Certificates obtained and uploaded successfully.'
 

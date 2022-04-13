@@ -29,20 +29,14 @@ import sys
 import warnings
 
 # flake8: noqa
-from josepy.b64 import (
-    b64decode,
-    b64encode,
-)
-
+from josepy.b64 import b64decode, b64encode
 from josepy.errors import (
     DeserializationError,
-    SerializationError,
     Error,
+    SerializationError,
     UnrecognizedTypeError,
 )
-
 from josepy.interfaces import JSONDeSerializable
-
 from josepy.json_util import (
     Field,
     JSONObjectWithFields,
@@ -55,42 +49,36 @@ from josepy.json_util import (
     encode_cert,
     encode_csr,
     encode_hex16,
+    field,
 )
-
 from josepy.jwa import (
+    ES256,
+    ES384,
+    ES512,
     HS256,
     HS384,
     HS512,
-    JWASignature,
     PS256,
     PS384,
     PS512,
     RS256,
     RS384,
     RS512,
+    JWASignature,
 )
-
-from josepy.jwk import (
-    JWK,
-    JWKRSA,
-)
-
-from josepy.jws import (
-    Header,
-    JWS,
-    Signature,
-)
-
+from josepy.jwk import JWK, JWKEC, JWKRSA, JWKOct
+from josepy.jws import JWS, Header, Signature
 from josepy.util import (
-    ComparableX509,
+    ComparableECKey,
     ComparableKey,
     ComparableRSAKey,
+    ComparableX509,
     ImmutableMap,
 )
 
-if sys.version_info[:2] == (3, 4):
+if sys.version_info[:2] == (3, 6):
     warnings.warn(
-            "Python 3.4 support will be dropped in the next release of "
+            "Python 3.6 support will be dropped in the next release of "
             "josepy. Please upgrade your Python version.",
             DeprecationWarning,
     )

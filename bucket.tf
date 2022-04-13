@@ -24,3 +24,8 @@ resource "aws_s3_bucket" "certificates_store" {
 
   tags = local.tags
 }
+
+resource "aws_s3_bucket_public_access_block" "certificates_store" {
+  bucket = aws_s3_bucket.certificates_store.id
+  ignore_public_acls = true
+}

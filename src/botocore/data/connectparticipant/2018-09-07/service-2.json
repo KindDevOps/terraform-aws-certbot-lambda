@@ -1,628 +1,837 @@
 {
-  "documentation": "<p>Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale.</p> <p>Amazon Connect enables customer contacts through voice or chat.</p> <p>The APIs described here are used by chat participants, such as agents and customers.</p>",
-  "metadata": {
-    "apiVersion": "2018-09-07",
-    "endpointPrefix": "participant.connect",
-    "jsonVersion": "1.1",
-    "protocol": "rest-json",
-    "serviceAbbreviation": "Amazon Connect Participant",
-    "serviceFullName": "Amazon Connect Participant Service",
-    "serviceId": "ConnectParticipant",
-    "signatureVersion": "v4",
-    "signingName": "execute-api",
-    "uid": "connectparticipant-2018-09-07"
+  "version":"2.0",
+  "metadata":{
+    "apiVersion":"2018-09-07",
+    "endpointPrefix":"participant.connect",
+    "jsonVersion":"1.1",
+    "protocol":"rest-json",
+    "serviceAbbreviation":"Amazon Connect Participant",
+    "serviceFullName":"Amazon Connect Participant Service",
+    "serviceId":"ConnectParticipant",
+    "signatureVersion":"v4",
+    "signingName":"execute-api",
+    "uid":"connectparticipant-2018-09-07"
   },
-  "operations": {
-    "CreateParticipantConnection": {
-      "documentation": "<p>Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken.</p> <p>The participant token is valid for the lifetime of the participant \u2013 until the they are part of a contact.</p> <p>The response URL for <code>WEBSOCKET</code> Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic. </p> <p>For chat, you need to publish the following on the established websocket connection:</p> <p> <code>{\"topic\":\"aws/subscribe\",\"content\":{\"topics\":[\"aws/chat\"]}}</code> </p> <p>Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.</p>",
-      "errors": [
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "InternalServerException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ValidationException"
-        }
+  "operations":{
+    "CompleteAttachmentUpload":{
+      "name":"CompleteAttachmentUpload",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/complete-attachment-upload"
+      },
+      "input":{"shape":"CompleteAttachmentUploadRequest"},
+      "output":{"shape":"CompleteAttachmentUploadResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ConflictException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/participant/connection"
-      },
-      "input": {
-        "shape": "CreateParticipantConnectionRequest"
-      },
-      "name": "CreateParticipantConnection",
-      "output": {
-        "shape": "CreateParticipantConnectionResponse"
-      }
+      "documentation":"<p>Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. </p> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>"
     },
-    "DisconnectParticipant": {
-      "documentation": "<p>Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p>",
-      "errors": [
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "InternalServerException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ValidationException"
-        }
+    "CreateParticipantConnection":{
+      "name":"CreateParticipantConnection",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/connection"
+      },
+      "input":{"shape":"CreateParticipantConnectionRequest"},
+      "output":{"shape":"CreateParticipantConnectionResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/participant/disconnect"
-      },
-      "input": {
-        "shape": "DisconnectParticipantRequest"
-      },
-      "name": "DisconnectParticipant",
-      "output": {
-        "shape": "DisconnectParticipantResponse"
-      }
+      "documentation":"<p>Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken.</p> <p>The participant token is valid for the lifetime of the participant – until they are part of a contact.</p> <p>The response URL for <code>WEBSOCKET</code> Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic. </p> <p>For chat, you need to publish the following on the established websocket connection:</p> <p> <code>{\"topic\":\"aws/subscribe\",\"content\":{\"topics\":[\"aws/chat\"]}}</code> </p> <p>Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.</p> <p> <b>Message streaming support</b>: This API can also be used together with the <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html\">StartContactStreaming</a> API to create a participant connection for chat contacts that are not using a websocket. For more information about message streaming, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html\">Enable real-time chat message streaming</a> in the <i>Amazon Connect Administrator Guide</i>.</p> <p> <b>Feature specifications</b>: For information about feature specifications, such as the allowed number of open websocket connections per participant, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>. </p> <note> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p> </note>"
     },
-    "GetTranscript": {
-      "documentation": "<p>Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p>",
-      "errors": [
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "InternalServerException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ValidationException"
-        }
+    "DisconnectParticipant":{
+      "name":"DisconnectParticipant",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/disconnect"
+      },
+      "input":{"shape":"DisconnectParticipantRequest"},
+      "output":{"shape":"DisconnectParticipantResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/participant/transcript"
-      },
-      "input": {
-        "shape": "GetTranscriptRequest"
-      },
-      "name": "GetTranscript",
-      "output": {
-        "shape": "GetTranscriptResponse"
-      }
+      "documentation":"<p>Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>"
     },
-    "SendEvent": {
-      "documentation": "<p>Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p>",
-      "errors": [
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "InternalServerException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ValidationException"
-        }
+    "GetAttachment":{
+      "name":"GetAttachment",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/attachment"
+      },
+      "input":{"shape":"GetAttachmentRequest"},
+      "output":{"shape":"GetAttachmentResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/participant/event"
-      },
-      "input": {
-        "shape": "SendEventRequest"
-      },
-      "name": "SendEvent",
-      "output": {
-        "shape": "SendEventResponse"
-      }
+      "documentation":"<p>Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts.</p> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>"
     },
-    "SendMessage": {
-      "documentation": "<p>Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p>",
-      "errors": [
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "InternalServerException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ValidationException"
-        }
+    "GetTranscript":{
+      "name":"GetTranscript",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/transcript"
+      },
+      "input":{"shape":"GetTranscriptRequest"},
+      "output":{"shape":"GetTranscriptResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/participant/message"
+      "documentation":"<p>Retrieves a transcript of the session, including details about any attachments. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>"
+    },
+    "SendEvent":{
+      "name":"SendEvent",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/event"
       },
-      "input": {
-        "shape": "SendMessageRequest"
+      "input":{"shape":"SendEventRequest"},
+      "output":{"shape":"SendEventResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"}
+      ],
+      "documentation":"<p>Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>"
+    },
+    "SendMessage":{
+      "name":"SendMessage",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/message"
       },
-      "name": "SendMessage",
-      "output": {
-        "shape": "SendMessageResponse"
-      }
+      "input":{"shape":"SendMessageRequest"},
+      "output":{"shape":"SendMessageResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"}
+      ],
+      "documentation":"<p>Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.</p> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>"
+    },
+    "StartAttachmentUpload":{
+      "name":"StartAttachmentUpload",
+      "http":{
+        "method":"POST",
+        "requestUri":"/participant/start-attachment-upload"
+      },
+      "input":{"shape":"StartAttachmentUploadRequest"},
+      "output":{"shape":"StartAttachmentUploadResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
+      ],
+      "documentation":"<p>Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3.</p> <p>The Amazon Connect Participant Service APIs do not use <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 authentication</a>.</p>"
     }
   },
-  "shapes": {
-    "AccessDeniedException": {
-      "documentation": "<p>You do not have sufficient access to perform this action.</p>",
-      "error": {
-        "httpStatusCode": 403
+  "shapes":{
+    "AccessDeniedException":{
+      "type":"structure",
+      "required":["Message"],
+      "members":{
+        "Message":{"shape":"Message"}
       },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "Message"
+      "documentation":"<p>You do not have sufficient access to perform this action.</p>",
+      "error":{"httpStatusCode":403},
+      "exception":true
+    },
+    "ArtifactId":{
+      "type":"string",
+      "max":256,
+      "min":1
+    },
+    "ArtifactStatus":{
+      "type":"string",
+      "enum":[
+        "APPROVED",
+        "REJECTED",
+        "IN_PROGRESS"
+      ]
+    },
+    "AttachmentIdList":{
+      "type":"list",
+      "member":{"shape":"ArtifactId"},
+      "max":1,
+      "min":1
+    },
+    "AttachmentItem":{
+      "type":"structure",
+      "members":{
+        "ContentType":{
+          "shape":"ContentType",
+          "documentation":"<p>Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
+        },
+        "AttachmentId":{
+          "shape":"ArtifactId",
+          "documentation":"<p>A unique identifier for the attachment.</p>"
+        },
+        "AttachmentName":{
+          "shape":"AttachmentName",
+          "documentation":"<p>A case-sensitive name of the attachment being uploaded.</p>"
+        },
+        "Status":{
+          "shape":"ArtifactStatus",
+          "documentation":"<p>Status of the attachment.</p>"
         }
       },
-      "required": [
-        "Message"
-      ],
-      "type": "structure"
+      "documentation":"<p>The case-insensitive input to indicate standard MIME type that describes the format of the file that will be uploaded.</p>"
     },
-    "ChatContent": {
-      "max": 1024,
-      "min": 1,
-      "type": "string"
+    "AttachmentName":{
+      "type":"string",
+      "max":256,
+      "min":1
     },
-    "ChatContentType": {
-      "max": 100,
-      "min": 1,
-      "type": "string"
+    "AttachmentSizeInBytes":{
+      "type":"long",
+      "min":1
     },
-    "ChatItemId": {
-      "max": 256,
-      "min": 1,
-      "type": "string"
+    "Attachments":{
+      "type":"list",
+      "member":{"shape":"AttachmentItem"}
     },
-    "ChatItemType": {
-      "enum": [
+    "Bool":{"type":"boolean"},
+    "ChatContent":{
+      "type":"string",
+      "max":1024,
+      "min":1
+    },
+    "ChatContentType":{
+      "type":"string",
+      "max":100,
+      "min":1
+    },
+    "ChatItemId":{
+      "type":"string",
+      "max":256,
+      "min":1
+    },
+    "ChatItemType":{
+      "type":"string",
+      "enum":[
+        "TYPING",
+        "PARTICIPANT_JOINED",
+        "PARTICIPANT_LEFT",
+        "CHAT_ENDED",
+        "TRANSFER_SUCCEEDED",
+        "TRANSFER_FAILED",
         "MESSAGE",
         "EVENT",
+        "ATTACHMENT",
         "CONNECTION_ACK"
+      ]
+    },
+    "ClientToken":{
+      "type":"string",
+      "max":500
+    },
+    "CompleteAttachmentUploadRequest":{
+      "type":"structure",
+      "required":[
+        "AttachmentIds",
+        "ClientToken",
+        "ConnectionToken"
       ],
-      "type": "string"
-    },
-    "ClientToken": {
-      "max": 500,
-      "type": "string"
-    },
-    "ConnectionCredentials": {
-      "documentation": "<p>Connection credentials. </p>",
-      "members": {
-        "ConnectionToken": {
-          "documentation": "<p>The connection token.</p>",
-          "shape": "ParticipantToken"
+      "members":{
+        "AttachmentIds":{
+          "shape":"AttachmentIdList",
+          "documentation":"<p>A list of unique identifiers for the attachments.</p>"
         },
-        "Expiry": {
-          "documentation": "<p>The expiration of the token.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>",
-          "shape": "ISO8601Datetime"
+        "ClientToken":{
+          "shape":"NonEmptyClientToken",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+          "idempotencyToken":true
+        },
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The authentication token associated with the participant's connection.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
+        }
+      }
+    },
+    "CompleteAttachmentUploadResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "ConflictException":{
+      "type":"structure",
+      "required":["Message"],
+      "members":{
+        "Message":{"shape":"Reason"}
+      },
+      "documentation":"<p>An attachment with that identifier is already being uploaded.</p>",
+      "error":{"httpStatusCode":409},
+      "exception":true
+    },
+    "ConnectionCredentials":{
+      "type":"structure",
+      "members":{
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The connection token.</p>"
+        },
+        "Expiry":{
+          "shape":"ISO8601Datetime",
+          "documentation":"<p>The expiration of the token.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Connection credentials. </p>"
     },
-    "ConnectionType": {
-      "enum": [
+    "ConnectionType":{
+      "type":"string",
+      "enum":[
         "WEBSOCKET",
         "CONNECTION_CREDENTIALS"
-      ],
-      "type": "string"
+      ]
     },
-    "ConnectionTypeList": {
-      "member": {
-        "shape": "ConnectionType"
-      },
-      "min": 1,
-      "type": "list"
+    "ConnectionTypeList":{
+      "type":"list",
+      "member":{"shape":"ConnectionType"},
+      "min":1
     },
-    "ContactId": {
-      "max": 256,
-      "min": 1,
-      "type": "string"
+    "ContactId":{
+      "type":"string",
+      "max":256,
+      "min":1
     },
-    "CreateParticipantConnectionRequest": {
-      "members": {
-        "ParticipantToken": {
-          "documentation": "<p>Participant Token as obtained from <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContactResponse.html\">StartChatContact</a> API response.</p>",
-          "location": "header",
-          "locationName": "X-Amz-Bearer",
-          "shape": "ParticipantToken"
-        },
-        "Type": {
-          "documentation": "<p>Type of connection information required.</p>",
-          "shape": "ConnectionTypeList"
-        }
-      },
-      "required": [
+    "ContentType":{
+      "type":"string",
+      "max":255,
+      "min":1
+    },
+    "CreateParticipantConnectionRequest":{
+      "type":"structure",
+      "required":[
         "Type",
         "ParticipantToken"
       ],
-      "type": "structure"
-    },
-    "CreateParticipantConnectionResponse": {
-      "members": {
-        "ConnectionCredentials": {
-          "documentation": "<p>Creates the participant's connection credentials. The authentication token associated with the participant's connection.</p>",
-          "shape": "ConnectionCredentials"
+      "members":{
+        "Type":{
+          "shape":"ConnectionTypeList",
+          "documentation":"<p>Type of connection information required.</p>"
         },
-        "Websocket": {
-          "documentation": "<p>Creates the participant's websocket connection.</p>",
-          "shape": "Websocket"
-        }
-      },
-      "type": "structure"
-    },
-    "DisconnectParticipantRequest": {
-      "members": {
-        "ClientToken": {
-          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
-          "idempotencyToken": true,
-          "shape": "ClientToken"
+        "ParticipantToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>This is a header parameter.</p> <p>The ParticipantToken as obtained from <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html\">StartChatContact</a> API response.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
         },
-        "ConnectionToken": {
-          "documentation": "<p>The authentication token associated with the participant's connection.</p>",
-          "location": "header",
-          "locationName": "X-Amz-Bearer",
-          "shape": "ParticipantToken"
+        "ConnectParticipant":{
+          "shape":"Bool",
+          "documentation":"<p>Amazon Connect Participant is used to mark the participant as connected for message streaming.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "CreateParticipantConnectionResponse":{
+      "type":"structure",
+      "members":{
+        "Websocket":{
+          "shape":"Websocket",
+          "documentation":"<p>Creates the participant's websocket connection.</p>"
+        },
+        "ConnectionCredentials":{
+          "shape":"ConnectionCredentials",
+          "documentation":"<p>Creates the participant's connection credentials. The authentication token associated with the participant's connection.</p>"
+        }
+      }
+    },
+    "DisconnectParticipantRequest":{
+      "type":"structure",
+      "required":["ConnectionToken"],
+      "members":{
+        "ClientToken":{
+          "shape":"ClientToken",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+          "idempotencyToken":true
+        },
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The authentication token associated with the participant's connection.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
+        }
+      }
+    },
+    "DisconnectParticipantResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DisplayName":{
+      "type":"string",
+      "max":256,
+      "min":1
+    },
+    "GetAttachmentRequest":{
+      "type":"structure",
+      "required":[
+        "AttachmentId",
         "ConnectionToken"
       ],
-      "type": "structure"
+      "members":{
+        "AttachmentId":{
+          "shape":"ArtifactId",
+          "documentation":"<p>A unique identifier for the attachment.</p>"
+        },
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The authentication token associated with the participant's connection.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
+        }
+      }
     },
-    "DisconnectParticipantResponse": {
-      "members": {},
-      "type": "structure"
+    "GetAttachmentResponse":{
+      "type":"structure",
+      "members":{
+        "Url":{
+          "shape":"PreSignedAttachmentUrl",
+          "documentation":"<p>This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to <a href=\"https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html\">StartAttachmentUpload</a>.</p>"
+        },
+        "UrlExpiry":{
+          "shape":"ISO8601Datetime",
+          "documentation":"<p>The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+        }
+      }
     },
-    "DisplayName": {
-      "max": 256,
-      "min": 1,
-      "type": "string"
+    "GetTranscriptRequest":{
+      "type":"structure",
+      "required":["ConnectionToken"],
+      "members":{
+        "ContactId":{
+          "shape":"ContactId",
+          "documentation":"<p>The contactId from the current contact chain for which transcript is needed.</p>"
+        },
+        "MaxResults":{
+          "shape":"MaxResults",
+          "documentation":"<p>The maximum number of results to return in the page. Default: 10. </p>",
+          "box":true
+        },
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results.</p>"
+        },
+        "ScanDirection":{
+          "shape":"ScanDirection",
+          "documentation":"<p>The direction from StartPosition from which to retrieve message. Default: BACKWARD when no StartPosition is provided, FORWARD with StartPosition. </p>"
+        },
+        "SortOrder":{
+          "shape":"SortKey",
+          "documentation":"<p>The sort order for the records. Default: DESCENDING.</p>"
+        },
+        "StartPosition":{
+          "shape":"StartPosition",
+          "documentation":"<p>A filtering option for where to start.</p>"
+        },
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The authentication token associated with the participant's connection.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
+        }
+      }
     },
-    "GetTranscriptRequest": {
-      "members": {
-        "ConnectionToken": {
-          "documentation": "<p>The authentication token associated with the participant's connection.</p>",
-          "location": "header",
-          "locationName": "X-Amz-Bearer",
-          "shape": "ParticipantToken"
+    "GetTranscriptResponse":{
+      "type":"structure",
+      "members":{
+        "InitialContactId":{
+          "shape":"ContactId",
+          "documentation":"<p>The initial contact ID for the contact. </p>"
         },
-        "ContactId": {
-          "documentation": "<p>The contactId from the current contact chain for which transcript is needed.</p>",
-          "shape": "ContactId"
+        "Transcript":{
+          "shape":"Transcript",
+          "documentation":"<p>The list of messages in the session.</p>"
         },
-        "MaxResults": {
-          "box": true,
-          "documentation": "<p>The maximum number of results to return in the page. Default: 10. </p>",
-          "shape": "MaxResults"
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results.</p>"
+        }
+      }
+    },
+    "ISO8601Datetime":{"type":"string"},
+    "Instant":{
+      "type":"string",
+      "max":100,
+      "min":1
+    },
+    "InternalServerException":{
+      "type":"structure",
+      "required":["Message"],
+      "members":{
+        "Message":{"shape":"Message"}
+      },
+      "documentation":"<p>This exception occurs when there is an internal failure in the Amazon Connect service.</p>",
+      "error":{"httpStatusCode":500},
+      "exception":true,
+      "fault":true
+    },
+    "Item":{
+      "type":"structure",
+      "members":{
+        "AbsoluteTime":{
+          "shape":"Instant",
+          "documentation":"<p>The time when the message or event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results.</p>",
-          "shape": "NextToken"
+        "Content":{
+          "shape":"ChatContent",
+          "documentation":"<p>The content of the message or event.</p>"
         },
-        "ScanDirection": {
-          "documentation": "<p>The direction from StartPosition from which to retrieve message. Default: BACKWARD when no StartPosition is provided, FORWARD with StartPosition. </p>",
-          "shape": "ScanDirection"
+        "ContentType":{
+          "shape":"ChatContentType",
+          "documentation":"<p>The type of content of the item.</p>"
         },
-        "SortOrder": {
-          "documentation": "<p>The sort order for the records. Default: DESCENDING.</p>",
-          "shape": "SortKey"
+        "Id":{
+          "shape":"ChatItemId",
+          "documentation":"<p>The ID of the item.</p>"
         },
-        "StartPosition": {
-          "documentation": "<p>A filtering option for where to start.</p>",
-          "shape": "StartPosition"
+        "Type":{
+          "shape":"ChatItemType",
+          "documentation":"<p>Type of the item: message or event. </p>"
+        },
+        "ParticipantId":{
+          "shape":"ParticipantId",
+          "documentation":"<p>The ID of the sender in the session.</p>"
+        },
+        "DisplayName":{
+          "shape":"DisplayName",
+          "documentation":"<p>The chat display name of the sender.</p>"
+        },
+        "ParticipantRole":{
+          "shape":"ParticipantRole",
+          "documentation":"<p>The role of the sender. For example, is it a customer, agent, or system.</p>"
+        },
+        "Attachments":{
+          "shape":"Attachments",
+          "documentation":"<p>Provides information about the attachments.</p>"
         }
       },
-      "required": [
-        "ConnectionToken"
-      ],
-      "type": "structure"
+      "documentation":"<p>An item - message or event - that has been sent. </p>"
     },
-    "GetTranscriptResponse": {
-      "members": {
-        "InitialContactId": {
-          "documentation": "<p>The initial contact ID for the contact. </p>",
-          "shape": "ContactId"
-        },
-        "NextToken": {
-          "documentation": "<p>The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results.</p>",
-          "shape": "NextToken"
-        },
-        "Transcript": {
-          "documentation": "<p>The list of messages in the session.</p>",
-          "shape": "Transcript"
-        }
-      },
-      "type": "structure"
+    "MaxResults":{
+      "type":"integer",
+      "max":100,
+      "min":0
     },
-    "ISO8601Datetime": {
-      "type": "string"
+    "Message":{"type":"string"},
+    "MostRecent":{
+      "type":"integer",
+      "max":100,
+      "min":0
     },
-    "Instant": {
-      "max": 100,
-      "min": 1,
-      "type": "string"
+    "NextToken":{
+      "type":"string",
+      "max":1000,
+      "min":1
     },
-    "InternalServerException": {
-      "documentation": "<p>This exception occurs when there is an internal failure in the Amazon Connect service.</p>",
-      "error": {
-        "httpStatusCode": 500
-      },
-      "exception": true,
-      "fault": true,
-      "members": {
-        "Message": {
-          "shape": "Message"
-        }
-      },
-      "required": [
-        "Message"
-      ],
-      "type": "structure"
+    "NonEmptyClientToken":{
+      "type":"string",
+      "max":500,
+      "min":1
     },
-    "Item": {
-      "documentation": "<p>An item - message or event - that has been sent. </p>",
-      "members": {
-        "AbsoluteTime": {
-          "documentation": "<p>The time when the message or event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>",
-          "shape": "Instant"
-        },
-        "Content": {
-          "documentation": "<p>The content of the message or event.</p>",
-          "shape": "ChatContent"
-        },
-        "ContentType": {
-          "documentation": "<p>The type of content of the item.</p>",
-          "shape": "ChatContentType"
-        },
-        "DisplayName": {
-          "documentation": "<p>The chat display name of the sender.</p>",
-          "shape": "DisplayName"
-        },
-        "Id": {
-          "documentation": "<p>The ID of the item.</p>",
-          "shape": "ChatItemId"
-        },
-        "ParticipantId": {
-          "documentation": "<p>The ID of the sender in the session.</p>",
-          "shape": "ParticipantId"
-        },
-        "ParticipantRole": {
-          "documentation": "<p>The role of the sender. For example, is it a customer, agent, or system.</p>",
-          "shape": "ParticipantRole"
-        },
-        "Type": {
-          "documentation": "<p>Type of the item: message or event. </p>",
-          "shape": "ChatItemType"
-        }
-      },
-      "type": "structure"
+    "ParticipantId":{
+      "type":"string",
+      "max":256,
+      "min":1
     },
-    "MaxResults": {
-      "max": 100,
-      "min": 0,
-      "type": "integer"
-    },
-    "Message": {
-      "type": "string"
-    },
-    "MostRecent": {
-      "max": 100,
-      "min": 0,
-      "type": "integer"
-    },
-    "NextToken": {
-      "max": 1000,
-      "min": 1,
-      "type": "string"
-    },
-    "ParticipantId": {
-      "max": 256,
-      "min": 1,
-      "type": "string"
-    },
-    "ParticipantRole": {
-      "enum": [
+    "ParticipantRole":{
+      "type":"string",
+      "enum":[
         "AGENT",
         "CUSTOMER",
         "SYSTEM"
-      ],
-      "type": "string"
+      ]
     },
-    "ParticipantToken": {
-      "max": 1000,
-      "min": 1,
-      "type": "string"
+    "ParticipantToken":{
+      "type":"string",
+      "max":1000,
+      "min":1
     },
-    "PreSignedConnectionUrl": {
-      "max": 2000,
-      "min": 1,
-      "type": "string"
+    "PreSignedAttachmentUrl":{
+      "type":"string",
+      "max":2000,
+      "min":1
     },
-    "Reason": {
-      "max": 2000,
-      "min": 1,
-      "type": "string"
+    "PreSignedConnectionUrl":{
+      "type":"string",
+      "max":2000,
+      "min":1
     },
-    "ScanDirection": {
-      "enum": [
+    "Reason":{
+      "type":"string",
+      "max":2000,
+      "min":1
+    },
+    "ScanDirection":{
+      "type":"string",
+      "enum":[
         "FORWARD",
         "BACKWARD"
-      ],
-      "type": "string"
+      ]
     },
-    "SendEventRequest": {
-      "members": {
-        "ClientToken": {
-          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
-          "idempotencyToken": true,
-          "shape": "ClientToken"
-        },
-        "ConnectionToken": {
-          "documentation": "<p>The authentication token associated with the participant's connection.</p>",
-          "location": "header",
-          "locationName": "X-Amz-Bearer",
-          "shape": "ParticipantToken"
-        },
-        "Content": {
-          "documentation": "<p>The content of the event to be sent (for example, message text). This is not yet supported.</p>",
-          "shape": "ChatContent"
-        },
-        "ContentType": {
-          "documentation": "<p>The content type of the request. Supported types are:</p> <ul> <li> <p>application/vnd.amazonaws.connect.event.typing</p> </li> <li> <p>application/vnd.amazonaws.connect.event.connection.acknowledged</p> </li> </ul>",
-          "shape": "ChatContentType"
-        }
-      },
-      "required": [
+    "SendEventRequest":{
+      "type":"structure",
+      "required":[
         "ContentType",
         "ConnectionToken"
       ],
-      "type": "structure"
-    },
-    "SendEventResponse": {
-      "members": {
-        "AbsoluteTime": {
-          "documentation": "<p>The time when the event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>",
-          "shape": "Instant"
+      "members":{
+        "ContentType":{
+          "shape":"ChatContentType",
+          "documentation":"<p>The content type of the request. Supported types are:</p> <ul> <li> <p>application/vnd.amazonaws.connect.event.typing</p> </li> <li> <p>application/vnd.amazonaws.connect.event.connection.acknowledged</p> </li> </ul>"
         },
-        "Id": {
-          "documentation": "<p>The ID of the response.</p>",
-          "shape": "ChatItemId"
+        "Content":{
+          "shape":"ChatContent",
+          "documentation":"<p>The content of the event to be sent (for example, message text). This is not yet supported.</p>"
+        },
+        "ClientToken":{
+          "shape":"ClientToken",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+          "idempotencyToken":true
+        },
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The authentication token associated with the participant's connection.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
         }
-      },
-      "type": "structure"
+      }
     },
-    "SendMessageRequest": {
-      "members": {
-        "ClientToken": {
-          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
-          "idempotencyToken": true,
-          "shape": "ClientToken"
+    "SendEventResponse":{
+      "type":"structure",
+      "members":{
+        "Id":{
+          "shape":"ChatItemId",
+          "documentation":"<p>The ID of the response.</p>"
         },
-        "ConnectionToken": {
-          "documentation": "<p>The authentication token associated with the connection.</p>",
-          "location": "header",
-          "locationName": "X-Amz-Bearer",
-          "shape": "ParticipantToken"
-        },
-        "Content": {
-          "documentation": "<p>The content of the message.</p>",
-          "shape": "ChatContent"
-        },
-        "ContentType": {
-          "documentation": "<p>The type of the content. Supported types are text/plain.</p>",
-          "shape": "ChatContentType"
+        "AbsoluteTime":{
+          "shape":"Instant",
+          "documentation":"<p>The time when the event was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "SendMessageRequest":{
+      "type":"structure",
+      "required":[
         "ContentType",
         "Content",
         "ConnectionToken"
       ],
-      "type": "structure"
-    },
-    "SendMessageResponse": {
-      "members": {
-        "AbsoluteTime": {
-          "documentation": "<p>The time when the message was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>",
-          "shape": "Instant"
+      "members":{
+        "ContentType":{
+          "shape":"ChatContentType",
+          "documentation":"<p>The type of the content. Supported types are text/plain.</p>"
         },
-        "Id": {
-          "documentation": "<p>The ID of the message.</p>",
-          "shape": "ChatItemId"
+        "Content":{
+          "shape":"ChatContent",
+          "documentation":"<p>The content of the message.</p>"
+        },
+        "ClientToken":{
+          "shape":"ClientToken",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+          "idempotencyToken":true
+        },
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The authentication token associated with the connection.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
         }
-      },
-      "type": "structure"
+      }
     },
-    "SortKey": {
-      "enum": [
+    "SendMessageResponse":{
+      "type":"structure",
+      "members":{
+        "Id":{
+          "shape":"ChatItemId",
+          "documentation":"<p>The ID of the message.</p>"
+        },
+        "AbsoluteTime":{
+          "shape":"Instant",
+          "documentation":"<p>The time when the message was sent.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+        }
+      }
+    },
+    "ServiceQuotaExceededException":{
+      "type":"structure",
+      "required":["Message"],
+      "members":{
+        "Message":{"shape":"Message"}
+      },
+      "documentation":"<p>The number of attachments per contact exceeds the quota.</p>",
+      "error":{"httpStatusCode":402},
+      "exception":true
+    },
+    "SortKey":{
+      "type":"string",
+      "enum":[
         "DESCENDING",
         "ASCENDING"
+      ]
+    },
+    "StartAttachmentUploadRequest":{
+      "type":"structure",
+      "required":[
+        "ContentType",
+        "AttachmentSizeInBytes",
+        "AttachmentName",
+        "ClientToken",
+        "ConnectionToken"
       ],
-      "type": "string"
-    },
-    "StartPosition": {
-      "documentation": "<p>A filtering option for where to start. For example, if you sent 100 messages, start with message 50. </p>",
-      "members": {
-        "AbsoluteTime": {
-          "documentation": "<p>The time in ISO format where to start.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>",
-          "shape": "Instant"
+      "members":{
+        "ContentType":{
+          "shape":"ContentType",
+          "documentation":"<p>Describes the MIME file type of the attachment. For a list of supported file types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits\">Feature specifications</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
         },
-        "Id": {
-          "documentation": "<p>The ID of the message or event where to start. </p>",
-          "shape": "ChatItemId"
+        "AttachmentSizeInBytes":{
+          "shape":"AttachmentSizeInBytes",
+          "documentation":"<p>The size of the attachment in bytes.</p>"
         },
-        "MostRecent": {
-          "documentation": "<p>The start position of the most recent message where you want to start. </p>",
-          "shape": "MostRecent"
-        }
-      },
-      "type": "structure"
-    },
-    "ThrottlingException": {
-      "documentation": "<p>The request was denied due to request throttling.</p>",
-      "error": {
-        "httpStatusCode": 429
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "Message"
-        }
-      },
-      "required": [
-        "Message"
-      ],
-      "type": "structure"
-    },
-    "Transcript": {
-      "member": {
-        "shape": "Item"
-      },
-      "type": "list"
-    },
-    "ValidationException": {
-      "documentation": "<p>The input fails to satisfy the constraints specified by Amazon Connect.</p>",
-      "error": {
-        "httpStatusCode": 400
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "Reason"
-        }
-      },
-      "required": [
-        "Message"
-      ],
-      "type": "structure"
-    },
-    "Websocket": {
-      "documentation": "<p>The websocket for the participant's connection.</p>",
-      "members": {
-        "ConnectionExpiry": {
-          "documentation": "<p>The URL expiration timestamp in ISO date format.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>",
-          "shape": "ISO8601Datetime"
+        "AttachmentName":{
+          "shape":"AttachmentName",
+          "documentation":"<p>A case-sensitive name of the attachment being uploaded.</p>"
         },
-        "Url": {
-          "documentation": "<p>The URL of the websocket.</p>",
-          "shape": "PreSignedConnectionUrl"
+        "ClientToken":{
+          "shape":"NonEmptyClientToken",
+          "documentation":"<p>A unique case sensitive identifier to support idempotency of request.</p>",
+          "idempotencyToken":true
+        },
+        "ConnectionToken":{
+          "shape":"ParticipantToken",
+          "documentation":"<p>The authentication token associated with the participant's connection.</p>",
+          "location":"header",
+          "locationName":"X-Amz-Bearer"
+        }
+      }
+    },
+    "StartAttachmentUploadResponse":{
+      "type":"structure",
+      "members":{
+        "AttachmentId":{
+          "shape":"ArtifactId",
+          "documentation":"<p>A unique identifier for the attachment.</p>"
+        },
+        "UploadMetadata":{
+          "shape":"UploadMetadata",
+          "documentation":"<p>Fields to be used while uploading the attachment.</p>"
+        }
+      }
+    },
+    "StartPosition":{
+      "type":"structure",
+      "members":{
+        "Id":{
+          "shape":"ChatItemId",
+          "documentation":"<p>The ID of the message or event where to start. </p>"
+        },
+        "AbsoluteTime":{
+          "shape":"Instant",
+          "documentation":"<p>The time in ISO format where to start.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+        },
+        "MostRecent":{
+          "shape":"MostRecent",
+          "documentation":"<p>The start position of the most recent message where you want to start. </p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>A filtering option for where to start. For example, if you sent 100 messages, start with message 50. </p>"
+    },
+    "ThrottlingException":{
+      "type":"structure",
+      "required":["Message"],
+      "members":{
+        "Message":{"shape":"Message"}
+      },
+      "documentation":"<p>The request was denied due to request throttling.</p>",
+      "error":{"httpStatusCode":429},
+      "exception":true
+    },
+    "Transcript":{
+      "type":"list",
+      "member":{"shape":"Item"}
+    },
+    "UploadMetadata":{
+      "type":"structure",
+      "members":{
+        "Url":{
+          "shape":"UploadMetadataUrl",
+          "documentation":"<p>This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to <a href=\"https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html\">StartAttachmentUpload</a>.</p>"
+        },
+        "UrlExpiry":{
+          "shape":"ISO8601Datetime",
+          "documentation":"<p>The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+        },
+        "HeadersToInclude":{
+          "shape":"UploadMetadataSignedHeaders",
+          "documentation":"<p>The headers to be provided while uploading the file to the URL.</p>"
+        }
+      },
+      "documentation":"<p>Fields to be used while uploading the attachment.</p>"
+    },
+    "UploadMetadataSignedHeaders":{
+      "type":"map",
+      "key":{"shape":"UploadMetadataSignedHeadersKey"},
+      "value":{"shape":"UploadMetadataSignedHeadersValue"}
+    },
+    "UploadMetadataSignedHeadersKey":{
+      "type":"string",
+      "max":128,
+      "min":1
+    },
+    "UploadMetadataSignedHeadersValue":{
+      "type":"string",
+      "max":256,
+      "min":1
+    },
+    "UploadMetadataUrl":{
+      "type":"string",
+      "max":2000,
+      "min":1
+    },
+    "ValidationException":{
+      "type":"structure",
+      "required":["Message"],
+      "members":{
+        "Message":{"shape":"Reason"}
+      },
+      "documentation":"<p>The input fails to satisfy the constraints specified by Amazon Connect.</p>",
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
+    "Websocket":{
+      "type":"structure",
+      "members":{
+        "Url":{
+          "shape":"PreSignedConnectionUrl",
+          "documentation":"<p>The URL of the websocket.</p>"
+        },
+        "ConnectionExpiry":{
+          "shape":"ISO8601Datetime",
+          "documentation":"<p>The URL expiration timestamp in ISO date format.</p> <p>It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.</p>"
+        }
+      },
+      "documentation":"<p>The websocket for the participant's connection.</p>"
     }
   },
-  "version": "2.0"
+  "documentation":"<p>Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale.</p> <p>Amazon Connect enables customer contacts through voice or chat.</p> <p>The APIs described here are used by chat participants, such as agents and customers.</p>"
 }

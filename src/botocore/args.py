@@ -21,12 +21,12 @@ import logging
 import socket
 
 import botocore.exceptions
+import botocore.parsers
 import botocore.serialize
 import botocore.utils
-from botocore.signers import RequestSigner
 from botocore.config import Config
 from botocore.endpoint import EndpointCreator
-
+from botocore.signers import RequestSigner
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +72,7 @@ class ClientArgsCreator(object):
             service_model, client_config, endpoint_bridge, region_name,
             endpoint_url, is_secure, scoped_config)
 
-        service_name = final_args['service_name']
+        service_name = final_args['service_name'] # noqa
         parameter_validation = final_args['parameter_validation']
         endpoint_config = final_args['endpoint_config']
         protocol = final_args['protocol']
@@ -104,7 +104,8 @@ class ClientArgsCreator(object):
             proxies=new_config.proxies,
             timeout=(new_config.connect_timeout, new_config.read_timeout),
             socket_options=socket_options,
-            client_cert=new_config.client_cert)
+            client_cert=new_config.client_cert,
+            proxies_config=new_config.proxies_config)
 
         serializer = botocore.serialize.create_serializer(
             protocol, parameter_validation)
@@ -152,6 +153,7 @@ class ClientArgsCreator(object):
             endpoint_bridge=endpoint_bridge,
             s3_config=s3_config,
         )
+        endpoint_variant_tags = endpoint_config['metadata'].get('tags', [])
         # Create a new client config to be passed to the client based
         # on the final values. We do not want the user to be able
         # to try to modify an existing client with a client config.
@@ -159,18 +161,32 @@ class ClientArgsCreator(object):
             region_name=endpoint_config['region_name'],
             signature_version=endpoint_config['signature_version'],
             user_agent=user_agent)
+        if 'dualstack' in endpoint_variant_tags:
+            config_kwargs.update(use_dualstack_endpoint=True)
+        if 'fips' in endpoint_variant_tags:
+            config_kwargs.update(use_fips_endpoint=True)
         if client_config is not None:
             config_kwargs.update(
                 connect_timeout=client_config.connect_timeout,
                 read_timeout=client_config.read_timeout,
                 max_pool_connections=client_config.max_pool_connections,
                 proxies=client_config.proxies,
+                proxies_config=client_config.proxies_config,
                 retries=client_config.retries,
                 client_cert=client_config.client_cert,
                 inject_host_prefix=client_config.inject_host_prefix,
             )
         self._compute_retry_config(config_kwargs)
+        self._compute_connect_timeout(config_kwargs)
         s3_config = self.compute_s3_config(client_config)
+
+        is_s3_service = service_name in ['s3', 's3-control']
+
+        if is_s3_service and 'dualstack' in endpoint_variant_tags:
+            if s3_config is None:
+                s3_config = {}
+            s3_config['use_dualstack_endpoint'] = True
+
         return {
             'service_name': service_name,
             'parameter_validation': parameter_validation,
@@ -265,14 +281,18 @@ class ClientArgsCreator(object):
     def _compute_sts_endpoint_config(self, **resolve_endpoint_kwargs):
         endpoint_config = self._resolve_endpoint(**resolve_endpoint_kwargs)
         if self._should_set_global_sts_endpoint(
-                resolve_endpoint_kwargs['region_name'],
-                resolve_endpoint_kwargs['endpoint_url']):
+            resolve_endpoint_kwargs['region_name'],
+            resolve_endpoint_kwargs['endpoint_url'],
+            endpoint_config
+        ):
             self._set_global_sts_endpoint(
                 endpoint_config, resolve_endpoint_kwargs['is_secure'])
         return endpoint_config
 
-    def _should_set_global_sts_endpoint(self, region_name, endpoint_url):
-        if endpoint_url:
+    def _should_set_global_sts_endpoint(self, region_name, endpoint_url,
+                                        endpoint_config):
+        endpoint_variant_tags = endpoint_config['metadata'].get('tags')
+        if endpoint_url or endpoint_variant_tags:
             return False
         return (
             self._get_sts_regional_endpoints_config() == 'legacy' and
@@ -360,6 +380,18 @@ class ClientArgsCreator(object):
         if retry_mode is None:
             retry_mode = 'legacy'
         retries['mode'] = retry_mode
+
+    def _compute_connect_timeout(self, config_kwargs):
+        # Checking if connect_timeout is set on the client config.
+        # If it is not, we check the config_store in case a
+        # non legacy default mode has been configured.
+        connect_timeout = config_kwargs.get('connect_timeout')
+        if connect_timeout is not None:
+            return
+        connect_timeout = self._config_store.get_config_variable(
+            'connect_timeout')
+        if connect_timeout:
+            config_kwargs['connect_timeout'] = connect_timeout
 
     def _ensure_boolean(self, val):
         if isinstance(val, bool):

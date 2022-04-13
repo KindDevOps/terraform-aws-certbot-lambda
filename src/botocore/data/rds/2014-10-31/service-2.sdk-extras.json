@@ -1,39 +1,47 @@
-{
+ {
+  "version": 1.0,
   "merge": {
     "shapes": {
       "CopyDBClusterSnapshotMessage": {
         "members": {
           "SourceRegion": {
-            "documentation": "<p>The ID of the region that contains the snapshot to be copied.</p>",
-            "shape": "String"
-          }
-        }
-      },
-      "CopyDBSnapshotMessage": {
-        "members": {
-          "SourceRegion": {
-            "documentation": "<p>The ID of the region that contains the snapshot to be copied.</p>",
-            "shape": "String"
+            "shape": "String",
+            "documentation": "<p>The ID of the region that contains the snapshot to be copied.</p>"
           }
         }
       },
       "CreateDBClusterMessage": {
         "members": {
           "SourceRegion": {
-            "documentation": "<p>The ID of the region that contains the source for the db cluster.</p>",
-            "shape": "String"
+            "shape": "String",
+            "documentation": "<p>The ID of the region that contains the source for the db cluster.</p>"
+          }
+        }
+      },
+      "CopyDBSnapshotMessage": {
+        "members": {
+          "SourceRegion": {
+            "shape": "String",
+            "documentation": "<p>The ID of the region that contains the snapshot to be copied.</p>"
           }
         }
       },
       "CreateDBInstanceReadReplicaMessage": {
         "members": {
           "SourceRegion": {
-            "documentation": "<p>The ID of the region that contains the source for the read replica.</p>",
-            "shape": "String"
+            "shape": "String",
+            "documentation": "<p>The ID of the region that contains the source for the read replica.</p>"
+          }
+        }
+      },
+      "StartDBInstanceAutomatedBackupsReplicationMessage": {
+        "members": {
+          "SourceRegion": {
+            "shape": "String",
+            "documentation": "<p>The ID of the region that contains the source for the db instance.</p>"
           }
         }
       }
     }
-  },
-  "version": 1.0
+  }
 }

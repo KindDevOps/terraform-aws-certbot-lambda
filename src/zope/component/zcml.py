@@ -304,6 +304,10 @@ def subscriber(_context, for_=None, factory=None, handler=None, provides=None,
         if handler is not None:
             raise TypeError("Cannot use handler with factory")
         if provides is None:
+            p = list(implementedBy(factory))
+            if len(p) == 1:
+                provides = p[0]
+        if provides is None:
             raise TypeError(
                 "You must specify a provided interface when registering "
                 "a factory")
@@ -392,7 +396,11 @@ def utility(_context, provides=None, component=None, factory=None,
             name = getName(component)
 
     if permission is not None:
-        component = proxify(component, provides=provides, permission=permission)
+        if component:
+            component = proxify(component, provides=provides,
+                                permission=permission)
+        if factory:
+            factory = protectedFactory(factory, provides, permission)
 
     _context.action(
         discriminator = ('utility', provides, name),

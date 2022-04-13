@@ -1,14 +1,15 @@
 {
+  "version": "1.0",
   "pagination": {
     "ListDomains": {
-      "input_token": "Marker",
       "limit_key": "MaxItems",
+      "input_token": "Marker",
       "output_token": "NextPageMarker",
       "result_key": "Domains"
     },
     "ListOperations": {
-      "input_token": "Marker",
       "limit_key": "MaxItems",
+      "input_token": "Marker",
       "output_token": "NextPageMarker",
       "result_key": "Operations"
     },
@@ -17,7 +18,12 @@
       "limit_key": "MaxItems",
       "output_token": "NextPageMarker",
       "result_key": "BillingRecords"
+    },
+    "ListPrices": {
+      "input_token": "Marker",
+      "limit_key": "MaxItems",
+      "output_token": "NextPageMarker",
+      "result_key": "Prices"
     }
-  },
-  "version": "1.0"
+  }
 }

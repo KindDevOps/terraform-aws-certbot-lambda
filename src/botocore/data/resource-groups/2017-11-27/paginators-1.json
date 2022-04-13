@@ -1,25 +1,28 @@
 {
   "pagination": {
-    "ListGroupResources": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "ResourceIdentifiers"
-    },
     "ListGroups": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
       "result_key": [
         "GroupIdentifiers",
         "Groups"
-      ]
+      ],
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
     },
     "SearchResources": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
+      "result_key": "ResourceIdentifiers",
       "output_token": "NextToken",
-      "result_key": "ResourceIdentifiers"
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "ListGroupResources": {
+      "result_key": [
+        "ResourceIdentifiers",
+        "Resources"
+      ],
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
     }
   }
 }

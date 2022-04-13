@@ -2,34 +2,34 @@
   "version": 2,
   "waiters": {
     "CertificateValidated": {
+      "delay": 60,
+      "maxAttempts": 40,
+      "operation": "DescribeCertificate",
       "acceptors": [
         {
-          "argument": "Certificate.DomainValidationOptions[].ValidationStatus",
-          "expected": "SUCCESS",
           "matcher": "pathAll",
+          "expected": "SUCCESS",
+          "argument": "Certificate.DomainValidationOptions[].ValidationStatus",
           "state": "success"
         },
         {
-          "argument": "Certificate.DomainValidationOptions[].ValidationStatus",
-          "expected": "PENDING_VALIDATION",
           "matcher": "pathAny",
+          "expected": "PENDING_VALIDATION",
+          "argument": "Certificate.DomainValidationOptions[].ValidationStatus",
           "state": "retry"
         },
         {
-          "argument": "Certificate.Status",
-          "expected": "FAILED",
           "matcher": "path",
+          "expected": "FAILED",
+          "argument": "Certificate.Status",
           "state": "failure"
         },
         {
-          "expected": "ResourceNotFoundException",
           "matcher": "error",
+          "expected": "ResourceNotFoundException",
           "state": "failure"
         }
-      ],
-      "delay": 60,
-      "maxAttempts": 40,
-      "operation": "DescribeCertificate"
+      ]
     }
   }
 }

@@ -1,22 +1,40 @@
 {
   "pagination": {
-    "ListAliases": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
+    "ListUsers": {
+      "result_key": "Users",
       "output_token": "NextToken",
-      "result_key": "Aliases"
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
     },
     "ListGroupMembers": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
+      "result_key": "Members",
       "output_token": "NextToken",
-      "result_key": "Members"
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "ListOrganizations": {
+      "result_key": "OrganizationSummaries",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
     },
     "ListGroups": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
+      "result_key": "Groups",
       "output_token": "NextToken",
-      "result_key": "Groups"
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "ListResources": {
+      "result_key": "Resources",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "ListAliases": {
+      "result_key": "Aliases",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
     },
     "ListMailboxPermissions": {
       "input_token": "NextToken",
@@ -24,29 +42,11 @@
       "output_token": "NextToken",
       "result_key": "Permissions"
     },
-    "ListOrganizations": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "OrganizationSummaries"
-    },
     "ListResourceDelegates": {
       "input_token": "NextToken",
       "limit_key": "MaxResults",
       "output_token": "NextToken",
       "result_key": "Delegates"
-    },
-    "ListResources": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "Resources"
-    },
-    "ListUsers": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "Users"
     }
   }
 }

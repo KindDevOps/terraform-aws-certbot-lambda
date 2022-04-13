@@ -23,14 +23,17 @@ This allows us to define an API that has minimal coupling to the event
 based API used by botocore.
 
 """
-import random
 import logging
+import random
 
-from botocore.exceptions import ConnectionError, HTTPClientError
-from botocore.exceptions import ReadTimeoutError, ConnectTimeoutError
-from botocore.retries import quota
-from botocore.retries import special
-from botocore.retries.base import BaseRetryBackoff, BaseRetryableChecker
+from botocore.exceptions import (
+    ConnectionError,
+    ConnectTimeoutError,
+    HTTPClientError,
+    ReadTimeoutError,
+)
+from botocore.retries import quota, special
+from botocore.retries.base import BaseRetryableChecker, BaseRetryBackoff
 
 DEFAULT_MAX_ATTEMPTS = 3
 logger = logging.getLogger(__name__)
@@ -198,7 +201,10 @@ class RetryContext(object):
         """
         if self.parsed_response is None:
             return
-        return self.parsed_response.get('Error', {}).get('Code')
+        error = self.parsed_response.get('Error', {})
+        if not isinstance(error, dict):
+            return
+        return error.get('Code')
 
     def add_retry_metadata(self, **kwargs):
         """Add key/value pairs to the retry metadata.
@@ -263,6 +269,11 @@ class MaxAttemptsChecker(BaseRetryableChecker):
 
     def is_retryable(self, context):
         under_max_attempts = context.attempt_number < self._max_attempts
+        retries_context = context.request_context.get('retries')
+        if retries_context:
+            retries_context['max'] = max(
+                retries_context.get('max', 0), self._max_attempts
+            )
         if not under_max_attempts:
             logger.debug("Max attempts of %s reached.", self._max_attempts)
             context.add_retry_metadata(MaxAttemptsReached=True)
@@ -379,8 +390,7 @@ class ModeledRetryErrorDetector(object):
                 # Check if this error code matches the shape.  This can
                 # be either by name or by a modeled error code.
                 error_code_to_check = (
-                    shape.metadata.get('error', {}).get('code')
-                    or shape.name
+                    shape.metadata.get('error', {}).get('code') or shape.name
                 )
                 if error_code == error_code_to_check:
                     if shape.metadata['retryable'].get('throttling'):
@@ -427,8 +437,10 @@ class StandardRetryConditions(BaseRetryableChecker):
         ])
 
     def is_retryable(self, context):
-        return (self._max_attempts_checker.is_retryable(context) and
-                self._additional_checkers.is_retryable(context))
+        return (
+            self._max_attempts_checker.is_retryable(context)
+            and self._additional_checkers.is_retryable(context)
+        )
 
 
 class OrRetryChecker(BaseRetryableChecker):

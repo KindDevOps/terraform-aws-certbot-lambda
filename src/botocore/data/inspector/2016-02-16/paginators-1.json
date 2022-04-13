@@ -1,58 +1,58 @@
 {
   "pagination": {
-    "ListAssessmentRunAgents": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
+    "ListFindings": {
+      "result_key": "findingArns",
       "output_token": "nextToken",
-      "result_key": "assessmentRunAgents"
-    },
-    "ListAssessmentRuns": {
       "input_token": "nextToken",
-      "limit_key": "maxResults",
-      "output_token": "nextToken",
-      "result_key": "assessmentRunArns"
-    },
-    "ListAssessmentTargets": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
-      "output_token": "nextToken",
-      "result_key": "assessmentTargetArns"
+      "limit_key": "maxResults"
     },
     "ListAssessmentTemplates": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
+      "result_key": "assessmentTemplateArns",
       "output_token": "nextToken",
-      "result_key": "assessmentTemplateArns"
+      "input_token": "nextToken",
+      "limit_key": "maxResults"
+    },
+    "PreviewAgents": {
+      "result_key": "agentPreviews",
+      "output_token": "nextToken",
+      "input_token": "nextToken",
+      "limit_key": "maxResults"
     },
     "ListEventSubscriptions": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
+      "result_key": "subscriptions",
       "output_token": "nextToken",
-      "result_key": "subscriptions"
+      "input_token": "nextToken",
+      "limit_key": "maxResults"
+    },
+    "ListRulesPackages": {
+      "result_key": "rulesPackageArns",
+      "output_token": "nextToken",
+      "input_token": "nextToken",
+      "limit_key": "maxResults"
+    },
+    "ListAssessmentRunAgents": {
+      "result_key": "assessmentRunAgents",
+      "output_token": "nextToken",
+      "input_token": "nextToken",
+      "limit_key": "maxResults"
+    },
+    "ListAssessmentRuns": {
+      "result_key": "assessmentRunArns",
+      "output_token": "nextToken",
+      "input_token": "nextToken",
+      "limit_key": "maxResults"
+    },
+    "ListAssessmentTargets": {
+      "result_key": "assessmentTargetArns",
+      "output_token": "nextToken",
+      "input_token": "nextToken",
+      "limit_key": "maxResults"
     },
     "ListExclusions": {
       "input_token": "nextToken",
       "limit_key": "maxResults",
       "output_token": "nextToken",
       "result_key": "exclusionArns"
-    },
-    "ListFindings": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
-      "output_token": "nextToken",
-      "result_key": "findingArns"
-    },
-    "ListRulesPackages": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
-      "output_token": "nextToken",
-      "result_key": "rulesPackageArns"
-    },
-    "PreviewAgents": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
-      "output_token": "nextToken",
-      "result_key": "agentPreviews"
     }
   }
 }

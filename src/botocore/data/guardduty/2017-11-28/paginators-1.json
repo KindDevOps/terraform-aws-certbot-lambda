@@ -6,12 +6,6 @@
       "output_token": "NextToken",
       "result_key": "DetectorIds"
     },
-    "ListFilters": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "FilterNames"
-    },
     "ListFindings": {
       "input_token": "NextToken",
       "limit_key": "MaxResults",
@@ -23,6 +17,12 @@
       "limit_key": "MaxResults",
       "output_token": "NextToken",
       "result_key": "IpSetIds"
+    },
+    "ListThreatIntelSets": {
+      "input_token": "NextToken",
+      "limit_key": "MaxResults",
+      "output_token": "NextToken",
+      "result_key": "ThreatIntelSetIds"
     },
     "ListInvitations": {
       "input_token": "NextToken",
@@ -36,11 +36,17 @@
       "output_token": "NextToken",
       "result_key": "Members"
     },
-    "ListThreatIntelSets": {
+    "ListFilters": {
       "input_token": "NextToken",
       "limit_key": "MaxResults",
       "output_token": "NextToken",
-      "result_key": "ThreatIntelSetIds"
+      "result_key": "FilterNames"
+    },
+    "ListOrganizationAdminAccounts": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "AdminAccounts"
     }
   }
 }

@@ -10,12 +10,11 @@
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
-from botocore.exceptions import DataNotFoundError
-from botocore.docs.utils import get_official_service_name
-from botocore.docs.client import ClientDocumenter
-from botocore.docs.waiter import WaiterDocumenter
-from botocore.docs.paginator import PaginatorDocumenter
 from botocore.docs.bcdoc.restdoc import DocumentStructure
+from botocore.docs.client import ClientDocumenter, ClientExceptionsDocumenter
+from botocore.docs.paginator import PaginatorDocumenter
+from botocore.docs.waiter import WaiterDocumenter
+from botocore.exceptions import DataNotFoundError
 
 
 class ServiceDocumenter(object):
@@ -32,6 +31,7 @@ class ServiceDocumenter(object):
             'title',
             'table-of-contents',
             'client-api',
+            'client-exceptions',
             'paginator-api',
             'waiter-api'
         ]
@@ -47,6 +47,7 @@ class ServiceDocumenter(object):
         self.title(doc_structure.get_section('title'))
         self.table_of_contents(doc_structure.get_section('table-of-contents'))
         self.client_api(doc_structure.get_section('client-api'))
+        self.client_exceptions(doc_structure.get_section('client-exceptions'))
         self.paginator_api(doc_structure.get_section('paginator-api'))
         self.waiter_api(doc_structure.get_section('waiter-api'))
         return doc_structure.flush_structure()
@@ -70,6 +71,9 @@ class ServiceDocumenter(object):
             pass
 
         ClientDocumenter(self._client, examples).document_client(section)
+
+    def client_exceptions(self, section):
+        ClientExceptionsDocumenter(self._client).document_exceptions(section)
 
     def paginator_api(self, section):
         try:

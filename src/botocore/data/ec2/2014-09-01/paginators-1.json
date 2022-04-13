@@ -2,14 +2,14 @@
   "pagination": {
     "DescribeInstanceStatus": {
       "input_token": "NextToken",
-      "limit_key": "MaxResults",
       "output_token": "NextToken",
+      "limit_key": "MaxResults",
       "result_key": "InstanceStatuses"
     },
     "DescribeInstances": {
       "input_token": "NextToken",
-      "limit_key": "MaxResults",
       "output_token": "NextToken",
+      "limit_key": "MaxResults",
       "result_key": "Reservations"
     },
     "DescribeReservedInstancesModifications": {
@@ -19,26 +19,26 @@
     },
     "DescribeReservedInstancesOfferings": {
       "input_token": "NextToken",
-      "limit_key": "MaxResults",
       "output_token": "NextToken",
+      "limit_key": "MaxResults",
       "result_key": "ReservedInstancesOfferings"
     },
     "DescribeSpotPriceHistory": {
       "input_token": "NextToken",
-      "limit_key": "MaxResults",
       "output_token": "NextToken",
+      "limit_key": "MaxResults",
       "result_key": "SpotPriceHistory"
     },
     "DescribeTags": {
       "input_token": "NextToken",
-      "limit_key": "MaxResults",
       "output_token": "NextToken",
+      "limit_key": "MaxResults",
       "result_key": "Tags"
     },
     "DescribeVolumeStatus": {
       "input_token": "NextToken",
-      "limit_key": "MaxResults",
       "output_token": "NextToken",
+      "limit_key": "MaxResults",
       "result_key": "VolumeStatuses"
     }
   }

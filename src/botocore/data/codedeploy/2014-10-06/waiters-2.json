@@ -2,29 +2,29 @@
   "version": 2,
   "waiters": {
     "DeploymentSuccessful": {
+      "delay": 15,
+      "operation": "GetDeployment",
+      "maxAttempts": 120,
       "acceptors": [
         {
-          "argument": "deploymentInfo.status",
           "expected": "Succeeded",
           "matcher": "path",
-          "state": "success"
+          "state": "success",
+          "argument": "deploymentInfo.status"
         },
         {
-          "argument": "deploymentInfo.status",
           "expected": "Failed",
           "matcher": "path",
-          "state": "failure"
+          "state": "failure",
+          "argument": "deploymentInfo.status"
         },
         {
-          "argument": "deploymentInfo.status",
           "expected": "Stopped",
           "matcher": "path",
-          "state": "failure"
+          "state": "failure",
+          "argument": "deploymentInfo.status"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 120,
-      "operation": "GetDeployment"
+      ]
     }
   }
 }

@@ -2,38 +2,38 @@
   "version": 2,
   "waiters": {
     "VaultExists": {
-      "acceptors": [
-        {
-          "expected": 200,
-          "matcher": "status",
-          "state": "success"
-        },
-        {
-          "expected": "ResourceNotFoundException",
-          "matcher": "error",
-          "state": "retry"
-        }
-      ],
+      "operation": "DescribeVault",
       "delay": 3,
       "maxAttempts": 15,
-      "operation": "DescribeVault"
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "status",
+          "expected": 200
+        },
+        {
+          "state": "retry",
+          "matcher": "error",
+          "expected": "ResourceNotFoundException"
+        }
+      ]
     },
     "VaultNotExists": {
-      "acceptors": [
-        {
-          "expected": 200,
-          "matcher": "status",
-          "state": "retry"
-        },
-        {
-          "expected": "ResourceNotFoundException",
-          "matcher": "error",
-          "state": "success"
-        }
-      ],
+      "operation": "DescribeVault",
       "delay": 3,
       "maxAttempts": 15,
-      "operation": "DescribeVault"
+      "acceptors": [
+        {
+          "state": "retry",
+          "matcher": "status",
+          "expected": 200
+        },
+        {
+          "state": "success",
+          "matcher": "error",
+          "expected": "ResourceNotFoundException"
+        }
+      ]
     }
   }
 }

@@ -1,5 +1,17 @@
 """ACME errors."""
+import typing
+from typing import Any
+from typing import List
+from typing import Mapping
+from typing import Set
+
 from josepy import errors as jose_errors
+import requests
+
+# We import acme.messages only during type check to avoid circular dependencies. Type references
+# to acme.message.* must be quoted to be lazily initialized and avoid compilation errors.
+if typing.TYPE_CHECKING:
+    from acme import messages  # pragma: no cover
 
 
 class Error(Exception):
@@ -28,17 +40,12 @@ class NonceError(ClientError):
 
 class BadNonce(NonceError):
     """Bad nonce error."""
-    def __init__(self, nonce, error, *args, **kwargs):
-        # MyPy complains here that there is too many arguments for BaseException constructor.
-        # This is an error fixed in typeshed, see https://github.com/python/mypy/issues/4183
-        # The fix is included in MyPy>=0.740, but upgrading it would bring dozen of errors due to
-        #   new types definitions. So we ignore the error until the code base is fixed to match
-        #   with MyPy>=0.740 referential.
-        super(BadNonce, self).__init__(*args, **kwargs)  # type: ignore
+    def __init__(self, nonce: str, error: Exception, *args: Any) -> None:
+        super().__init__(*args)
         self.nonce = nonce
         self.error = error
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Invalid nonce ({0!r}): {1}'.format(self.nonce, self.error)
 
 
@@ -49,15 +56,14 @@ class MissingNonce(NonceError):
     Replay-Nonce header field in each successful response to a POST it
     provides to a client (...)".
 
-    :ivar requests.Response response: HTTP Response
+    :ivar requests.Response ~.response: HTTP Response
 
     """
-    def __init__(self, response, *args, **kwargs):
-        # See comment in BadNonce constructor above for an explanation of type: ignore here.
-        super(MissingNonce, self).__init__(*args, **kwargs)  # type: ignore
+    def __init__(self, response: requests.Response, *args: Any) -> None:
+        super().__init__(*args)
         self.response = response
 
-    def __str__(self):
+    def __str__(self) -> str:
         return ('Server {0} response did not include a replay '
                 'nonce, headers: {1} (This may be a service outage)'.format(
                     self.response.request.method, self.response.headers))
@@ -75,17 +81,20 @@ class PollError(ClientError):
         to the most recently updated one
 
     """
-    def __init__(self, exhausted, updated):
+    def __init__(self, exhausted: Set['messages.AuthorizationResource'],
+                 updated: Mapping['messages.AuthorizationResource',
+                                  'messages.AuthorizationResource']
+                 ) -> None:
         self.exhausted = exhausted
         self.updated = updated
-        super(PollError, self).__init__()
+        super().__init__()
 
     @property
-    def timeout(self):
+    def timeout(self) -> bool:
         """Was the error caused by timeout?"""
         return bool(self.exhausted)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '{0}(exhausted={1!r}, updated={2!r})'.format(
             self.__class__.__name__, self.exhausted, self.updated)
 
@@ -94,9 +103,9 @@ class ValidationError(Error):
     """Error for authorization failures. Contains a list of authorization
     resources, each of which is invalid and should have an error field.
     """
-    def __init__(self, failed_authzrs):
+    def __init__(self, failed_authzrs: List['messages.AuthorizationResource']) -> None:
         self.failed_authzrs = failed_authzrs
-        super(ValidationError, self).__init__()
+        super().__init__()
 
 
 class TimeoutError(Error):  # pylint: disable=redefined-builtin
@@ -106,13 +115,13 @@ class TimeoutError(Error):  # pylint: disable=redefined-builtin
 class IssuanceError(Error):
     """Error sent by the server after requesting issuance of a certificate."""
 
-    def __init__(self, error):
+    def __init__(self, error: 'messages.Error') -> None:
         """Initialize.
 
         :param messages.Error error: The error provided by the server.
         """
         self.error = error
-        super(IssuanceError, self).__init__()
+        super().__init__()
 
 
 class ConflictError(ClientError):
@@ -123,9 +132,9 @@ class ConflictError(ClientError):
 
     Also used in V2 of the ACME client for the same purpose.
     """
-    def __init__(self, location):
+    def __init__(self, location: str) -> None:
         self.location = location
-        super(ConflictError, self).__init__()
+        super().__init__()
 
 
 class WildcardUnsupportedError(Error):

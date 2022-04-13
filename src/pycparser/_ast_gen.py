@@ -10,7 +10,6 @@
 # Eli Bendersky [https://eli.thegreenplace.net/]
 # License: BSD
 #-----------------------------------------------------------------
-import pprint
 from string import Template
 
 
@@ -86,7 +85,6 @@ class NodeCfg(object):
         src = self._gen_init()
         src += '\n' + self._gen_children()
         src += '\n' + self._gen_iter()
-
         src += '\n' + self._gen_attr_names()
         return src
 

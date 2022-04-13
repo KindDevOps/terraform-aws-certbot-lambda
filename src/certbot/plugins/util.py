@@ -1,5 +1,6 @@
 """Plugin utilities."""
 import logging
+from typing import List
 
 from certbot import util
 from certbot.compat import os
@@ -8,18 +9,20 @@ from certbot.compat.misc import STANDARD_BINARY_DIRS
 logger = logging.getLogger(__name__)
 
 
-def get_prefixes(path):
+def get_prefixes(path: str) -> List[str]:
     """Retrieves all possible path prefixes of a path, in descending order
-    of length. For instance,
-        (linux) /a/b/c returns ['/a/b/c', '/a/b', '/a', '/']
-        (windows) C:\\a\\b\\c returns ['C:\\a\\b\\c', 'C:\\a\\b', 'C:\\a', 'C:']
+    of length. For instance:
+
+      * (Linux) `/a/b/c` returns `['/a/b/c', '/a/b', '/a', '/']`
+      * (Windows) `C:\\a\\b\\c` returns `['C:\\a\\b\\c', 'C:\\a\\b', 'C:\\a', 'C:']`
+
     :param str path: the path to break into prefixes
 
     :returns: all possible path prefixes of given path in descending order
     :rtype: `list` of `str`
     """
     prefix = os.path.normpath(path)
-    prefixes = []
+    prefixes: List[str] = []
     while prefix:
         prefixes.append(prefix)
         prefix, _ = os.path.split(prefix)
@@ -29,7 +32,7 @@ def get_prefixes(path):
     return prefixes
 
 
-def path_surgery(cmd):
+def path_surgery(cmd: str) -> bool:
     """Attempt to perform PATH surgery to find cmd
 
     Mitigates https://github.com/certbot/certbot/issues/1833

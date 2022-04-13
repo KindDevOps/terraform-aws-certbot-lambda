@@ -1,76 +1,61 @@
 """Certbot command line argument & config processing."""
 # pylint: disable=too-many-lines
-from __future__ import print_function
+import argparse
 import logging
 import logging.handlers
-import argparse
 import sys
-import certbot._internal.plugins.selection as plugin_selection
-from certbot._internal.plugins import disco as plugins_disco
+from typing import Any
+from typing import List
+from typing import Optional
+from typing import Type
 
-from acme.magic_typing import Optional
-
-# pylint: disable=ungrouped-imports
 import certbot
 from certbot._internal import constants
-
-import certbot.plugins.enhancements as enhancements
-
-
-from certbot._internal.cli.cli_constants import (
-    LEAUTO,
-    old_path_fragment,
-    new_path_prefix,
-    cli_command,
-    SHORT_USAGE,
-    COMMAND_OVERVIEW,
-    HELP_AND_VERSION_USAGE,
-    ARGPARSE_PARAMS_TO_REMOVE,
-    EXIT_ACTIONS,
-    ZERO_ARG_ACTIONS,
-    VAR_MODIFIERS
-)
-
-from certbot._internal.cli.cli_utils import (
-    _Default,
-    read_file,
-    flag_default,
-    config_help,
-    HelpfulArgumentGroup,
-    CustomHelpFormatter,
-    _DomainsAction,
-    add_domains,
-    CaseInsensitiveList,
-    _user_agent_comment_type,
-    _EncodeReasonAction,
-    parse_preferred_challenges,
-    _PrefChallAction,
-    _DeployHookAction,
-    _RenewHookAction,
-    nonnegative_int
-)
-
-# These imports depend on cli_constants and cli_utils.
-from certbot._internal.cli.report_config_interaction import report_config_interaction
-from certbot._internal.cli.verb_help import VERB_HELP, VERB_HELP_MAP
+from certbot._internal.cli.cli_constants import ARGPARSE_PARAMS_TO_REMOVE
+from certbot._internal.cli.cli_constants import cli_command
+from certbot._internal.cli.cli_constants import COMMAND_OVERVIEW
+from certbot._internal.cli.cli_constants import DEPRECATED_OPTIONS
+from certbot._internal.cli.cli_constants import EXIT_ACTIONS
+from certbot._internal.cli.cli_constants import HELP_AND_VERSION_USAGE
+from certbot._internal.cli.cli_constants import SHORT_USAGE
+from certbot._internal.cli.cli_constants import VAR_MODIFIERS
+from certbot._internal.cli.cli_constants import ZERO_ARG_ACTIONS
+from certbot._internal.cli.cli_utils import _Default
+from certbot._internal.cli.cli_utils import _DeployHookAction
+from certbot._internal.cli.cli_utils import _DomainsAction
+from certbot._internal.cli.cli_utils import _EncodeReasonAction
+from certbot._internal.cli.cli_utils import _PrefChallAction
+from certbot._internal.cli.cli_utils import _RenewHookAction
+from certbot._internal.cli.cli_utils import _user_agent_comment_type
+from certbot._internal.cli.cli_utils import add_domains
+from certbot._internal.cli.cli_utils import CaseInsensitiveList
+from certbot._internal.cli.cli_utils import config_help
+from certbot._internal.cli.cli_utils import CustomHelpFormatter
+from certbot._internal.cli.cli_utils import flag_default
+from certbot._internal.cli.cli_utils import HelpfulArgumentGroup
+from certbot._internal.cli.cli_utils import nonnegative_int
+from certbot._internal.cli.cli_utils import parse_preferred_challenges
+from certbot._internal.cli.cli_utils import read_file
 from certbot._internal.cli.group_adder import _add_all_groups
-from certbot._internal.cli.subparsers import _create_subparsers
+from certbot._internal.cli.helpful import HelpfulArgumentParser
 from certbot._internal.cli.paths_parser import _paths_parser
 from certbot._internal.cli.plugins_parsing import _plugins_parsing
-
-# These imports depend on some or all of the submodules for cli.
-from certbot._internal.cli.helpful import HelpfulArgumentParser
-# pylint: enable=ungrouped-imports
-
+from certbot._internal.cli.subparsers import _create_subparsers
+from certbot._internal.cli.verb_help import VERB_HELP
+from certbot._internal.cli.verb_help import VERB_HELP_MAP
+from certbot._internal.plugins import disco as plugins_disco
+import certbot._internal.plugins.selection as plugin_selection
+from certbot.plugins import enhancements
 
 logger = logging.getLogger(__name__)
 
 
 # Global, to save us from a lot of argument passing within the scope of this module
-helpful_parser = None  # type: Optional[HelpfulArgumentParser]
+helpful_parser: Optional[HelpfulArgumentParser] = None
 
 
-def prepare_and_parse_args(plugins, args, detect_defaults=False):
+def prepare_and_parse_args(plugins: plugins_disco.PluginsRegistry, args: List[str],
+                           detect_defaults: bool = False) -> argparse.Namespace:
     """Returns parsed command line arguments.
 
     :param .PluginsRegistry plugins: available plugins
@@ -90,6 +75,11 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         default=flag_default("verbose_count"), help="This flag can be used "
         "multiple times to incrementally increase the verbosity of output, "
         "e.g. -vvv.")
+    # This is for developers to set the level in the cli.ini, and overrides
+    # the --verbose flag
+    helpful.add(
+        None, "--verbose-level", dest="verbose_level",
+        default=flag_default("verbose_level"), help=argparse.SUPPRESS)
     helpful.add(
         None, "-t", "--text", dest="text_mode", action="store_true",
         default=flag_default("text_mode"), help=argparse.SUPPRESS)
@@ -100,6 +90,11 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
              "be kept by Certbot's built in log rotation. Setting this "
              "flag to 0 disables log rotation entirely, causing "
              "Certbot to always append to the same log file.")
+    helpful.add(
+        None, "--preconfigured-renewal", dest="preconfigured_renewal",
+        action="store_true", default=flag_default("preconfigured_renewal"),
+        help=argparse.SUPPRESS
+    )
     helpful.add(
         [None, "automation", "run", "certonly", "enhance"],
         "-n", "--non-interactive", "--noninteractive",
@@ -171,13 +166,10 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         ["register", "automation"], "--register-unsafely-without-email", action="store_true",
         default=flag_default("register_unsafely_without_email"),
         help="Specifying this flag enables registering an account with no "
-             "email address. This is strongly discouraged, because in the "
-             "event of key loss or account compromise you will irrevocably "
-             "lose access to your account. You will also be unable to receive "
-             "notice about impending expiration or revocation of your "
-             "certificates. Updates to the Subscriber Agreement will still "
-             "affect you, and will be effective 14 days after posting an "
-             "update to the web site.")
+             "email address. This is strongly discouraged, because you will be "
+             "unable to receive notice about impending expiration or "
+             "revocation of your certificates or problems with your Certbot "
+             "installation that will lead to failure to renew.")
     helpful.add(
         ["register", "update_account", "unregister", "automation"], "-m", "--email",
         default=flag_default("email"),
@@ -224,6 +216,13 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         action="store_true", default=flag_default("reuse_key"),
         help="When renewing, use the same private key as the existing "
              "certificate.")
+    helpful.add(
+        "automation", "--no-reuse-key", dest="reuse_key",
+        action="store_false", default=flag_default("reuse_key"),
+        help="When renewing, do not use the same private key as the existing "
+             "certificate. Not reusing private keys is the default behavior of "
+             "Certbot. This option may be used to unset --reuse-key on an "
+             "existing certificate.")
 
     helpful.add(
         ["automation", "renew", "certonly"],
@@ -248,27 +247,6 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         help="Allow making a certificate lineage that duplicates an existing one "
              "(both can be renewed in parallel)")
     helpful.add(
-        "automation", "--os-packages-only", action="store_true",
-        default=flag_default("os_packages_only"),
-        help="(certbot-auto only) install OS package dependencies and then stop")
-    helpful.add(
-        "automation", "--no-self-upgrade", action="store_true",
-        default=flag_default("no_self_upgrade"),
-        help="(certbot-auto only) prevent the certbot-auto script from"
-             " upgrading itself to newer released versions (default: Upgrade"
-             " automatically)")
-    helpful.add(
-        "automation", "--no-bootstrap", action="store_true",
-        default=flag_default("no_bootstrap"),
-        help="(certbot-auto only) prevent the certbot-auto script from"
-             " installing OS-level dependencies (default: Prompt to install "
-             " OS-wide dependencies, but exit if the user says 'No')")
-    helpful.add(
-        "automation", "--no-permissions-check", action="store_true",
-        default=flag_default("no_permissions_check"),
-        help="(certbot-auto only) skip the check on the file system"
-             " permissions of the certbot-auto script")
-    helpful.add(
         ["automation", "renew", "certonly", "run"],
         "-q", "--quiet", dest="quiet", action="store_true",
         default=flag_default("quiet"),
@@ -281,8 +259,7 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
              " to --server " + constants.STAGING_URI)
     helpful.add(
         "testing", "--debug", action="store_true", default=flag_default("debug"),
-        help="Show tracebacks in case of errors, and allow certbot-auto "
-             "execution on experimental platforms")
+        help="Show tracebacks in case of errors")
     helpful.add(
         [None, "certonly", "run"], "--debug-challenges", action="store_true",
         default=flag_default("debug_challenges"),
@@ -313,6 +290,16 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         "security", "--rsa-key-size", type=int, metavar="N",
         default=flag_default("rsa_key_size"), help=config_help("rsa_key_size"))
     helpful.add(
+        "security", "--key-type", choices=['rsa', 'ecdsa'], type=str,
+        default=flag_default("key_type"), help=config_help("key_type"))
+    helpful.add(
+        "security", "--elliptic-curve", type=str, choices=[
+            'secp256r1',
+            'secp384r1',
+            'secp521r1',
+        ], metavar="N",
+        default=flag_default("elliptic_curve"), help=config_help("elliptic_curve"))
+    helpful.add(
         "security", "--must-staple", action="store_true",
         dest="must_staple", default=flag_default("must_staple"),
         help=config_help("must_staple"))
@@ -321,12 +308,14 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         "--redirect", action="store_true", dest="redirect",
         default=flag_default("redirect"),
         help="Automatically redirect all HTTP traffic to HTTPS for the newly "
-             "authenticated vhost. (default: Ask)")
+             "authenticated vhost. (default: redirect enabled for install and run, "
+             "disabled for enhance)")
     helpful.add(
         "security", "--no-redirect", action="store_false", dest="redirect",
         default=flag_default("redirect"),
         help="Do not automatically redirect all HTTP traffic to HTTPS for the newly "
-             "authenticated vhost. (default: Ask)")
+             "authenticated vhost. (default: redirect enabled for install and run, "
+             "disabled for enhance)")
     helpful.add(
         ["security", "enhance"],
         "--hsts", action="store_true", dest="hsts", default=flag_default("hsts"),
@@ -359,6 +348,11 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         help="Require that all configuration files are owned by the current "
              "user; only needed if your config is somewhere unsafe like /tmp/")
     helpful.add(
+        [None, "certonly", "renew", "run"],
+        "--preferred-chain", dest="preferred_chain",
+        default=flag_default("preferred_chain"), help=config_help("preferred_chain")
+    )
+    helpful.add(
         ["manual", "standalone", "certonly", "renew"],
         "--preferred-challenges", dest="pref_challs",
         action=_PrefChallAction, default=flag_default("pref_challs"),
@@ -370,6 +364,11 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
              'ACME Challenges are versioned, but if you pick "http" rather '
              'than "http-01", Certbot will select the latest version '
              'automatically.')
+    helpful.add(
+        [None, "certonly", "run"], "--issuance-timeout", type=nonnegative_int,
+        dest="issuance_timeout",
+        default=flag_default("issuance_timeout"),
+        help=config_help("issuance_timeout"))
     helpful.add(
         "renew", "--pre-hook",
         help="Command to be run in a shell before obtaining any certificates."
@@ -432,6 +431,12 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
         default=flag_default("autorenew"), dest="autorenew",
         help="Disable auto renewal of certificates.")
 
+    # Deprecated arguments
+    helpful.add_deprecated_argument("--os-packages-only", 0)
+    helpful.add_deprecated_argument("--no-self-upgrade", 0)
+    helpful.add_deprecated_argument("--no-bootstrap", 0)
+    helpful.add_deprecated_argument("--no-permissions-check", 0)
+
     # Populate the command line parameters for new style enhancements
     enhancements.populate_cli(helpful.add)
 
@@ -447,12 +452,17 @@ def prepare_and_parse_args(plugins, args, detect_defaults=False):
     return helpful.parse_args()
 
 
-def set_by_cli(var):
+def set_by_cli(var: str) -> bool:
     """
     Return True if a particular config variable has been set by the user
     (CLI or config file) including if the user explicitly set it to the
     default.  Returns False if the variable was assigned a default value.
     """
+    # We should probably never actually hit this code. But if we do,
+    # a deprecated option has logically never been set by the CLI.
+    if var in DEPRECATED_OPTIONS:
+        return False
+
     detector = set_by_cli.detector  # type: ignore
     if detector is None and helpful_parser is not None:
         # Setup on first run: `detector` is a weird version of config in which
@@ -460,10 +470,11 @@ def set_by_cli(var):
         plugins = plugins_disco.PluginsRegistry.find_all()
         # reconstructed_args == sys.argv[1:], or whatever was passed to main()
         reconstructed_args = helpful_parser.args + [helpful_parser.verb]
+
         detector = set_by_cli.detector = prepare_and_parse_args(  # type: ignore
             plugins, reconstructed_args, detect_defaults=True)
         # propagate plugin requests: eg --standalone modifies config.authenticator
-        detector.authenticator, detector.installer = (  # type: ignore
+        detector.authenticator, detector.installer = (
             plugin_selection.cli_plugin_requests(detector))
 
     if not isinstance(getattr(detector, var), _Default):
@@ -485,7 +496,7 @@ def set_by_cli(var):
 set_by_cli.detector = None  # type: ignore
 
 
-def has_default_value(option, value):
+def has_default_value(option: str, value: Any) -> bool:
     """Does option have the default value?
 
     If the default value of option is not known, False is returned.
@@ -503,7 +514,7 @@ def has_default_value(option, value):
     return False
 
 
-def option_was_set(option, value):
+def option_was_set(option: str, value: Any) -> bool:
     """Was option set by the user or does it differ from the default?
 
     :param str option: configuration variable being considered
@@ -513,10 +524,13 @@ def option_was_set(option, value):
     :rtype: bool
 
     """
+    # If an option is deprecated, it was effectively not set by the user.
+    if option in DEPRECATED_OPTIONS:
+        return False
     return set_by_cli(option) or not has_default_value(option, value)
 
 
-def argparse_type(variable):
+def argparse_type(variable: Any) -> Type:
     """Return our argparse type function for a config variable (default: str)"""
     # pylint: disable=protected-access
     if helpful_parser is not None:

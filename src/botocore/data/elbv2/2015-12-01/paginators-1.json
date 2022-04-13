@@ -1,5 +1,23 @@
 {
   "pagination": {
+    "DescribeLoadBalancers": {
+      "input_token": "Marker",
+      "output_token": "NextMarker",
+      "limit_key": "PageSize",
+      "result_key": "LoadBalancers"
+    },
+    "DescribeTargetGroups": {
+      "input_token": "Marker",
+      "output_token": "NextMarker",
+      "limit_key": "PageSize",
+      "result_key": "TargetGroups"
+    },
+    "DescribeListeners": {
+      "input_token": "Marker",
+      "output_token": "NextMarker",
+      "limit_key": "PageSize",
+      "result_key": "Listeners"
+    },
     "DescribeAccountLimits": {
       "input_token": "Marker",
       "limit_key": "PageSize",
@@ -12,18 +30,6 @@
       "output_token": "NextMarker",
       "result_key": "Certificates"
     },
-    "DescribeListeners": {
-      "input_token": "Marker",
-      "limit_key": "PageSize",
-      "output_token": "NextMarker",
-      "result_key": "Listeners"
-    },
-    "DescribeLoadBalancers": {
-      "input_token": "Marker",
-      "limit_key": "PageSize",
-      "output_token": "NextMarker",
-      "result_key": "LoadBalancers"
-    },
     "DescribeRules": {
       "input_token": "Marker",
       "limit_key": "PageSize",
@@ -35,12 +41,6 @@
       "limit_key": "PageSize",
       "output_token": "NextMarker",
       "result_key": "SslPolicies"
-    },
-    "DescribeTargetGroups": {
-      "input_token": "Marker",
-      "limit_key": "PageSize",
-      "output_token": "NextMarker",
-      "result_key": "TargetGroups"
     }
   }
 }

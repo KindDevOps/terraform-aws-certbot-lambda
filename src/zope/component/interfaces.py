@@ -11,38 +11,16 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ############################################################################
-"""Component and Component Architecture Interfaces
+"""
+Component and Component Architecture Interfaces
+
+The `IComponentArchitecture` and `IComponentRegistrationConvenience` interfaces
+are provided by `zope.component` directly.
 """
 from zope.interface import Attribute
 from zope.interface import Interface
 
-
-# BBB 2011-09-09, import interfaces from zope.interface
-import zope.deferredimport
-zope.deferredimport.deprecatedFrom(
-    "Import from zope.interface.interfaces",
-    "zope.interface.interfaces",
-    'ComponentLookupError',
-    'Invalid',
-    'IObjectEvent',
-    'ObjectEvent',
-    'IComponentLookup',
-    'IRegistration',
-    'IUtilityRegistration',
-    '_IBaseAdapterRegistration',
-    'IAdapterRegistration',
-    'ISubscriptionAdapterRegistration',
-    'IHandlerRegistration',
-    'IRegistrationEvent',
-    'RegistrationEvent',
-    'IRegistered',
-    'Registered',
-    'IUnregistered',
-    'Unregistered',
-    'IComponentRegistry',
-    'IComponents',
-)
-
+# pylint:disable=inherit-non-class,no-self-argument,no-method-argument
 
 class IComponentArchitecture(Interface):
     """The Component Architecture is defined by two key components: Adapters
@@ -380,3 +358,24 @@ class IFactory(Interface):
         created by this factory will implement. If the callable's Implements
         instance cannot be created, an empty Implements instance is returned.
         """
+
+
+# Internal helpers
+
+def _inherits_docs(func, iface):
+    doc = iface[func.__name__].__doc__
+    # By adding the ..seealso:: we get a link from our overview page
+    # to the specific narrative place where the function is described, because
+    # our overview page uses :noindex:
+    doc += "\n        .. seealso::"
+    doc += "\n           Function `~zope.component.%s` for notes, and " % (func.__name__,)
+    doc += "\n           `~zope.component.interfaces.%s` for the defining interface." % (iface.__name__,)
+    doc += "\n"
+    func.__doc__ = doc
+    return func
+
+def inherits_arch_docs(func):
+    return _inherits_docs(func, IComponentArchitecture)
+
+def inherits_reg_docs(func):
+    return _inherits_docs(func, IComponentRegistrationConvenience)

@@ -2,85 +2,85 @@
   "version": 2,
   "waiters": {
     "ClusterRunning": {
+      "delay": 30,
+      "operation": "DescribeCluster",
+      "maxAttempts": 60,
       "acceptors": [
         {
-          "argument": "Cluster.Status.State",
-          "expected": "RUNNING",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "Cluster.Status.State",
+          "expected": "RUNNING"
         },
         {
-          "argument": "Cluster.Status.State",
-          "expected": "WAITING",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "Cluster.Status.State",
+          "expected": "WAITING"
         },
         {
-          "argument": "Cluster.Status.State",
-          "expected": "TERMINATING",
+          "state": "failure",
           "matcher": "path",
-          "state": "failure"
+          "argument": "Cluster.Status.State",
+          "expected": "TERMINATING"
         },
         {
-          "argument": "Cluster.Status.State",
-          "expected": "TERMINATED",
+          "state": "failure",
           "matcher": "path",
-          "state": "failure"
+          "argument": "Cluster.Status.State",
+          "expected": "TERMINATED"
         },
         {
-          "argument": "Cluster.Status.State",
-          "expected": "TERMINATED_WITH_ERRORS",
+          "state": "failure",
           "matcher": "path",
-          "state": "failure"
+          "argument": "Cluster.Status.State",
+          "expected": "TERMINATED_WITH_ERRORS"
         }
-      ],
-      "delay": 30,
-      "maxAttempts": 60,
-      "operation": "DescribeCluster"
-    },
-    "ClusterTerminated": {
-      "acceptors": [
-        {
-          "argument": "Cluster.Status.State",
-          "expected": "TERMINATED",
-          "matcher": "path",
-          "state": "success"
-        },
-        {
-          "argument": "Cluster.Status.State",
-          "expected": "TERMINATED_WITH_ERRORS",
-          "matcher": "path",
-          "state": "failure"
-        }
-      ],
-      "delay": 30,
-      "maxAttempts": 60,
-      "operation": "DescribeCluster"
+      ]
     },
     "StepComplete": {
+      "delay": 30,
+      "operation": "DescribeStep",
+      "maxAttempts": 60,
       "acceptors": [
         {
-          "argument": "Step.Status.State",
-          "expected": "COMPLETED",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "Step.Status.State",
+          "expected": "COMPLETED"
         },
         {
-          "argument": "Step.Status.State",
-          "expected": "FAILED",
+          "state": "failure",
           "matcher": "path",
-          "state": "failure"
+          "argument": "Step.Status.State",
+          "expected": "FAILED"
         },
         {
-          "argument": "Step.Status.State",
-          "expected": "CANCELLED",
+          "state": "failure",
           "matcher": "path",
-          "state": "failure"
+          "argument": "Step.Status.State",
+          "expected": "CANCELLED"
         }
-      ],
+      ]
+    },
+    "ClusterTerminated": {
       "delay": 30,
+      "operation": "DescribeCluster",
       "maxAttempts": 60,
-      "operation": "DescribeStep"
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "Cluster.Status.State",
+          "expected": "TERMINATED"
+        },
+        {
+          "state": "failure",
+          "matcher": "path",
+          "argument": "Cluster.Status.State",
+          "expected": "TERMINATED_WITH_ERRORS"
+        }
+      ]
     }
   }
 }

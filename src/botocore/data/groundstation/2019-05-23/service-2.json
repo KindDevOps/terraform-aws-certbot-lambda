@@ -1,935 +1,712 @@
 {
-  "documentation": "<p>Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.</p>",
-  "metadata": {
-    "apiVersion": "2019-05-23",
-    "endpointPrefix": "groundstation",
-    "jsonVersion": "1.1",
-    "protocol": "rest-json",
-    "serviceFullName": "AWS Ground Station",
-    "serviceId": "GroundStation",
-    "signatureVersion": "v4",
-    "signingName": "groundstation",
-    "uid": "groundstation-2019-05-23"
+  "version":"2.0",
+  "metadata":{
+    "apiVersion":"2019-05-23",
+    "endpointPrefix":"groundstation",
+    "jsonVersion":"1.1",
+    "protocol":"rest-json",
+    "serviceFullName":"AWS Ground Station",
+    "serviceId":"GroundStation",
+    "signatureVersion":"v4",
+    "signingName":"groundstation",
+    "uid":"groundstation-2019-05-23"
   },
-  "operations": {
-    "CancelContact": {
-      "documentation": "<p>Cancels a contact with a specified contact ID.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+  "operations":{
+    "CancelContact":{
+      "name":"CancelContact",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/contact/{contactId}",
+        "responseCode":200
+      },
+      "input":{"shape":"CancelContactRequest"},
+      "output":{"shape":"ContactIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/contact/{contactId}",
-        "responseCode": 200
-      },
-      "idempotent": true,
-      "input": {
-        "shape": "CancelContactRequest"
-      },
-      "name": "CancelContact",
-      "output": {
-        "shape": "ContactIdResponse"
-      }
+      "documentation":"<p>Cancels a contact with a specified contact ID.</p>",
+      "idempotent":true
     },
-    "CreateConfig": {
-      "documentation": "<p>Creates a <code>Config</code> with the specified <code>configData</code> parameters.</p> <p>Only one type of <code>configData</code> can be specified.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceLimitExceededException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "CreateConfig":{
+      "name":"CreateConfig",
+      "http":{
+        "method":"POST",
+        "requestUri":"/config",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateConfigRequest"},
+      "output":{"shape":"ConfigIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceLimitExceededException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/config",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "CreateConfigRequest"
-      },
-      "name": "CreateConfig",
-      "output": {
-        "shape": "ConfigIdResponse"
-      }
+      "documentation":"<p>Creates a <code>Config</code> with the specified <code>configData</code> parameters.</p> <p>Only one type of <code>configData</code> can be specified.</p>"
     },
-    "CreateDataflowEndpointGroup": {
-      "documentation": "<p>Creates a <code>DataflowEndpoint</code> group containing the specified list of <code>DataflowEndpoint</code> objects.</p> <p>The <code>name</code> field in each endpoint is used in your mission profile <code>DataflowEndpointConfig</code> to specify which endpoints to use during a contact.</p> <p>When a contact uses multiple <code>DataflowEndpointConfig</code> objects, each <code>Config</code> must match a <code>DataflowEndpoint</code> in the same group.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "CreateDataflowEndpointGroup":{
+      "name":"CreateDataflowEndpointGroup",
+      "http":{
+        "method":"POST",
+        "requestUri":"/dataflowEndpointGroup",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateDataflowEndpointGroupRequest"},
+      "output":{"shape":"DataflowEndpointGroupIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/dataflowEndpointGroup",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "CreateDataflowEndpointGroupRequest"
-      },
-      "name": "CreateDataflowEndpointGroup",
-      "output": {
-        "shape": "DataflowEndpointGroupIdResponse"
-      }
+      "documentation":"<p>Creates a <code>DataflowEndpoint</code> group containing the specified list of <code>DataflowEndpoint</code> objects.</p> <p>The <code>name</code> field in each endpoint is used in your mission profile <code>DataflowEndpointConfig</code> to specify which endpoints to use during a contact.</p> <p>When a contact uses multiple <code>DataflowEndpointConfig</code> objects, each <code>Config</code> must match a <code>DataflowEndpoint</code> in the same group.</p>"
     },
-    "CreateMissionProfile": {
-      "documentation": "<p>Creates a mission profile.</p> <p> <code>dataflowEdges</code> is a list of lists of strings. Each lower level list of strings has two elements: a <i>from</i> ARN and a <i>to</i> ARN.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "CreateMissionProfile":{
+      "name":"CreateMissionProfile",
+      "http":{
+        "method":"POST",
+        "requestUri":"/missionprofile",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateMissionProfileRequest"},
+      "output":{"shape":"MissionProfileIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/missionprofile",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "CreateMissionProfileRequest"
-      },
-      "name": "CreateMissionProfile",
-      "output": {
-        "shape": "MissionProfileIdResponse"
-      }
+      "documentation":"<p>Creates a mission profile.</p> <p> <code>dataflowEdges</code> is a list of lists of strings. Each lower level list of strings has two elements: a <i>from</i> ARN and a <i>to</i> ARN.</p>"
     },
-    "DeleteConfig": {
-      "documentation": "<p>Deletes a <code>Config</code>.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "DeleteConfig":{
+      "name":"DeleteConfig",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/config/{configType}/{configId}",
+        "responseCode":200
+      },
+      "input":{"shape":"DeleteConfigRequest"},
+      "output":{"shape":"ConfigIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/config/{configType}/{configId}",
-        "responseCode": 200
-      },
-      "idempotent": true,
-      "input": {
-        "shape": "DeleteConfigRequest"
-      },
-      "name": "DeleteConfig",
-      "output": {
-        "shape": "ConfigIdResponse"
-      }
+      "documentation":"<p>Deletes a <code>Config</code>.</p>",
+      "idempotent":true
     },
-    "DeleteDataflowEndpointGroup": {
-      "documentation": "<p>Deletes a dataflow endpoint group.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "DeleteDataflowEndpointGroup":{
+      "name":"DeleteDataflowEndpointGroup",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/dataflowEndpointGroup/{dataflowEndpointGroupId}",
+        "responseCode":200
+      },
+      "input":{"shape":"DeleteDataflowEndpointGroupRequest"},
+      "output":{"shape":"DataflowEndpointGroupIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/dataflowEndpointGroup/{dataflowEndpointGroupId}",
-        "responseCode": 200
-      },
-      "idempotent": true,
-      "input": {
-        "shape": "DeleteDataflowEndpointGroupRequest"
-      },
-      "name": "DeleteDataflowEndpointGroup",
-      "output": {
-        "shape": "DataflowEndpointGroupIdResponse"
-      }
+      "documentation":"<p>Deletes a dataflow endpoint group.</p>",
+      "idempotent":true
     },
-    "DeleteMissionProfile": {
-      "documentation": "<p>Deletes a mission profile.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "DeleteMissionProfile":{
+      "name":"DeleteMissionProfile",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/missionprofile/{missionProfileId}",
+        "responseCode":200
+      },
+      "input":{"shape":"DeleteMissionProfileRequest"},
+      "output":{"shape":"MissionProfileIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/missionprofile/{missionProfileId}",
-        "responseCode": 200
-      },
-      "idempotent": true,
-      "input": {
-        "shape": "DeleteMissionProfileRequest"
-      },
-      "name": "DeleteMissionProfile",
-      "output": {
-        "shape": "MissionProfileIdResponse"
-      }
+      "documentation":"<p>Deletes a mission profile.</p>",
+      "idempotent":true
     },
-    "DescribeContact": {
-      "documentation": "<p>Describes an existing contact.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "DescribeContact":{
+      "name":"DescribeContact",
+      "http":{
+        "method":"GET",
+        "requestUri":"/contact/{contactId}",
+        "responseCode":200
+      },
+      "input":{"shape":"DescribeContactRequest"},
+      "output":{"shape":"DescribeContactResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/contact/{contactId}",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "DescribeContactRequest"
-      },
-      "name": "DescribeContact",
-      "output": {
-        "shape": "DescribeContactResponse"
-      }
+      "documentation":"<p>Describes an existing contact.</p>"
     },
-    "GetConfig": {
-      "documentation": "<p>Returns <code>Config</code> information.</p> <p>Only one <code>Config</code> response can be returned.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "GetConfig":{
+      "name":"GetConfig",
+      "http":{
+        "method":"GET",
+        "requestUri":"/config/{configType}/{configId}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetConfigRequest"},
+      "output":{"shape":"GetConfigResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/config/{configType}/{configId}",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "GetConfigRequest"
-      },
-      "name": "GetConfig",
-      "output": {
-        "shape": "GetConfigResponse"
-      }
+      "documentation":"<p>Returns <code>Config</code> information.</p> <p>Only one <code>Config</code> response can be returned.</p>"
     },
-    "GetDataflowEndpointGroup": {
-      "documentation": "<p>Returns the dataflow endpoint group.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "GetDataflowEndpointGroup":{
+      "name":"GetDataflowEndpointGroup",
+      "http":{
+        "method":"GET",
+        "requestUri":"/dataflowEndpointGroup/{dataflowEndpointGroupId}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetDataflowEndpointGroupRequest"},
+      "output":{"shape":"GetDataflowEndpointGroupResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/dataflowEndpointGroup/{dataflowEndpointGroupId}",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "GetDataflowEndpointGroupRequest"
-      },
-      "name": "GetDataflowEndpointGroup",
-      "output": {
-        "shape": "GetDataflowEndpointGroupResponse"
-      }
+      "documentation":"<p>Returns the dataflow endpoint group.</p>"
     },
-    "GetMinuteUsage": {
-      "documentation": "<p>Returns the number of minutes used by account.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "GetMinuteUsage":{
+      "name":"GetMinuteUsage",
+      "http":{
+        "method":"POST",
+        "requestUri":"/minute-usage",
+        "responseCode":200
+      },
+      "input":{"shape":"GetMinuteUsageRequest"},
+      "output":{"shape":"GetMinuteUsageResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/minute-usage",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "GetMinuteUsageRequest"
-      },
-      "name": "GetMinuteUsage",
-      "output": {
-        "shape": "GetMinuteUsageResponse"
-      }
+      "documentation":"<p>Returns the number of minutes used by account.</p>"
     },
-    "GetMissionProfile": {
-      "documentation": "<p>Returns a mission profile.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "GetMissionProfile":{
+      "name":"GetMissionProfile",
+      "http":{
+        "method":"GET",
+        "requestUri":"/missionprofile/{missionProfileId}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetMissionProfileRequest"},
+      "output":{"shape":"GetMissionProfileResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/missionprofile/{missionProfileId}",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "GetMissionProfileRequest"
-      },
-      "name": "GetMissionProfile",
-      "output": {
-        "shape": "GetMissionProfileResponse"
-      }
+      "documentation":"<p>Returns a mission profile.</p>"
     },
-    "GetSatellite": {
-      "documentation": "<p>Returns a satellite.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "GetSatellite":{
+      "name":"GetSatellite",
+      "http":{
+        "method":"GET",
+        "requestUri":"/satellite/{satelliteId}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetSatelliteRequest"},
+      "output":{"shape":"GetSatelliteResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/satellite/{satelliteId}",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "GetSatelliteRequest"
-      },
-      "name": "GetSatellite",
-      "output": {
-        "shape": "GetSatelliteResponse"
-      }
+      "documentation":"<p>Returns a satellite.</p>"
     },
-    "ListConfigs": {
-      "documentation": "<p>Returns a list of <code>Config</code> objects.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ListConfigs":{
+      "name":"ListConfigs",
+      "http":{
+        "method":"GET",
+        "requestUri":"/config",
+        "responseCode":200
+      },
+      "input":{"shape":"ListConfigsRequest"},
+      "output":{"shape":"ListConfigsResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/config",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ListConfigsRequest"
-      },
-      "name": "ListConfigs",
-      "output": {
-        "shape": "ListConfigsResponse"
-      }
+      "documentation":"<p>Returns a list of <code>Config</code> objects.</p>"
     },
-    "ListContacts": {
-      "documentation": "<p>Returns a list of contacts.</p> <p>If <code>statusList</code> contains AVAILABLE, the request must include <code>groundStation</code>, <code>missionprofileArn</code>, and <code>satelliteArn</code>. </p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ListContacts":{
+      "name":"ListContacts",
+      "http":{
+        "method":"POST",
+        "requestUri":"/contacts",
+        "responseCode":200
+      },
+      "input":{"shape":"ListContactsRequest"},
+      "output":{"shape":"ListContactsResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/contacts",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ListContactsRequest"
-      },
-      "name": "ListContacts",
-      "output": {
-        "shape": "ListContactsResponse"
-      }
+      "documentation":"<p>Returns a list of contacts.</p> <p>If <code>statusList</code> contains AVAILABLE, the request must include <code>groundStation</code>, <code>missionprofileArn</code>, and <code>satelliteArn</code>. </p>"
     },
-    "ListDataflowEndpointGroups": {
-      "documentation": "<p>Returns a list of <code>DataflowEndpoint</code> groups.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ListDataflowEndpointGroups":{
+      "name":"ListDataflowEndpointGroups",
+      "http":{
+        "method":"GET",
+        "requestUri":"/dataflowEndpointGroup",
+        "responseCode":200
+      },
+      "input":{"shape":"ListDataflowEndpointGroupsRequest"},
+      "output":{"shape":"ListDataflowEndpointGroupsResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/dataflowEndpointGroup",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ListDataflowEndpointGroupsRequest"
-      },
-      "name": "ListDataflowEndpointGroups",
-      "output": {
-        "shape": "ListDataflowEndpointGroupsResponse"
-      }
+      "documentation":"<p>Returns a list of <code>DataflowEndpoint</code> groups.</p>"
     },
-    "ListGroundStations": {
-      "documentation": "<p>Returns a list of ground stations. </p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ListGroundStations":{
+      "name":"ListGroundStations",
+      "http":{
+        "method":"GET",
+        "requestUri":"/groundstation",
+        "responseCode":200
+      },
+      "input":{"shape":"ListGroundStationsRequest"},
+      "output":{"shape":"ListGroundStationsResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/groundstation",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ListGroundStationsRequest"
-      },
-      "name": "ListGroundStations",
-      "output": {
-        "shape": "ListGroundStationsResponse"
-      }
+      "documentation":"<p>Returns a list of ground stations. </p>"
     },
-    "ListMissionProfiles": {
-      "documentation": "<p>Returns a list of mission profiles.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ListMissionProfiles":{
+      "name":"ListMissionProfiles",
+      "http":{
+        "method":"GET",
+        "requestUri":"/missionprofile",
+        "responseCode":200
+      },
+      "input":{"shape":"ListMissionProfilesRequest"},
+      "output":{"shape":"ListMissionProfilesResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/missionprofile",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ListMissionProfilesRequest"
-      },
-      "name": "ListMissionProfiles",
-      "output": {
-        "shape": "ListMissionProfilesResponse"
-      }
+      "documentation":"<p>Returns a list of mission profiles.</p>"
     },
-    "ListSatellites": {
-      "documentation": "<p>Returns a list of satellites.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ListSatellites":{
+      "name":"ListSatellites",
+      "http":{
+        "method":"GET",
+        "requestUri":"/satellite",
+        "responseCode":200
+      },
+      "input":{"shape":"ListSatellitesRequest"},
+      "output":{"shape":"ListSatellitesResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/satellite",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ListSatellitesRequest"
-      },
-      "name": "ListSatellites",
-      "output": {
-        "shape": "ListSatellitesResponse"
-      }
+      "documentation":"<p>Returns a list of satellites.</p>"
     },
-    "ListTagsForResource": {
-      "documentation": "<p>Returns a list of tags for a specified resource.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ListTagsForResource":{
+      "name":"ListTagsForResource",
+      "http":{
+        "method":"GET",
+        "requestUri":"/tags/{resourceArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"ListTagsForResourceRequest"},
+      "output":{"shape":"ListTagsForResourceResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/tags/{resourceArn}",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ListTagsForResourceRequest"
-      },
-      "name": "ListTagsForResource",
-      "output": {
-        "shape": "ListTagsForResourceResponse"
-      }
+      "documentation":"<p>Returns a list of tags for a specified resource.</p>"
     },
-    "ReserveContact": {
-      "documentation": "<p>Reserves a contact using specified parameters.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "ReserveContact":{
+      "name":"ReserveContact",
+      "http":{
+        "method":"POST",
+        "requestUri":"/contact",
+        "responseCode":200
+      },
+      "input":{"shape":"ReserveContactRequest"},
+      "output":{"shape":"ContactIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/contact",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "ReserveContactRequest"
-      },
-      "name": "ReserveContact",
-      "output": {
-        "shape": "ContactIdResponse"
-      }
+      "documentation":"<p>Reserves a contact using specified parameters.</p>"
     },
-    "TagResource": {
-      "documentation": "<p>Assigns a tag to a resource.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "TagResource":{
+      "name":"TagResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/tags/{resourceArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"TagResourceRequest"},
+      "output":{"shape":"TagResourceResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/tags/{resourceArn}",
-        "responseCode": 200
-      },
-      "input": {
-        "shape": "TagResourceRequest"
-      },
-      "name": "TagResource",
-      "output": {
-        "shape": "TagResourceResponse"
-      }
+      "documentation":"<p>Assigns a tag to a resource.</p>"
     },
-    "UntagResource": {
-      "documentation": "<p>Deassigns a resource tag.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "UntagResource":{
+      "name":"UntagResource",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/tags/{resourceArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"UntagResourceRequest"},
+      "output":{"shape":"UntagResourceResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/tags/{resourceArn}",
-        "responseCode": 200
-      },
-      "idempotent": true,
-      "input": {
-        "shape": "UntagResourceRequest"
-      },
-      "name": "UntagResource",
-      "output": {
-        "shape": "UntagResourceResponse"
-      }
+      "documentation":"<p>Deassigns a resource tag.</p>",
+      "idempotent":true
     },
-    "UpdateConfig": {
-      "documentation": "<p>Updates the <code>Config</code> used when scheduling contacts.</p> <p>Updating a <code>Config</code> will not update the execution parameters for existing future contacts scheduled with this <code>Config</code>.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "UpdateConfig":{
+      "name":"UpdateConfig",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/config/{configType}/{configId}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateConfigRequest"},
+      "output":{"shape":"ConfigIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "PUT",
-        "requestUri": "/config/{configType}/{configId}",
-        "responseCode": 200
-      },
-      "idempotent": true,
-      "input": {
-        "shape": "UpdateConfigRequest"
-      },
-      "name": "UpdateConfig",
-      "output": {
-        "shape": "ConfigIdResponse"
-      }
+      "documentation":"<p>Updates the <code>Config</code> used when scheduling contacts.</p> <p>Updating a <code>Config</code> will not update the execution parameters for existing future contacts scheduled with this <code>Config</code>.</p>",
+      "idempotent":true
     },
-    "UpdateMissionProfile": {
-      "documentation": "<p>Updates a mission profile.</p> <p>Updating a mission profile will not update the execution parameters for existing future contacts.</p>",
-      "errors": [
-        {
-          "shape": "InvalidParameterException"
-        },
-        {
-          "shape": "DependencyException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        }
+    "UpdateMissionProfile":{
+      "name":"UpdateMissionProfile",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/missionprofile/{missionProfileId}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateMissionProfileRequest"},
+      "output":{"shape":"MissionProfileIdResponse"},
+      "errors":[
+        {"shape":"InvalidParameterException"},
+        {"shape":"DependencyException"},
+        {"shape":"ResourceNotFoundException"}
       ],
-      "http": {
-        "method": "PUT",
-        "requestUri": "/missionprofile/{missionProfileId}",
-        "responseCode": 200
-      },
-      "idempotent": true,
-      "input": {
-        "shape": "UpdateMissionProfileRequest"
-      },
-      "name": "UpdateMissionProfile",
-      "output": {
-        "shape": "MissionProfileIdResponse"
-      }
+      "documentation":"<p>Updates a mission profile.</p> <p>Updating a mission profile will not update the execution parameters for existing future contacts.</p>",
+      "idempotent":true
     }
   },
-  "shapes": {
-    "AngleUnits": {
-      "enum": [
+  "shapes":{
+    "AngleUnits":{
+      "type":"string",
+      "enum":[
         "DEGREE_ANGLE",
         "RADIAN"
-      ],
-      "type": "string"
+      ]
     },
-    "AntennaDownlinkConfig": {
-      "documentation": "<p>Information about how AWS Ground Station should configure an antenna for downlink during a contact.</p>",
-      "members": {
-        "spectrumConfig": {
-          "documentation": "<p>Object that describes a spectral <code>Config</code>.</p>",
-          "shape": "SpectrumConfig"
+    "AntennaDemodDecodeDetails":{
+      "type":"structure",
+      "members":{
+        "outputNode":{
+          "shape":"String",
+          "documentation":"<p>Name of an antenna demod decode output node used in a contact.</p>"
         }
       },
-      "required": [
-        "spectrumConfig"
-      ],
-      "type": "structure"
+      "documentation":"<p>Details about an antenna demod decode <code>Config</code> used in a contact.</p>"
     },
-    "AntennaDownlinkDemodDecodeConfig": {
-      "documentation": "<p>Information about how AWS Ground Station should con\ufb01gure an antenna for downlink demod decode during a contact.</p>",
-      "members": {
-        "decodeConfig": {
-          "documentation": "<p>Information about the decode <code>Config</code>.</p>",
-          "shape": "DecodeConfig"
-        },
-        "demodulationConfig": {
-          "documentation": "<p>Information about the demodulation <code>Config</code>.</p>",
-          "shape": "DemodulationConfig"
-        },
-        "spectrumConfig": {
-          "documentation": "<p>Information about the spectral <code>Config</code>.</p>",
-          "shape": "SpectrumConfig"
+    "AntennaDownlinkConfig":{
+      "type":"structure",
+      "required":["spectrumConfig"],
+      "members":{
+        "spectrumConfig":{
+          "shape":"SpectrumConfig",
+          "documentation":"<p>Object that describes a spectral <code>Config</code>.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Information about how AWS Ground Station should configure an antenna for downlink during a contact.</p>"
+    },
+    "AntennaDownlinkDemodDecodeConfig":{
+      "type":"structure",
+      "required":[
         "decodeConfig",
         "demodulationConfig",
         "spectrumConfig"
       ],
-      "type": "structure"
-    },
-    "AntennaUplinkConfig": {
-      "documentation": "<p>Information about the uplink <code>Config</code> of an antenna.</p>",
-      "members": {
-        "spectrumConfig": {
-          "documentation": "<p>Information about the uplink spectral <code>Config</code>.</p>",
-          "shape": "UplinkSpectrumConfig"
+      "members":{
+        "decodeConfig":{
+          "shape":"DecodeConfig",
+          "documentation":"<p>Information about the decode <code>Config</code>.</p>"
         },
-        "targetEirp": {
-          "documentation": "<p>EIRP of the target.</p>",
-          "shape": "Eirp"
+        "demodulationConfig":{
+          "shape":"DemodulationConfig",
+          "documentation":"<p>Information about the demodulation <code>Config</code>.</p>"
+        },
+        "spectrumConfig":{
+          "shape":"SpectrumConfig",
+          "documentation":"<p>Information about the spectral <code>Config</code>.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Information about how AWS Ground Station should conﬁgure an antenna for downlink demod decode during a contact.</p>"
+    },
+    "AntennaUplinkConfig":{
+      "type":"structure",
+      "required":[
         "spectrumConfig",
         "targetEirp"
       ],
-      "type": "structure"
+      "members":{
+        "spectrumConfig":{
+          "shape":"UplinkSpectrumConfig",
+          "documentation":"<p>Information about the uplink spectral <code>Config</code>.</p>"
+        },
+        "targetEirp":{
+          "shape":"Eirp",
+          "documentation":"<p>EIRP of the target.</p>"
+        },
+        "transmitDisabled":{
+          "shape":"Boolean",
+          "documentation":"<p>Whether or not uplink transmit is disabled.</p>"
+        }
+      },
+      "documentation":"<p>Information about the uplink <code>Config</code> of an antenna.</p>"
     },
-    "BandwidthUnits": {
-      "enum": [
+    "BandwidthUnits":{
+      "type":"string",
+      "enum":[
         "GHz",
         "MHz",
         "kHz"
-      ],
-      "type": "string"
+      ]
     },
-    "Boolean": {
-      "box": true,
-      "type": "boolean"
+    "Boolean":{
+      "type":"boolean",
+      "box":true
     },
-    "CancelContactRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "contactId": {
-          "documentation": "<p>UUID of a contact.</p>",
-          "location": "uri",
-          "locationName": "contactId",
-          "shape": "String"
+    "BucketArn":{"type":"string"},
+    "CancelContactRequest":{
+      "type":"structure",
+      "required":["contactId"],
+      "members":{
+        "contactId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a contact.</p>",
+          "location":"uri",
+          "locationName":"contactId"
         }
       },
-      "required": [
-        "contactId"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ConfigArn": {
-      "type": "string"
-    },
-    "ConfigCapabilityType": {
-      "enum": [
+    "ConfigArn":{"type":"string"},
+    "ConfigCapabilityType":{
+      "type":"string",
+      "enum":[
         "antenna-downlink",
         "antenna-downlink-demod-decode",
         "antenna-uplink",
         "dataflow-endpoint",
         "tracking",
-        "uplink-echo"
-      ],
-      "type": "string"
+        "uplink-echo",
+        "s3-recording"
+      ]
     },
-    "ConfigIdResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "configArn": {
-          "documentation": "<p>ARN of a <code>Config</code>.</p>",
-          "shape": "ConfigArn"
+    "ConfigDetails":{
+      "type":"structure",
+      "members":{
+        "antennaDemodDecodeDetails":{
+          "shape":"AntennaDemodDecodeDetails",
+          "documentation":"<p>Details for antenna demod decode <code>Config</code> in a contact.</p>"
         },
-        "configId": {
-          "documentation": "<p>UUID of a <code>Config</code>.</p>",
-          "shape": "String"
-        },
-        "configType": {
-          "documentation": "<p>Type of a <code>Config</code>.</p>",
-          "shape": "ConfigCapabilityType"
+        "endpointDetails":{"shape":"EndpointDetails"},
+        "s3RecordingDetails":{
+          "shape":"S3RecordingDetails",
+          "documentation":"<p>Details for an S3 recording <code>Config</code> in a contact.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Details for certain <code>Config</code> object types in a contact.</p>",
+      "union":true
     },
-    "ConfigList": {
-      "member": {
-        "shape": "ConfigListItem"
-      },
-      "type": "list"
-    },
-    "ConfigListItem": {
-      "documentation": "<p>An item in a list of <code>Config</code> objects.</p>",
-      "members": {
-        "configArn": {
-          "documentation": "<p>ARN of a <code>Config</code>.</p>",
-          "shape": "ConfigArn"
+    "ConfigIdResponse":{
+      "type":"structure",
+      "members":{
+        "configArn":{
+          "shape":"ConfigArn",
+          "documentation":"<p>ARN of a <code>Config</code>.</p>"
         },
-        "configId": {
-          "documentation": "<p>UUID of a <code>Config</code>.</p>",
-          "shape": "String"
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>"
         },
-        "configType": {
-          "documentation": "<p>Type of a <code>Config</code>.</p>",
-          "shape": "ConfigCapabilityType"
-        },
-        "name": {
-          "documentation": "<p>Name of a <code>Config</code>.</p>",
-          "shape": "String"
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ConfigTypeData": {
-      "documentation": "<p>Object containing the parameters of a <code>Config</code>.</p> <p>See the subtype definitions for what each type of <code>Config</code> contains.</p>",
-      "members": {
-        "antennaDownlinkConfig": {
-          "documentation": "<p>Information about how AWS Ground Station should configure an antenna for downlink during a contact.</p>",
-          "shape": "AntennaDownlinkConfig"
+    "ConfigList":{
+      "type":"list",
+      "member":{"shape":"ConfigListItem"}
+    },
+    "ConfigListItem":{
+      "type":"structure",
+      "members":{
+        "configArn":{
+          "shape":"ConfigArn",
+          "documentation":"<p>ARN of a <code>Config</code>.</p>"
         },
-        "antennaDownlinkDemodDecodeConfig": {
-          "documentation": "<p>Information about how AWS Ground Station should con\ufb01gure an antenna for downlink demod decode during a contact.</p>",
-          "shape": "AntennaDownlinkDemodDecodeConfig"
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>"
         },
-        "antennaUplinkConfig": {
-          "documentation": "<p>Information about how AWS Ground Station should con\ufb01gure an antenna for uplink during a contact.</p>",
-          "shape": "AntennaUplinkConfig"
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>"
         },
-        "dataflowEndpointConfig": {
-          "documentation": "<p>Information about the dataflow endpoint <code>Config</code>.</p>",
-          "shape": "DataflowEndpointConfig"
-        },
-        "trackingConfig": {
-          "documentation": "<p>Object that determines whether tracking should be used during a contact executed with this <code>Config</code> in the mission profile. </p>",
-          "shape": "TrackingConfig"
-        },
-        "uplinkEchoConfig": {
-          "documentation": "<p>Information about an uplink echo <code>Config</code>.</p> <p>Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the specified <code>AntennaUplinkConfigArn</code>, are used when this <code>UplinkEchoConfig</code> is used in a contact.</p>",
-          "shape": "UplinkEchoConfig"
+        "name":{
+          "shape":"String",
+          "documentation":"<p>Name of a <code>Config</code>.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>An item in a list of <code>Config</code> objects.</p>"
     },
-    "ContactData": {
-      "documentation": "<p>Data describing a contact.</p>",
-      "members": {
-        "contactId": {
-          "documentation": "<p>UUID of a contact.</p>",
-          "shape": "String"
+    "ConfigTypeData":{
+      "type":"structure",
+      "members":{
+        "antennaDownlinkConfig":{
+          "shape":"AntennaDownlinkConfig",
+          "documentation":"<p>Information about how AWS Ground Station should configure an antenna for downlink during a contact.</p>"
         },
-        "contactStatus": {
-          "documentation": "<p>Status of a contact.</p>",
-          "shape": "ContactStatus"
+        "antennaDownlinkDemodDecodeConfig":{
+          "shape":"AntennaDownlinkDemodDecodeConfig",
+          "documentation":"<p>Information about how AWS Ground Station should conﬁgure an antenna for downlink demod decode during a contact.</p>"
         },
-        "endTime": {
-          "documentation": "<p>End time of a contact.</p>",
-          "shape": "Timestamp"
+        "antennaUplinkConfig":{
+          "shape":"AntennaUplinkConfig",
+          "documentation":"<p>Information about how AWS Ground Station should conﬁgure an antenna for uplink during a contact.</p>"
         },
-        "errorMessage": {
-          "documentation": "<p>Error message of a contact.</p>",
-          "shape": "String"
+        "dataflowEndpointConfig":{
+          "shape":"DataflowEndpointConfig",
+          "documentation":"<p>Information about the dataflow endpoint <code>Config</code>.</p>"
         },
-        "groundStation": {
-          "documentation": "<p>Name of a ground station.</p>",
-          "shape": "String"
+        "s3RecordingConfig":{
+          "shape":"S3RecordingConfig",
+          "documentation":"<p>Information about an S3 recording <code>Config</code>.</p>"
         },
-        "maximumElevation": {
-          "documentation": "<p>Maximum elevation angle of a contact.</p>",
-          "shape": "Elevation"
+        "trackingConfig":{
+          "shape":"TrackingConfig",
+          "documentation":"<p>Object that determines whether tracking should be used during a contact executed with this <code>Config</code> in the mission profile. </p>"
         },
-        "missionProfileArn": {
-          "documentation": "<p>ARN of a mission profile.</p>",
-          "shape": "MissionProfileArn"
-        },
-        "postPassEndTime": {
-          "documentation": "<p>Amount of time after a contact ends that you\u2019d like to receive a CloudWatch event indicating the pass has finished.</p>",
-          "shape": "Timestamp"
-        },
-        "prePassStartTime": {
-          "documentation": "<p>Amount of time prior to contact start you\u2019d like to receive a CloudWatch event indicating an upcoming pass.</p>",
-          "shape": "Timestamp"
-        },
-        "region": {
-          "documentation": "<p>Region of a contact.</p>",
-          "shape": "String"
-        },
-        "satelliteArn": {
-          "documentation": "<p>ARN of a satellite.</p>",
-          "shape": "satelliteArn"
-        },
-        "startTime": {
-          "documentation": "<p>Start time of a contact.</p>",
-          "shape": "Timestamp"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a contact.</p>",
-          "shape": "TagsMap"
+        "uplinkEchoConfig":{
+          "shape":"UplinkEchoConfig",
+          "documentation":"<p>Information about an uplink echo <code>Config</code>.</p> <p>Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the specified <code>AntennaUplinkConfigArn</code>, are used when this <code>UplinkEchoConfig</code> is used in a contact.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Object containing the parameters of a <code>Config</code>.</p> <p>See the subtype definitions for what each type of <code>Config</code> contains.</p>",
+      "union":true
     },
-    "ContactIdResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "contactId": {
-          "documentation": "<p>UUID of a contact.</p>",
-          "shape": "String"
+    "ContactData":{
+      "type":"structure",
+      "members":{
+        "contactId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a contact.</p>"
+        },
+        "contactStatus":{
+          "shape":"ContactStatus",
+          "documentation":"<p>Status of a contact.</p>"
+        },
+        "endTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>End time of a contact.</p>"
+        },
+        "errorMessage":{
+          "shape":"String",
+          "documentation":"<p>Error message of a contact.</p>"
+        },
+        "groundStation":{
+          "shape":"String",
+          "documentation":"<p>Name of a ground station.</p>"
+        },
+        "maximumElevation":{
+          "shape":"Elevation",
+          "documentation":"<p>Maximum elevation angle of a contact.</p>"
+        },
+        "missionProfileArn":{
+          "shape":"MissionProfileArn",
+          "documentation":"<p>ARN of a mission profile.</p>"
+        },
+        "postPassEndTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>"
+        },
+        "prePassStartTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>"
+        },
+        "region":{
+          "shape":"String",
+          "documentation":"<p>Region of a contact.</p>"
+        },
+        "satelliteArn":{
+          "shape":"satelliteArn",
+          "documentation":"<p>ARN of a satellite.</p>"
+        },
+        "startTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Start time of a contact.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a contact.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Data describing a contact.</p>"
     },
-    "ContactList": {
-      "member": {
-        "shape": "ContactData"
+    "ContactIdResponse":{
+      "type":"structure",
+      "members":{
+        "contactId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a contact.</p>"
+        }
       },
-      "type": "list"
+      "documentation":"<p/>"
     },
-    "ContactStatus": {
-      "enum": [
+    "ContactList":{
+      "type":"list",
+      "member":{"shape":"ContactData"}
+    },
+    "ContactStatus":{
+      "type":"string",
+      "enum":[
         "AVAILABLE",
         "AWS_CANCELLED",
+        "AWS_FAILED",
         "CANCELLED",
         "CANCELLING",
         "COMPLETED",
@@ -940,1457 +717,1495 @@
         "PREPASS",
         "SCHEDULED",
         "SCHEDULING"
-      ],
-      "type": "string"
+      ]
     },
-    "CreateConfigRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "configData": {
-          "documentation": "<p>Parameters of a <code>Config</code>.</p>",
-          "shape": "ConfigTypeData"
-        },
-        "name": {
-          "documentation": "<p>Name of a <code>Config</code>.</p>",
-          "shape": "SafeName"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a <code>Config</code>.</p>",
-          "shape": "TagsMap"
-        }
-      },
-      "required": [
+    "CreateConfigRequest":{
+      "type":"structure",
+      "required":[
         "configData",
         "name"
       ],
-      "type": "structure"
-    },
-    "CreateDataflowEndpointGroupRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "endpointDetails": {
-          "documentation": "<p>Endpoint details of each endpoint in the dataflow endpoint group.</p>",
-          "shape": "EndpointDetailsList"
+      "members":{
+        "configData":{
+          "shape":"ConfigTypeData",
+          "documentation":"<p>Parameters of a <code>Config</code>.</p>"
         },
-        "tags": {
-          "documentation": "<p>Tags of a dataflow endpoint group.</p>",
-          "shape": "TagsMap"
+        "name":{
+          "shape":"SafeName",
+          "documentation":"<p>Name of a <code>Config</code>.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a <code>Config</code>.</p>"
         }
       },
-      "required": [
-        "endpointDetails"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "CreateMissionProfileRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "contactPostPassDurationSeconds": {
-          "documentation": "<p>Amount of time after a contact ends that you\u2019d like to receive a CloudWatch event indicating the pass has finished.</p>",
-          "shape": "DurationInSeconds"
+    "CreateDataflowEndpointGroupRequest":{
+      "type":"structure",
+      "required":["endpointDetails"],
+      "members":{
+        "endpointDetails":{
+          "shape":"EndpointDetailsList",
+          "documentation":"<p>Endpoint details of each endpoint in the dataflow endpoint group.</p>"
         },
-        "contactPrePassDurationSeconds": {
-          "documentation": "<p>Amount of time prior to contact start you\u2019d like to receive a CloudWatch event indicating an upcoming pass.</p>",
-          "shape": "DurationInSeconds"
-        },
-        "dataflowEdges": {
-          "documentation": "<p>A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i> <code>Config</code> and a <i>to</i> <code>Config</code>.</p>",
-          "shape": "DataflowEdgeList"
-        },
-        "minimumViableContactDurationSeconds": {
-          "documentation": "<p>Smallest amount of time in seconds that you\u2019d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.</p>",
-          "shape": "DurationInSeconds"
-        },
-        "name": {
-          "documentation": "<p>Name of a mission profile.</p>",
-          "shape": "SafeName"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a mission profile.</p>",
-          "shape": "TagsMap"
-        },
-        "trackingConfigArn": {
-          "documentation": "<p>ARN of a tracking <code>Config</code>.</p>",
-          "shape": "ConfigArn"
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags of a dataflow endpoint group.</p>"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "CreateMissionProfileRequest":{
+      "type":"structure",
+      "required":[
         "dataflowEdges",
         "minimumViableContactDurationSeconds",
         "name",
         "trackingConfigArn"
       ],
-      "type": "structure"
+      "members":{
+        "contactPostPassDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>"
+        },
+        "contactPrePassDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>"
+        },
+        "dataflowEdges":{
+          "shape":"DataflowEdgeList",
+          "documentation":"<p>A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i> <code>Config</code> and a <i>to</i> <code>Config</code>.</p>"
+        },
+        "minimumViableContactDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.</p>"
+        },
+        "name":{
+          "shape":"SafeName",
+          "documentation":"<p>Name of a mission profile.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a mission profile.</p>"
+        },
+        "trackingConfigArn":{
+          "shape":"ConfigArn",
+          "documentation":"<p>ARN of a tracking <code>Config</code>.</p>"
+        }
+      },
+      "documentation":"<p/>"
     },
-    "Criticality": {
-      "enum": [
+    "Criticality":{
+      "type":"string",
+      "enum":[
         "PREFERRED",
         "REMOVED",
         "REQUIRED"
-      ],
-      "type": "string"
+      ]
     },
-    "DataflowEdge": {
-      "max": 2,
-      "member": {
-        "shape": "ConfigArn"
-      },
-      "min": 2,
-      "type": "list"
-    },
-    "DataflowEdgeList": {
-      "member": {
-        "shape": "DataflowEdge"
-      },
-      "type": "list"
-    },
-    "DataflowEndpoint": {
-      "documentation": "<p>Information about a dataflow endpoint.</p>",
-      "members": {
-        "address": {
-          "documentation": "<p>Socket address of a dataflow endpoint.</p>",
-          "shape": "SocketAddress"
+    "DataflowDetail":{
+      "type":"structure",
+      "members":{
+        "destination":{"shape":"Destination"},
+        "errorMessage":{
+          "shape":"String",
+          "documentation":"<p>Error message for a dataflow.</p>"
         },
-        "name": {
-          "documentation": "<p>Name of a dataflow endpoint.</p>",
-          "shape": "SafeName"
+        "source":{"shape":"Source"}
+      },
+      "documentation":"<p>Information about a dataflow edge used in a contact.</p>"
+    },
+    "DataflowEdge":{
+      "type":"list",
+      "member":{"shape":"ConfigArn"},
+      "max":2,
+      "min":2
+    },
+    "DataflowEdgeList":{
+      "type":"list",
+      "member":{"shape":"DataflowEdge"}
+    },
+    "DataflowEndpoint":{
+      "type":"structure",
+      "members":{
+        "address":{
+          "shape":"SocketAddress",
+          "documentation":"<p>Socket address of a dataflow endpoint.</p>"
         },
-        "status": {
-          "documentation": "<p>Status of a dataflow endpoint.</p>",
-          "shape": "EndpointStatus"
-        }
-      },
-      "type": "structure"
-    },
-    "DataflowEndpointConfig": {
-      "documentation": "<p>Information about the dataflow endpoint <code>Config</code>.</p>",
-      "members": {
-        "dataflowEndpointName": {
-          "documentation": "<p>Name of a dataflow endpoint.</p>",
-          "shape": "String"
+        "mtu":{
+          "shape":"DataflowEndpointMtuInteger",
+          "documentation":"<p>Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.</p>"
         },
-        "dataflowEndpointRegion": {
-          "documentation": "<p>Region of a dataflow endpoint.</p>",
-          "shape": "String"
-        }
-      },
-      "required": [
-        "dataflowEndpointName"
-      ],
-      "type": "structure"
-    },
-    "DataflowEndpointGroupArn": {
-      "type": "string"
-    },
-    "DataflowEndpointGroupIdResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "dataflowEndpointGroupId": {
-          "documentation": "<p>UUID of a dataflow endpoint group.</p>",
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "DataflowEndpointGroupList": {
-      "member": {
-        "shape": "DataflowEndpointListItem"
-      },
-      "type": "list"
-    },
-    "DataflowEndpointListItem": {
-      "documentation": "<p>Item in a list of <code>DataflowEndpoint</code> groups.</p>",
-      "members": {
-        "dataflowEndpointGroupArn": {
-          "documentation": "<p>ARN of a dataflow endpoint group.</p>",
-          "shape": "DataflowEndpointGroupArn"
+        "name":{
+          "shape":"SafeName",
+          "documentation":"<p>Name of a dataflow endpoint.</p>"
         },
-        "dataflowEndpointGroupId": {
-          "documentation": "<p>UUID of a dataflow endpoint group.</p>",
-          "shape": "String"
+        "status":{
+          "shape":"EndpointStatus",
+          "documentation":"<p>Status of a dataflow endpoint.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Information about a dataflow endpoint.</p>"
     },
-    "DecodeConfig": {
-      "documentation": "<p>Information about the decode <code>Config</code>.</p>",
-      "members": {
-        "unvalidatedJSON": {
-          "documentation": "<p>Unvalidated JSON of a decode <code>Config</code>.</p>",
-          "shape": "JsonString"
-        }
-      },
-      "required": [
-        "unvalidatedJSON"
-      ],
-      "type": "structure"
-    },
-    "DeleteConfigRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "configId": {
-          "documentation": "<p>UUID of a <code>Config</code>.</p>",
-          "location": "uri",
-          "locationName": "configId",
-          "shape": "String"
+    "DataflowEndpointConfig":{
+      "type":"structure",
+      "required":["dataflowEndpointName"],
+      "members":{
+        "dataflowEndpointName":{
+          "shape":"String",
+          "documentation":"<p>Name of a dataflow endpoint.</p>"
         },
-        "configType": {
-          "documentation": "<p>Type of a <code>Config</code>.</p>",
-          "location": "uri",
-          "locationName": "configType",
-          "shape": "ConfigCapabilityType"
+        "dataflowEndpointRegion":{
+          "shape":"String",
+          "documentation":"<p>Region of a dataflow endpoint.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Information about the dataflow endpoint <code>Config</code>.</p>"
+    },
+    "DataflowEndpointGroupArn":{"type":"string"},
+    "DataflowEndpointGroupIdResponse":{
+      "type":"structure",
+      "members":{
+        "dataflowEndpointGroupId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a dataflow endpoint group.</p>"
+        }
+      },
+      "documentation":"<p/>"
+    },
+    "DataflowEndpointGroupList":{
+      "type":"list",
+      "member":{"shape":"DataflowEndpointListItem"}
+    },
+    "DataflowEndpointListItem":{
+      "type":"structure",
+      "members":{
+        "dataflowEndpointGroupArn":{
+          "shape":"DataflowEndpointGroupArn",
+          "documentation":"<p>ARN of a dataflow endpoint group.</p>"
+        },
+        "dataflowEndpointGroupId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a dataflow endpoint group.</p>"
+        }
+      },
+      "documentation":"<p>Item in a list of <code>DataflowEndpoint</code> groups.</p>"
+    },
+    "DataflowEndpointMtuInteger":{
+      "type":"integer",
+      "box":true,
+      "max":1500,
+      "min":1400
+    },
+    "DataflowList":{
+      "type":"list",
+      "member":{"shape":"DataflowDetail"}
+    },
+    "DecodeConfig":{
+      "type":"structure",
+      "required":["unvalidatedJSON"],
+      "members":{
+        "unvalidatedJSON":{
+          "shape":"JsonString",
+          "documentation":"<p>Unvalidated JSON of a decode <code>Config</code>.</p>"
+        }
+      },
+      "documentation":"<p>Information about the decode <code>Config</code>.</p>"
+    },
+    "DeleteConfigRequest":{
+      "type":"structure",
+      "required":[
         "configId",
         "configType"
       ],
-      "type": "structure"
-    },
-    "DeleteDataflowEndpointGroupRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "dataflowEndpointGroupId": {
-          "documentation": "<p>UUID of a dataflow endpoint group.</p>",
-          "location": "uri",
-          "locationName": "dataflowEndpointGroupId",
-          "shape": "String"
+      "members":{
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>",
+          "location":"uri",
+          "locationName":"configId"
+        },
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>",
+          "location":"uri",
+          "locationName":"configType"
         }
       },
-      "required": [
-        "dataflowEndpointGroupId"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "DeleteMissionProfileRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "missionProfileId": {
-          "documentation": "<p>UUID of a mission profile.</p>",
-          "location": "uri",
-          "locationName": "missionProfileId",
-          "shape": "String"
+    "DeleteDataflowEndpointGroupRequest":{
+      "type":"structure",
+      "required":["dataflowEndpointGroupId"],
+      "members":{
+        "dataflowEndpointGroupId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a dataflow endpoint group.</p>",
+          "location":"uri",
+          "locationName":"dataflowEndpointGroupId"
         }
       },
-      "required": [
-        "missionProfileId"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "DemodulationConfig": {
-      "documentation": "<p>Information about the demodulation <code>Config</code>.</p>",
-      "members": {
-        "unvalidatedJSON": {
-          "documentation": "<p>Unvalidated JSON of a demodulation <code>Config</code>.</p>",
-          "shape": "JsonString"
+    "DeleteMissionProfileRequest":{
+      "type":"structure",
+      "required":["missionProfileId"],
+      "members":{
+        "missionProfileId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a mission profile.</p>",
+          "location":"uri",
+          "locationName":"missionProfileId"
         }
       },
-      "required": [
-        "unvalidatedJSON"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "DependencyException": {
-      "documentation": "<p>Dependency encountered an error.</p>",
-      "error": {
-        "httpStatusCode": 531
-      },
-      "exception": true,
-      "fault": true,
-      "members": {
-        "message": {
-          "shape": "String"
-        },
-        "parameterName": {
-          "documentation": "<p/>",
-          "shape": "String"
+    "DemodulationConfig":{
+      "type":"structure",
+      "required":["unvalidatedJSON"],
+      "members":{
+        "unvalidatedJSON":{
+          "shape":"JsonString",
+          "documentation":"<p>Unvalidated JSON of a demodulation <code>Config</code>.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Information about the demodulation <code>Config</code>.</p>"
     },
-    "DescribeContactRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "contactId": {
-          "documentation": "<p>UUID of a contact.</p>",
-          "location": "uri",
-          "locationName": "contactId",
-          "shape": "String"
+    "DependencyException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"},
+        "parameterName":{
+          "shape":"String",
+          "documentation":"<p/>"
         }
       },
-      "required": [
-        "contactId"
-      ],
-      "type": "structure"
+      "documentation":"<p>Dependency encountered an error.</p>",
+      "error":{"httpStatusCode":531},
+      "exception":true,
+      "fault":true
     },
-    "DescribeContactResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "contactId": {
-          "documentation": "<p>UUID of a contact.</p>",
-          "shape": "String"
-        },
-        "contactStatus": {
-          "documentation": "<p>Status of a contact.</p>",
-          "shape": "ContactStatus"
-        },
-        "endTime": {
-          "documentation": "<p>End time of a contact.</p>",
-          "shape": "Timestamp"
-        },
-        "errorMessage": {
-          "documentation": "<p>Error message for a contact.</p>",
-          "shape": "String"
-        },
-        "groundStation": {
-          "documentation": "<p>Ground station for a contact.</p>",
-          "shape": "String"
-        },
-        "maximumElevation": {
-          "documentation": "<p>Maximum elevation angle of a contact.</p>",
-          "shape": "Elevation"
-        },
-        "missionProfileArn": {
-          "documentation": "<p>ARN of a mission profile.</p>",
-          "shape": "MissionProfileArn"
-        },
-        "postPassEndTime": {
-          "documentation": "<p>Amount of time after a contact ends that you\u2019d like to receive a CloudWatch event indicating the pass has finished.</p>",
-          "shape": "Timestamp"
-        },
-        "prePassStartTime": {
-          "documentation": "<p>Amount of time prior to contact start you\u2019d like to receive a CloudWatch event indicating an upcoming pass.</p>",
-          "shape": "Timestamp"
-        },
-        "region": {
-          "documentation": "<p>Region of a contact.</p>",
-          "shape": "String"
-        },
-        "satelliteArn": {
-          "documentation": "<p>ARN of a satellite.</p>",
-          "shape": "satelliteArn"
-        },
-        "startTime": {
-          "documentation": "<p>Start time of a contact.</p>",
-          "shape": "Timestamp"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a contact.</p>",
-          "shape": "TagsMap"
+    "DescribeContactRequest":{
+      "type":"structure",
+      "required":["contactId"],
+      "members":{
+        "contactId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a contact.</p>",
+          "location":"uri",
+          "locationName":"contactId"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "Double": {
-      "box": true,
-      "type": "double"
-    },
-    "DurationInSeconds": {
-      "max": 21600,
-      "min": 1,
-      "type": "integer"
-    },
-    "Eirp": {
-      "documentation": "<p>Object that represents EIRP.</p>",
-      "members": {
-        "units": {
-          "documentation": "<p>Units of an EIRP.</p>",
-          "shape": "EirpUnits"
+    "DescribeContactResponse":{
+      "type":"structure",
+      "members":{
+        "contactId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a contact.</p>"
         },
-        "value": {
-          "documentation": "<p>Value of an EIRP.</p>",
-          "shape": "Double"
+        "contactStatus":{
+          "shape":"ContactStatus",
+          "documentation":"<p>Status of a contact.</p>"
+        },
+        "dataflowList":{
+          "shape":"DataflowList",
+          "documentation":"<p>List describing source and destination details for each dataflow edge.</p>"
+        },
+        "endTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>End time of a contact.</p>"
+        },
+        "errorMessage":{
+          "shape":"String",
+          "documentation":"<p>Error message for a contact.</p>"
+        },
+        "groundStation":{
+          "shape":"String",
+          "documentation":"<p>Ground station for a contact.</p>"
+        },
+        "maximumElevation":{
+          "shape":"Elevation",
+          "documentation":"<p>Maximum elevation angle of a contact.</p>"
+        },
+        "missionProfileArn":{
+          "shape":"MissionProfileArn",
+          "documentation":"<p>ARN of a mission profile.</p>"
+        },
+        "postPassEndTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>"
+        },
+        "prePassStartTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>"
+        },
+        "region":{
+          "shape":"String",
+          "documentation":"<p>Region of a contact.</p>"
+        },
+        "satelliteArn":{
+          "shape":"satelliteArn",
+          "documentation":"<p>ARN of a satellite.</p>"
+        },
+        "startTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Start time of a contact.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a contact.</p>"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "Destination":{
+      "type":"structure",
+      "members":{
+        "configDetails":{
+          "shape":"ConfigDetails",
+          "documentation":"<p>Additional details for a <code>Config</code>, if type is dataflow endpoint or antenna demod decode.</p>"
+        },
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>"
+        },
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>"
+        },
+        "dataflowDestinationRegion":{
+          "shape":"String",
+          "documentation":"<p>Region of a dataflow destination.</p>"
+        }
+      },
+      "documentation":"<p>Dataflow details for the destination side.</p>"
+    },
+    "Double":{
+      "type":"double",
+      "box":true
+    },
+    "DurationInSeconds":{
+      "type":"integer",
+      "box":true,
+      "max":21600,
+      "min":1
+    },
+    "Eirp":{
+      "type":"structure",
+      "required":[
         "units",
         "value"
       ],
-      "type": "structure"
-    },
-    "EirpUnits": {
-      "enum": [
-        "dBW"
-      ],
-      "type": "string"
-    },
-    "Elevation": {
-      "documentation": "<p>Elevation angle of the satellite in the sky during a contact.</p>",
-      "members": {
-        "unit": {
-          "documentation": "<p>Elevation angle units.</p>",
-          "shape": "AngleUnits"
+      "members":{
+        "units":{
+          "shape":"EirpUnits",
+          "documentation":"<p>Units of an EIRP.</p>"
         },
-        "value": {
-          "documentation": "<p>Elevation angle value.</p>",
-          "shape": "Double"
+        "value":{
+          "shape":"Double",
+          "documentation":"<p>Value of an EIRP. Valid values are between 20.0 to 50.0 dBW.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Object that represents EIRP.</p>"
+    },
+    "EirpUnits":{
+      "type":"string",
+      "enum":["dBW"]
+    },
+    "Elevation":{
+      "type":"structure",
+      "required":[
         "unit",
         "value"
       ],
-      "type": "structure"
-    },
-    "EndpointDetails": {
-      "documentation": "<p>Information about the endpoint details.</p>",
-      "members": {
-        "endpoint": {
-          "documentation": "<p>A dataflow endpoint.</p>",
-          "shape": "DataflowEndpoint"
+      "members":{
+        "unit":{
+          "shape":"AngleUnits",
+          "documentation":"<p>Elevation angle units.</p>"
         },
-        "securityDetails": {
-          "documentation": "<p>Endpoint security details.</p>",
-          "shape": "SecurityDetails"
+        "value":{
+          "shape":"Double",
+          "documentation":"<p>Elevation angle value.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Elevation angle of the satellite in the sky during a contact.</p>"
     },
-    "EndpointDetailsList": {
-      "member": {
-        "shape": "EndpointDetails"
+    "EndpointDetails":{
+      "type":"structure",
+      "members":{
+        "endpoint":{
+          "shape":"DataflowEndpoint",
+          "documentation":"<p>A dataflow endpoint.</p>"
+        },
+        "securityDetails":{
+          "shape":"SecurityDetails",
+          "documentation":"<p>Endpoint security details.</p>"
+        }
       },
-      "type": "list"
+      "documentation":"<p>Information about the endpoint details.</p>"
     },
-    "EndpointStatus": {
-      "enum": [
+    "EndpointDetailsList":{
+      "type":"list",
+      "member":{"shape":"EndpointDetails"}
+    },
+    "EndpointStatus":{
+      "type":"string",
+      "enum":[
         "created",
         "creating",
         "deleted",
         "deleting",
         "failed"
-      ],
-      "type": "string"
+      ]
     },
-    "Frequency": {
-      "documentation": "<p>Object that describes the frequency.</p>",
-      "members": {
-        "units": {
-          "documentation": "<p>Frequency units.</p>",
-          "shape": "FrequencyUnits"
-        },
-        "value": {
-          "documentation": "<p>Frequency value.</p>",
-          "shape": "Double"
-        }
-      },
-      "required": [
+    "Frequency":{
+      "type":"structure",
+      "required":[
         "units",
         "value"
       ],
-      "type": "structure"
-    },
-    "FrequencyBandwidth": {
-      "documentation": "<p>Object that describes the frequency bandwidth.</p>",
-      "members": {
-        "units": {
-          "documentation": "<p>Frequency bandwidth units.</p>",
-          "shape": "BandwidthUnits"
+      "members":{
+        "units":{
+          "shape":"FrequencyUnits",
+          "documentation":"<p>Frequency units.</p>"
         },
-        "value": {
-          "documentation": "<p>Frequency bandwidth value.</p>",
-          "shape": "Double"
+        "value":{
+          "shape":"Double",
+          "documentation":"<p>Frequency value. Valid values are between 2200 to 2300 MHz and 7750 to 8400 MHz for downlink and 2025 to 2120 MHz for uplink.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Object that describes the frequency.</p>"
+    },
+    "FrequencyBandwidth":{
+      "type":"structure",
+      "required":[
         "units",
         "value"
       ],
-      "type": "structure"
+      "members":{
+        "units":{
+          "shape":"BandwidthUnits",
+          "documentation":"<p>Frequency bandwidth units.</p>"
+        },
+        "value":{
+          "shape":"Double",
+          "documentation":"<p>Frequency bandwidth value. AWS Ground Station currently has the following bandwidth limitations:</p> <ul> <li> <p>For <code>AntennaDownlinkDemodDecodeconfig</code>, valid values are between 125 kHz to 650 MHz.</p> </li> <li> <p>For <code>AntennaDownlinkconfig</code>, valid values are between 10 kHz to 54 MHz.</p> </li> <li> <p>For <code>AntennaUplinkConfig</code>, valid values are between 10 kHz to 54 MHz.</p> </li> </ul>"
+        }
+      },
+      "documentation":"<p>Object that describes the frequency bandwidth. </p>"
     },
-    "FrequencyUnits": {
-      "enum": [
+    "FrequencyUnits":{
+      "type":"string",
+      "enum":[
         "GHz",
         "MHz",
         "kHz"
-      ],
-      "type": "string"
+      ]
     },
-    "GetConfigRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "configId": {
-          "documentation": "<p>UUID of a <code>Config</code>.</p>",
-          "location": "uri",
-          "locationName": "configId",
-          "shape": "String"
-        },
-        "configType": {
-          "documentation": "<p>Type of a <code>Config</code>.</p>",
-          "location": "uri",
-          "locationName": "configType",
-          "shape": "ConfigCapabilityType"
-        }
-      },
-      "required": [
+    "GetConfigRequest":{
+      "type":"structure",
+      "required":[
         "configId",
         "configType"
       ],
-      "type": "structure"
-    },
-    "GetConfigResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "configArn": {
-          "documentation": "<p>ARN of a <code>Config</code> </p>",
-          "shape": "ConfigArn"
+      "members":{
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>",
+          "location":"uri",
+          "locationName":"configId"
         },
-        "configData": {
-          "documentation": "<p>Data elements in a <code>Config</code>.</p>",
-          "shape": "ConfigTypeData"
-        },
-        "configId": {
-          "documentation": "<p>UUID of a <code>Config</code>.</p>",
-          "shape": "String"
-        },
-        "configType": {
-          "documentation": "<p>Type of a <code>Config</code>.</p>",
-          "shape": "ConfigCapabilityType"
-        },
-        "name": {
-          "documentation": "<p>Name of a <code>Config</code>.</p>",
-          "shape": "String"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a <code>Config</code>.</p>",
-          "shape": "TagsMap"
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>",
+          "location":"uri",
+          "locationName":"configType"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "GetConfigResponse":{
+      "type":"structure",
+      "required":[
         "configArn",
         "configData",
         "configId",
         "name"
       ],
-      "type": "structure"
-    },
-    "GetDataflowEndpointGroupRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "dataflowEndpointGroupId": {
-          "documentation": "<p>UUID of a dataflow endpoint group.</p>",
-          "location": "uri",
-          "locationName": "dataflowEndpointGroupId",
-          "shape": "String"
+      "members":{
+        "configArn":{
+          "shape":"ConfigArn",
+          "documentation":"<p>ARN of a <code>Config</code> </p>"
+        },
+        "configData":{
+          "shape":"ConfigTypeData",
+          "documentation":"<p>Data elements in a <code>Config</code>.</p>"
+        },
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>"
+        },
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>"
+        },
+        "name":{
+          "shape":"String",
+          "documentation":"<p>Name of a <code>Config</code>.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a <code>Config</code>.</p>"
         }
       },
-      "required": [
-        "dataflowEndpointGroupId"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GetDataflowEndpointGroupResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "dataflowEndpointGroupArn": {
-          "documentation": "<p>ARN of a dataflow endpoint group.</p>",
-          "shape": "DataflowEndpointGroupArn"
-        },
-        "dataflowEndpointGroupId": {
-          "documentation": "<p>UUID of a dataflow endpoint group.</p>",
-          "shape": "String"
-        },
-        "endpointsDetails": {
-          "documentation": "<p>Details of a dataflow endpoint.</p>",
-          "shape": "EndpointDetailsList"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a dataflow endpoint group.</p>",
-          "shape": "TagsMap"
+    "GetDataflowEndpointGroupRequest":{
+      "type":"structure",
+      "required":["dataflowEndpointGroupId"],
+      "members":{
+        "dataflowEndpointGroupId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a dataflow endpoint group.</p>",
+          "location":"uri",
+          "locationName":"dataflowEndpointGroupId"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GetMinuteUsageRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "month": {
-          "documentation": "<p>The month being requested, with a value of 1-12.</p>",
-          "shape": "Integer"
+    "GetDataflowEndpointGroupResponse":{
+      "type":"structure",
+      "members":{
+        "dataflowEndpointGroupArn":{
+          "shape":"DataflowEndpointGroupArn",
+          "documentation":"<p>ARN of a dataflow endpoint group.</p>"
         },
-        "year": {
-          "documentation": "<p>The year being requested, in the format of YYYY.</p>",
-          "shape": "Integer"
+        "dataflowEndpointGroupId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a dataflow endpoint group.</p>"
+        },
+        "endpointsDetails":{
+          "shape":"EndpointDetailsList",
+          "documentation":"<p>Details of a dataflow endpoint.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a dataflow endpoint group.</p>"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "GetMinuteUsageRequest":{
+      "type":"structure",
+      "required":[
         "month",
         "year"
       ],
-      "type": "structure"
-    },
-    "GetMinuteUsageResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "estimatedMinutesRemaining": {
-          "documentation": "<p>Estimated number of minutes remaining for an account, specific to the month being requested.</p>",
-          "shape": "Integer"
+      "members":{
+        "month":{
+          "shape":"Integer",
+          "documentation":"<p>The month being requested, with a value of 1-12.</p>"
         },
-        "isReservedMinutesCustomer": {
-          "documentation": "<p>Returns whether or not an account has signed up for the reserved minutes pricing plan, specific to the month being requested.</p>",
-          "shape": "Boolean"
-        },
-        "totalReservedMinuteAllocation": {
-          "documentation": "<p>Total number of reserved minutes allocated, specific to the month being requested.</p>",
-          "shape": "Integer"
-        },
-        "totalScheduledMinutes": {
-          "documentation": "<p>Total scheduled minutes for an account, specific to the month being requested.</p>",
-          "shape": "Integer"
-        },
-        "upcomingMinutesScheduled": {
-          "documentation": "<p>Upcoming minutes scheduled for an account, specific to the month being requested.</p>",
-          "shape": "Integer"
+        "year":{
+          "shape":"Integer",
+          "documentation":"<p>The year being requested, in the format of YYYY.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GetMissionProfileRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "missionProfileId": {
-          "documentation": "<p>UUID of a mission profile.</p>",
-          "location": "uri",
-          "locationName": "missionProfileId",
-          "shape": "String"
+    "GetMinuteUsageResponse":{
+      "type":"structure",
+      "members":{
+        "estimatedMinutesRemaining":{
+          "shape":"Integer",
+          "documentation":"<p>Estimated number of minutes remaining for an account, specific to the month being requested.</p>"
+        },
+        "isReservedMinutesCustomer":{
+          "shape":"Boolean",
+          "documentation":"<p>Returns whether or not an account has signed up for the reserved minutes pricing plan, specific to the month being requested.</p>"
+        },
+        "totalReservedMinuteAllocation":{
+          "shape":"Integer",
+          "documentation":"<p>Total number of reserved minutes allocated, specific to the month being requested.</p>"
+        },
+        "totalScheduledMinutes":{
+          "shape":"Integer",
+          "documentation":"<p>Total scheduled minutes for an account, specific to the month being requested.</p>"
+        },
+        "upcomingMinutesScheduled":{
+          "shape":"Integer",
+          "documentation":"<p>Upcoming minutes scheduled for an account, specific to the month being requested.</p>"
         }
       },
-      "required": [
-        "missionProfileId"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GetMissionProfileResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "contactPostPassDurationSeconds": {
-          "documentation": "<p>Amount of time after a contact ends that you\u2019d like to receive a CloudWatch event indicating the pass has finished.</p>",
-          "shape": "DurationInSeconds"
-        },
-        "contactPrePassDurationSeconds": {
-          "documentation": "<p>Amount of time prior to contact start you\u2019d like to receive a CloudWatch event indicating an upcoming pass.</p>",
-          "shape": "DurationInSeconds"
-        },
-        "dataflowEdges": {
-          "documentation": "<p>A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i> <code>Config</code> and a <i>to</i> <code>Config</code>.</p>",
-          "shape": "DataflowEdgeList"
-        },
-        "minimumViableContactDurationSeconds": {
-          "documentation": "<p>Smallest amount of time in seconds that you\u2019d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.</p>",
-          "shape": "DurationInSeconds"
-        },
-        "missionProfileArn": {
-          "documentation": "<p>ARN of a mission profile.</p>",
-          "shape": "MissionProfileArn"
-        },
-        "missionProfileId": {
-          "documentation": "<p>UUID of a mission profile.</p>",
-          "shape": "String"
-        },
-        "name": {
-          "documentation": "<p>Name of a mission profile.</p>",
-          "shape": "String"
-        },
-        "region": {
-          "documentation": "<p>Region of a mission profile.</p>",
-          "shape": "String"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a mission profile.</p>",
-          "shape": "TagsMap"
-        },
-        "trackingConfigArn": {
-          "documentation": "<p>ARN of a tracking <code>Config</code>.</p>",
-          "shape": "ConfigArn"
+    "GetMissionProfileRequest":{
+      "type":"structure",
+      "required":["missionProfileId"],
+      "members":{
+        "missionProfileId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a mission profile.</p>",
+          "location":"uri",
+          "locationName":"missionProfileId"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GetSatelliteRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "satelliteId": {
-          "documentation": "<p>UUID of a satellite.</p>",
-          "location": "uri",
-          "locationName": "satelliteId",
-          "shape": "String"
+    "GetMissionProfileResponse":{
+      "type":"structure",
+      "members":{
+        "contactPostPassDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>"
+        },
+        "contactPrePassDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>"
+        },
+        "dataflowEdges":{
+          "shape":"DataflowEdgeList",
+          "documentation":"<p>A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i> <code>Config</code> and a <i>to</i> <code>Config</code>.</p>"
+        },
+        "minimumViableContactDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.</p>"
+        },
+        "missionProfileArn":{
+          "shape":"MissionProfileArn",
+          "documentation":"<p>ARN of a mission profile.</p>"
+        },
+        "missionProfileId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a mission profile.</p>"
+        },
+        "name":{
+          "shape":"String",
+          "documentation":"<p>Name of a mission profile.</p>"
+        },
+        "region":{
+          "shape":"String",
+          "documentation":"<p>Region of a mission profile.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a mission profile.</p>"
+        },
+        "trackingConfigArn":{
+          "shape":"ConfigArn",
+          "documentation":"<p>ARN of a tracking <code>Config</code>.</p>"
         }
       },
-      "required": [
-        "satelliteId"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GetSatelliteResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "groundStations": {
-          "documentation": "<p>A list of ground stations to which the satellite is on-boarded.</p>",
-          "shape": "GroundStationIdList"
-        },
-        "noradSatelliteID": {
-          "documentation": "<p>NORAD satellite ID number.</p>",
-          "shape": "noradSatelliteID"
-        },
-        "satelliteArn": {
-          "documentation": "<p>ARN of a satellite.</p>",
-          "shape": "satelliteArn"
-        },
-        "satelliteId": {
-          "documentation": "<p>UUID of a satellite.</p>",
-          "shape": "Uuid"
+    "GetSatelliteRequest":{
+      "type":"structure",
+      "required":["satelliteId"],
+      "members":{
+        "satelliteId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a satellite.</p>",
+          "location":"uri",
+          "locationName":"satelliteId"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GroundStationData": {
-      "documentation": "<p>Information about the ground station data.</p>",
-      "members": {
-        "groundStationId": {
-          "documentation": "<p>UUID of a ground station.</p>",
-          "shape": "String"
+    "GetSatelliteResponse":{
+      "type":"structure",
+      "members":{
+        "groundStations":{
+          "shape":"GroundStationIdList",
+          "documentation":"<p>A list of ground stations to which the satellite is on-boarded.</p>"
         },
-        "groundStationName": {
-          "documentation": "<p>Name of a ground station.</p>",
-          "shape": "String"
+        "noradSatelliteID":{
+          "shape":"noradSatelliteID",
+          "documentation":"<p>NORAD satellite ID number.</p>"
         },
-        "region": {
-          "documentation": "<p>Ground station Region.</p>",
-          "shape": "String"
+        "satelliteArn":{
+          "shape":"satelliteArn",
+          "documentation":"<p>ARN of a satellite.</p>"
+        },
+        "satelliteId":{
+          "shape":"Uuid",
+          "documentation":"<p>UUID of a satellite.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "GroundStationIdList": {
-      "member": {
-        "shape": "String"
-      },
-      "type": "list"
-    },
-    "GroundStationList": {
-      "member": {
-        "shape": "GroundStationData"
-      },
-      "type": "list"
-    },
-    "Integer": {
-      "box": true,
-      "type": "integer"
-    },
-    "InvalidParameterException": {
-      "documentation": "<p>One or more parameters are not valid.</p>",
-      "error": {
-        "httpStatusCode": 431,
-        "senderFault": true
-      },
-      "exception": true,
-      "members": {
-        "message": {
-          "shape": "String"
+    "GroundStationData":{
+      "type":"structure",
+      "members":{
+        "groundStationId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a ground station.</p>"
         },
-        "parameterName": {
-          "documentation": "<p/>",
-          "shape": "String"
+        "groundStationName":{
+          "shape":"String",
+          "documentation":"<p>Name of a ground station.</p>"
+        },
+        "region":{
+          "shape":"String",
+          "documentation":"<p>Ground station Region.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Information about the ground station data.</p>"
     },
-    "JsonString": {
-      "max": 8192,
-      "min": 2,
-      "pattern": "^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$",
-      "type": "string"
+    "GroundStationIdList":{
+      "type":"list",
+      "member":{"shape":"String"}
     },
-    "ListConfigsRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "maxResults": {
-          "documentation": "<p>Maximum number of <code>Configs</code> returned.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "Integer"
-        },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the request of a previous <code>ListConfigs</code> call. Used to get the next page of results.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "String"
+    "GroundStationList":{
+      "type":"list",
+      "member":{"shape":"GroundStationData"}
+    },
+    "Integer":{
+      "type":"integer",
+      "box":true
+    },
+    "InvalidParameterException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"},
+        "parameterName":{
+          "shape":"String",
+          "documentation":"<p/>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>One or more parameters are not valid.</p>",
+      "error":{
+        "httpStatusCode":431,
+        "senderFault":true
+      },
+      "exception":true
     },
-    "ListConfigsResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "configList": {
-          "documentation": "<p>List of <code>Config</code> items.</p>",
-          "shape": "ConfigList"
+    "JsonString":{
+      "type":"string",
+      "max":8192,
+      "min":2,
+      "pattern":"^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$"
+    },
+    "ListConfigsRequest":{
+      "type":"structure",
+      "members":{
+        "maxResults":{
+          "shape":"Integer",
+          "documentation":"<p>Maximum number of <code>Configs</code> returned.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the response of a previous <code>ListConfigs</code> call. Used to get the next page of results.</p>",
-          "shape": "String"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the request of a previous <code>ListConfigs</code> call. Used to get the next page of results.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListContactsRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "endTime": {
-          "documentation": "<p>End time of a contact.</p>",
-          "shape": "Timestamp"
+    "ListConfigsResponse":{
+      "type":"structure",
+      "members":{
+        "configList":{
+          "shape":"ConfigList",
+          "documentation":"<p>List of <code>Config</code> items.</p>"
         },
-        "groundStation": {
-          "documentation": "<p>Name of a ground station.</p>",
-          "shape": "String"
-        },
-        "maxResults": {
-          "documentation": "<p>Maximum number of contacts returned.</p>",
-          "shape": "Integer"
-        },
-        "missionProfileArn": {
-          "documentation": "<p>ARN of a mission profile.</p>",
-          "shape": "MissionProfileArn"
-        },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the request of a previous <code>ListContacts</code> call. Used to get the next page of results.</p>",
-          "shape": "String"
-        },
-        "satelliteArn": {
-          "documentation": "<p>ARN of a satellite.</p>",
-          "shape": "satelliteArn"
-        },
-        "startTime": {
-          "documentation": "<p>Start time of a contact.</p>",
-          "shape": "Timestamp"
-        },
-        "statusList": {
-          "documentation": "<p>Status of a contact reservation.</p>",
-          "shape": "StatusList"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the response of a previous <code>ListConfigs</code> call. Used to get the next page of results.</p>"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "ListContactsRequest":{
+      "type":"structure",
+      "required":[
         "endTime",
         "startTime",
         "statusList"
       ],
-      "type": "structure"
-    },
-    "ListContactsResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "contactList": {
-          "documentation": "<p>List of contacts.</p>",
-          "shape": "ContactList"
+      "members":{
+        "endTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>End time of a contact.</p>"
         },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the response of a previous <code>ListContacts</code> call. Used to get the next page of results.</p>",
-          "shape": "String"
+        "groundStation":{
+          "shape":"String",
+          "documentation":"<p>Name of a ground station.</p>"
+        },
+        "maxResults":{
+          "shape":"Integer",
+          "documentation":"<p>Maximum number of contacts returned.</p>"
+        },
+        "missionProfileArn":{
+          "shape":"MissionProfileArn",
+          "documentation":"<p>ARN of a mission profile.</p>"
+        },
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the request of a previous <code>ListContacts</code> call. Used to get the next page of results.</p>"
+        },
+        "satelliteArn":{
+          "shape":"satelliteArn",
+          "documentation":"<p>ARN of a satellite.</p>"
+        },
+        "startTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Start time of a contact.</p>"
+        },
+        "statusList":{
+          "shape":"StatusList",
+          "documentation":"<p>Status of a contact reservation.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListDataflowEndpointGroupsRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "maxResults": {
-          "documentation": "<p>Maximum number of dataflow endpoint groups returned.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "Integer"
+    "ListContactsResponse":{
+      "type":"structure",
+      "members":{
+        "contactList":{
+          "shape":"ContactList",
+          "documentation":"<p>List of contacts.</p>"
         },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the request of a previous <code>ListDataflowEndpointGroups</code> call. Used to get the next page of results.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "String"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the response of a previous <code>ListContacts</code> call. Used to get the next page of results.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListDataflowEndpointGroupsResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "dataflowEndpointGroupList": {
-          "documentation": "<p>A list of dataflow endpoint groups.</p>",
-          "shape": "DataflowEndpointGroupList"
+    "ListDataflowEndpointGroupsRequest":{
+      "type":"structure",
+      "members":{
+        "maxResults":{
+          "shape":"Integer",
+          "documentation":"<p>Maximum number of dataflow endpoint groups returned.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the response of a previous <code>ListDataflowEndpointGroups</code> call. Used to get the next page of results.</p>",
-          "shape": "String"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the request of a previous <code>ListDataflowEndpointGroups</code> call. Used to get the next page of results.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListGroundStationsRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "maxResults": {
-          "documentation": "<p>Maximum number of ground stations returned.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "Integer"
+    "ListDataflowEndpointGroupsResponse":{
+      "type":"structure",
+      "members":{
+        "dataflowEndpointGroupList":{
+          "shape":"DataflowEndpointGroupList",
+          "documentation":"<p>A list of dataflow endpoint groups.</p>"
         },
-        "nextToken": {
-          "documentation": "<p>Next token that can be supplied in the next call to get the next page of ground stations.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "String"
-        },
-        "satelliteId": {
-          "documentation": "<p>Satellite ID to retrieve on-boarded ground stations.</p>",
-          "location": "querystring",
-          "locationName": "satelliteId",
-          "shape": "String"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the response of a previous <code>ListDataflowEndpointGroups</code> call. Used to get the next page of results.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListGroundStationsResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "groundStationList": {
-          "documentation": "<p>List of ground stations.</p>",
-          "shape": "GroundStationList"
+    "ListGroundStationsRequest":{
+      "type":"structure",
+      "members":{
+        "maxResults":{
+          "shape":"Integer",
+          "documentation":"<p>Maximum number of ground stations returned.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "nextToken": {
-          "documentation": "<p>Next token that can be supplied in the next call to get the next page of ground stations.</p>",
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "ListMissionProfilesRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "maxResults": {
-          "documentation": "<p>Maximum number of mission profiles returned.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "Integer"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token that can be supplied in the next call to get the next page of ground stations.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the request of a previous <code>ListMissionProfiles</code> call. Used to get the next page of results.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "String"
+        "satelliteId":{
+          "shape":"String",
+          "documentation":"<p>Satellite ID to retrieve on-boarded ground stations.</p>",
+          "location":"querystring",
+          "locationName":"satelliteId"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListMissionProfilesResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "missionProfileList": {
-          "documentation": "<p>List of mission profiles.</p>",
-          "shape": "MissionProfileList"
+    "ListGroundStationsResponse":{
+      "type":"structure",
+      "members":{
+        "groundStationList":{
+          "shape":"GroundStationList",
+          "documentation":"<p>List of ground stations.</p>"
         },
-        "nextToken": {
-          "documentation": "<p>Next token returned in the response of a previous <code>ListMissionProfiles</code> call. Used to get the next page of results.</p>",
-          "shape": "String"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token that can be supplied in the next call to get the next page of ground stations.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListSatellitesRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "maxResults": {
-          "documentation": "<p>Maximum number of satellites returned.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "Integer"
+    "ListMissionProfilesRequest":{
+      "type":"structure",
+      "members":{
+        "maxResults":{
+          "shape":"Integer",
+          "documentation":"<p>Maximum number of mission profiles returned.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "nextToken": {
-          "documentation": "<p>Next token that can be supplied in the next call to get the next page of satellites.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "String"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the request of a previous <code>ListMissionProfiles</code> call. Used to get the next page of results.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListSatellitesResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "nextToken": {
-          "documentation": "<p>Next token that can be supplied in the next call to get the next page of satellites.</p>",
-          "shape": "String"
+    "ListMissionProfilesResponse":{
+      "type":"structure",
+      "members":{
+        "missionProfileList":{
+          "shape":"MissionProfileList",
+          "documentation":"<p>List of mission profiles.</p>"
         },
-        "satellites": {
-          "documentation": "<p>List of satellites.</p>",
-          "shape": "SatelliteList"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token returned in the response of a previous <code>ListMissionProfiles</code> call. Used to get the next page of results.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ListTagsForResourceRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "resourceArn": {
-          "documentation": "<p>ARN of a resource.</p>",
-          "location": "uri",
-          "locationName": "resourceArn",
-          "shape": "String"
-        }
-      },
-      "required": [
-        "resourceArn"
-      ],
-      "type": "structure"
-    },
-    "ListTagsForResourceResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "tags": {
-          "documentation": "<p>Tags assigned to a resource.</p>",
-          "shape": "TagsMap"
-        }
-      },
-      "type": "structure"
-    },
-    "MissionProfileArn": {
-      "type": "string"
-    },
-    "MissionProfileIdResponse": {
-      "documentation": "<p/>",
-      "members": {
-        "missionProfileId": {
-          "documentation": "<p>UUID of a mission profile.</p>",
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "MissionProfileList": {
-      "member": {
-        "shape": "MissionProfileListItem"
-      },
-      "type": "list"
-    },
-    "MissionProfileListItem": {
-      "documentation": "<p>Item in a list of mission profiles.</p>",
-      "members": {
-        "missionProfileArn": {
-          "documentation": "<p>ARN of a mission profile.</p>",
-          "shape": "MissionProfileArn"
+    "ListSatellitesRequest":{
+      "type":"structure",
+      "members":{
+        "maxResults":{
+          "shape":"Integer",
+          "documentation":"<p>Maximum number of satellites returned.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "missionProfileId": {
-          "documentation": "<p>UUID of a mission profile.</p>",
-          "shape": "String"
-        },
-        "name": {
-          "documentation": "<p>Name of a mission profile.</p>",
-          "shape": "String"
-        },
-        "region": {
-          "documentation": "<p>Region of a mission profile.</p>",
-          "shape": "String"
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token that can be supplied in the next call to get the next page of satellites.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "Polarization": {
-      "enum": [
+    "ListSatellitesResponse":{
+      "type":"structure",
+      "members":{
+        "nextToken":{
+          "shape":"String",
+          "documentation":"<p>Next token that can be supplied in the next call to get the next page of satellites.</p>"
+        },
+        "satellites":{
+          "shape":"SatelliteList",
+          "documentation":"<p>List of satellites.</p>"
+        }
+      },
+      "documentation":"<p/>"
+    },
+    "ListTagsForResourceRequest":{
+      "type":"structure",
+      "required":["resourceArn"],
+      "members":{
+        "resourceArn":{
+          "shape":"String",
+          "documentation":"<p>ARN of a resource.</p>",
+          "location":"uri",
+          "locationName":"resourceArn"
+        }
+      },
+      "documentation":"<p/>"
+    },
+    "ListTagsForResourceResponse":{
+      "type":"structure",
+      "members":{
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a resource.</p>"
+        }
+      },
+      "documentation":"<p/>"
+    },
+    "MissionProfileArn":{"type":"string"},
+    "MissionProfileIdResponse":{
+      "type":"structure",
+      "members":{
+        "missionProfileId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a mission profile.</p>"
+        }
+      },
+      "documentation":"<p/>"
+    },
+    "MissionProfileList":{
+      "type":"list",
+      "member":{"shape":"MissionProfileListItem"}
+    },
+    "MissionProfileListItem":{
+      "type":"structure",
+      "members":{
+        "missionProfileArn":{
+          "shape":"MissionProfileArn",
+          "documentation":"<p>ARN of a mission profile.</p>"
+        },
+        "missionProfileId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a mission profile.</p>"
+        },
+        "name":{
+          "shape":"String",
+          "documentation":"<p>Name of a mission profile.</p>"
+        },
+        "region":{
+          "shape":"String",
+          "documentation":"<p>Region of a mission profile.</p>"
+        }
+      },
+      "documentation":"<p>Item in a list of mission profiles.</p>"
+    },
+    "Polarization":{
+      "type":"string",
+      "enum":[
         "LEFT_HAND",
         "NONE",
         "RIGHT_HAND"
-      ],
-      "type": "string"
+      ]
     },
-    "ReserveContactRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "endTime": {
-          "documentation": "<p>End time of a contact.</p>",
-          "shape": "Timestamp"
-        },
-        "groundStation": {
-          "documentation": "<p>Name of a ground station.</p>",
-          "shape": "String"
-        },
-        "missionProfileArn": {
-          "documentation": "<p>ARN of a mission profile.</p>",
-          "shape": "MissionProfileArn"
-        },
-        "satelliteArn": {
-          "documentation": "<p>ARN of a satellite</p>",
-          "shape": "satelliteArn"
-        },
-        "startTime": {
-          "documentation": "<p>Start time of a contact.</p>",
-          "shape": "Timestamp"
-        },
-        "tags": {
-          "documentation": "<p>Tags assigned to a contact.</p>",
-          "shape": "TagsMap"
-        }
-      },
-      "required": [
+    "ReserveContactRequest":{
+      "type":"structure",
+      "required":[
         "endTime",
         "groundStation",
         "missionProfileArn",
         "satelliteArn",
         "startTime"
       ],
-      "type": "structure"
-    },
-    "ResourceLimitExceededException": {
-      "documentation": "<p>Account limits for this resource have been exceeded.</p>",
-      "error": {
-        "httpStatusCode": 429,
-        "senderFault": true
-      },
-      "exception": true,
-      "members": {
-        "message": {
-          "shape": "String"
+      "members":{
+        "endTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>End time of a contact.</p>"
         },
-        "parameterName": {
-          "documentation": "<p/>",
-          "shape": "String"
+        "groundStation":{
+          "shape":"String",
+          "documentation":"<p>Name of a ground station.</p>"
+        },
+        "missionProfileArn":{
+          "shape":"MissionProfileArn",
+          "documentation":"<p>ARN of a mission profile.</p>"
+        },
+        "satelliteArn":{
+          "shape":"satelliteArn",
+          "documentation":"<p>ARN of a satellite</p>"
+        },
+        "startTime":{
+          "shape":"Timestamp",
+          "documentation":"<p>Start time of a contact.</p>"
+        },
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a contact.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "ResourceNotFoundException": {
-      "documentation": "<p>Resource was not found.</p>",
-      "error": {
-        "httpStatusCode": 434,
-        "senderFault": true
-      },
-      "exception": true,
-      "members": {
-        "message": {
-          "shape": "String"
+    "ResourceLimitExceededException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"},
+        "parameterName":{
+          "shape":"String",
+          "documentation":"<p/>"
         }
       },
-      "type": "structure"
-    },
-    "RoleArn": {
-      "type": "string"
-    },
-    "SafeName": {
-      "max": 256,
-      "min": 1,
-      "pattern": "^[ a-zA-Z0-9_:-]{1,256}$",
-      "type": "string"
-    },
-    "SatelliteList": {
-      "member": {
-        "shape": "SatelliteListItem"
+      "documentation":"<p>Account limits for this resource have been exceeded.</p>",
+      "error":{
+        "httpStatusCode":429,
+        "senderFault":true
       },
-      "type": "list"
+      "exception":true
     },
-    "SatelliteListItem": {
-      "documentation": "<p>Item in a list of satellites.</p>",
-      "members": {
-        "groundStations": {
-          "documentation": "<p>A list of ground stations to which the satellite is on-boarded.</p>",
-          "shape": "GroundStationIdList"
+    "ResourceNotFoundException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "documentation":"<p>Resource was not found.</p>",
+      "error":{
+        "httpStatusCode":434,
+        "senderFault":true
+      },
+      "exception":true
+    },
+    "RoleArn":{"type":"string"},
+    "S3KeyPrefix":{
+      "type":"string",
+      "max":900,
+      "min":1,
+      "pattern":"^([a-zA-Z0-9_\\-=/]|\\{satellite_id\\}|\\{config\\-name}|\\{s3\\-config-id}|\\{year\\}|\\{month\\}|\\{day\\}){1,900}$"
+    },
+    "S3RecordingConfig":{
+      "type":"structure",
+      "required":[
+        "bucketArn",
+        "roleArn"
+      ],
+      "members":{
+        "bucketArn":{
+          "shape":"BucketArn",
+          "documentation":"<p>ARN of the bucket to record to.</p>"
         },
-        "noradSatelliteID": {
-          "documentation": "<p>NORAD satellite ID number.</p>",
-          "shape": "noradSatelliteID"
+        "prefix":{
+          "shape":"S3KeyPrefix",
+          "documentation":"<p>S3 Key prefix to prefice data files.</p>"
         },
-        "satelliteArn": {
-          "documentation": "<p>ARN of a satellite.</p>",
-          "shape": "satelliteArn"
-        },
-        "satelliteId": {
-          "documentation": "<p>UUID of a satellite.</p>",
-          "shape": "Uuid"
+        "roleArn":{
+          "shape":"RoleArn",
+          "documentation":"<p>ARN of the role Ground Station assumes to write data to the bucket.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Information about an S3 recording <code>Config</code>.</p>"
     },
-    "SecurityDetails": {
-      "documentation": "<p>Information about endpoints.</p>",
-      "members": {
-        "roleArn": {
-          "documentation": "<p>ARN to a role needed for connecting streams to your instances. </p>",
-          "shape": "RoleArn"
+    "S3RecordingDetails":{
+      "type":"structure",
+      "members":{
+        "bucketArn":{
+          "shape":"BucketArn",
+          "documentation":"<p>ARN of the bucket used.</p>"
         },
-        "securityGroupIds": {
-          "documentation": "<p>The security groups to attach to the elastic network interfaces.</p>",
-          "shape": "SecurityGroupIdList"
-        },
-        "subnetIds": {
-          "documentation": "<p>A list of subnets where AWS Ground Station places elastic network interfaces to send streams to your instances.</p>",
-          "shape": "SubnetList"
+        "keyTemplate":{
+          "shape":"String",
+          "documentation":"<p>Template of the S3 key used.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Details about an S3 recording <code>Config</code> used in a contact.</p>"
+    },
+    "SafeName":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"^[ a-zA-Z0-9_:-]{1,256}$"
+    },
+    "SatelliteList":{
+      "type":"list",
+      "member":{"shape":"SatelliteListItem"}
+    },
+    "SatelliteListItem":{
+      "type":"structure",
+      "members":{
+        "groundStations":{
+          "shape":"GroundStationIdList",
+          "documentation":"<p>A list of ground stations to which the satellite is on-boarded.</p>"
+        },
+        "noradSatelliteID":{
+          "shape":"noradSatelliteID",
+          "documentation":"<p>NORAD satellite ID number.</p>"
+        },
+        "satelliteArn":{
+          "shape":"satelliteArn",
+          "documentation":"<p>ARN of a satellite.</p>"
+        },
+        "satelliteId":{
+          "shape":"Uuid",
+          "documentation":"<p>UUID of a satellite.</p>"
+        }
+      },
+      "documentation":"<p>Item in a list of satellites.</p>"
+    },
+    "SecurityDetails":{
+      "type":"structure",
+      "required":[
         "roleArn",
         "securityGroupIds",
         "subnetIds"
       ],
-      "type": "structure"
-    },
-    "SecurityGroupIdList": {
-      "member": {
-        "shape": "String"
-      },
-      "type": "list"
-    },
-    "SocketAddress": {
-      "documentation": "<p>Information about the socket address.</p>",
-      "members": {
-        "name": {
-          "documentation": "<p>Name of a socket address.</p>",
-          "shape": "String"
+      "members":{
+        "roleArn":{
+          "shape":"RoleArn",
+          "documentation":"<p>ARN to a role needed for connecting streams to your instances. </p>"
         },
-        "port": {
-          "documentation": "<p>Port of a socket address.</p>",
-          "shape": "Integer"
+        "securityGroupIds":{
+          "shape":"SecurityGroupIdList",
+          "documentation":"<p>The security groups to attach to the elastic network interfaces.</p>"
+        },
+        "subnetIds":{
+          "shape":"SubnetList",
+          "documentation":"<p>A list of subnets where AWS Ground Station places elastic network interfaces to send streams to your instances.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Information about endpoints.</p>"
+    },
+    "SecurityGroupIdList":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
+    "SocketAddress":{
+      "type":"structure",
+      "required":[
         "name",
         "port"
       ],
-      "type": "structure"
-    },
-    "SpectrumConfig": {
-      "documentation": "<p>Object that describes a spectral <code>Config</code>.</p>",
-      "members": {
-        "bandwidth": {
-          "documentation": "<p>Bandwidth of a spectral <code>Config</code>.</p>",
-          "shape": "FrequencyBandwidth"
+      "members":{
+        "name":{
+          "shape":"String",
+          "documentation":"<p>Name of a socket address.</p>"
         },
-        "centerFrequency": {
-          "documentation": "<p>Center frequency of a spectral <code>Config</code>.</p>",
-          "shape": "Frequency"
-        },
-        "polarization": {
-          "documentation": "<p>Polarization of a spectral <code>Config</code>.</p>",
-          "shape": "Polarization"
+        "port":{
+          "shape":"Integer",
+          "documentation":"<p>Port of a socket address.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Information about the socket address.</p>"
+    },
+    "Source":{
+      "type":"structure",
+      "members":{
+        "configDetails":{
+          "shape":"ConfigDetails",
+          "documentation":"<p>Additional details for a <code>Config</code>, if type is dataflow endpoint or antenna demod decode.</p>"
+        },
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>"
+        },
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>"
+        },
+        "dataflowSourceRegion":{
+          "shape":"String",
+          "documentation":"<p>Region of a dataflow source.</p>"
+        }
+      },
+      "documentation":"<p>Dataflow details for the source side.</p>"
+    },
+    "SpectrumConfig":{
+      "type":"structure",
+      "required":[
         "bandwidth",
         "centerFrequency"
       ],
-      "type": "structure"
-    },
-    "StatusList": {
-      "member": {
-        "shape": "ContactStatus"
-      },
-      "type": "list"
-    },
-    "String": {
-      "type": "string"
-    },
-    "SubnetList": {
-      "member": {
-        "shape": "String"
-      },
-      "type": "list"
-    },
-    "TagKeys": {
-      "member": {
-        "shape": "String"
-      },
-      "type": "list"
-    },
-    "TagResourceRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "resourceArn": {
-          "documentation": "<p>ARN of a resource tag.</p>",
-          "location": "uri",
-          "locationName": "resourceArn",
-          "shape": "String"
+      "members":{
+        "bandwidth":{
+          "shape":"FrequencyBandwidth",
+          "documentation":"<p>Bandwidth of a spectral <code>Config</code>. AWS Ground Station currently has the following bandwidth limitations:</p> <ul> <li> <p>For <code>AntennaDownlinkDemodDecodeconfig</code>, valid values are between 125 kHz to 650 MHz.</p> </li> <li> <p>For <code>AntennaDownlinkconfig</code> valid values are between 10 kHz to 54 MHz.</p> </li> <li> <p>For <code>AntennaUplinkConfig</code>, valid values are between 10 kHz to 54 MHz.</p> </li> </ul>"
         },
-        "tags": {
-          "documentation": "<p>Tags assigned to a resource.</p>",
-          "shape": "TagsMap"
+        "centerFrequency":{
+          "shape":"Frequency",
+          "documentation":"<p>Center frequency of a spectral <code>Config</code>. Valid values are between 2200 to 2300 MHz and 7750 to 8400 MHz for downlink and 2025 to 2120 MHz for uplink.</p>"
+        },
+        "polarization":{
+          "shape":"Polarization",
+          "documentation":"<p>Polarization of a spectral <code>Config</code>. Capturing both <code>\"RIGHT_HAND\"</code> and <code>\"LEFT_HAND\"</code> polarization requires two separate configs.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Object that describes a spectral <code>Config</code>.</p>"
+    },
+    "StatusList":{
+      "type":"list",
+      "member":{"shape":"ContactStatus"}
+    },
+    "String":{"type":"string"},
+    "SubnetList":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
+    "TagKeys":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
+    "TagResourceRequest":{
+      "type":"structure",
+      "required":[
         "resourceArn",
         "tags"
       ],
-      "type": "structure"
-    },
-    "TagResourceResponse": {
-      "documentation": "<p/>",
-      "members": {},
-      "type": "structure"
-    },
-    "TagsMap": {
-      "key": {
-        "shape": "String"
-      },
-      "type": "map",
-      "value": {
-        "shape": "String"
-      }
-    },
-    "Timestamp": {
-      "type": "timestamp"
-    },
-    "TrackingConfig": {
-      "documentation": "<p>Object that determines whether tracking should be used during a contact executed with this <code>Config</code> in the mission profile.</p>",
-      "members": {
-        "autotrack": {
-          "documentation": "<p>Current setting for autotrack.</p>",
-          "shape": "Criticality"
-        }
-      },
-      "required": [
-        "autotrack"
-      ],
-      "type": "structure"
-    },
-    "UntagResourceRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "resourceArn": {
-          "documentation": "<p>ARN of a resource.</p>",
-          "location": "uri",
-          "locationName": "resourceArn",
-          "shape": "String"
+      "members":{
+        "resourceArn":{
+          "shape":"String",
+          "documentation":"<p>ARN of a resource tag.</p>",
+          "location":"uri",
+          "locationName":"resourceArn"
         },
-        "tagKeys": {
-          "documentation": "<p>Keys of a resource tag.</p>",
-          "location": "querystring",
-          "locationName": "tagKeys",
-          "shape": "TagKeys"
+        "tags":{
+          "shape":"TagsMap",
+          "documentation":"<p>Tags assigned to a resource.</p>"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "TagResourceResponse":{
+      "type":"structure",
+      "members":{
+      },
+      "documentation":"<p/>"
+    },
+    "TagsMap":{
+      "type":"map",
+      "key":{"shape":"String"},
+      "value":{"shape":"String"}
+    },
+    "Timestamp":{"type":"timestamp"},
+    "TrackingConfig":{
+      "type":"structure",
+      "required":["autotrack"],
+      "members":{
+        "autotrack":{
+          "shape":"Criticality",
+          "documentation":"<p>Current setting for autotrack.</p>"
+        }
+      },
+      "documentation":"<p>Object that determines whether tracking should be used during a contact executed with this <code>Config</code> in the mission profile.</p>"
+    },
+    "UntagResourceRequest":{
+      "type":"structure",
+      "required":[
         "resourceArn",
         "tagKeys"
       ],
-      "type": "structure"
-    },
-    "UntagResourceResponse": {
-      "documentation": "<p/>",
-      "members": {},
-      "type": "structure"
-    },
-    "UpdateConfigRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "configData": {
-          "documentation": "<p>Parameters of a <code>Config</code>.</p>",
-          "shape": "ConfigTypeData"
+      "members":{
+        "resourceArn":{
+          "shape":"String",
+          "documentation":"<p>ARN of a resource.</p>",
+          "location":"uri",
+          "locationName":"resourceArn"
         },
-        "configId": {
-          "documentation": "<p>UUID of a <code>Config</code>.</p>",
-          "location": "uri",
-          "locationName": "configId",
-          "shape": "String"
-        },
-        "configType": {
-          "documentation": "<p>Type of a <code>Config</code>.</p>",
-          "location": "uri",
-          "locationName": "configType",
-          "shape": "ConfigCapabilityType"
-        },
-        "name": {
-          "documentation": "<p>Name of a <code>Config</code>.</p>",
-          "shape": "SafeName"
+        "tagKeys":{
+          "shape":"TagKeys",
+          "documentation":"<p>Keys of a resource tag.</p>",
+          "location":"querystring",
+          "locationName":"tagKeys"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "UntagResourceResponse":{
+      "type":"structure",
+      "members":{
+      },
+      "documentation":"<p/>"
+    },
+    "UpdateConfigRequest":{
+      "type":"structure",
+      "required":[
         "configData",
         "configId",
         "configType",
         "name"
       ],
-      "type": "structure"
-    },
-    "UpdateMissionProfileRequest": {
-      "documentation": "<p/>",
-      "members": {
-        "contactPostPassDurationSeconds": {
-          "documentation": "<p>Amount of time after a contact ends that you\u2019d like to receive a CloudWatch event indicating the pass has finished.</p>",
-          "shape": "DurationInSeconds"
+      "members":{
+        "configData":{
+          "shape":"ConfigTypeData",
+          "documentation":"<p>Parameters of a <code>Config</code>.</p>"
         },
-        "contactPrePassDurationSeconds": {
-          "documentation": "<p>Amount of time after a contact ends that you\u2019d like to receive a CloudWatch event indicating the pass has finished.</p>",
-          "shape": "DurationInSeconds"
+        "configId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a <code>Config</code>.</p>",
+          "location":"uri",
+          "locationName":"configId"
         },
-        "dataflowEdges": {
-          "documentation": "<p>A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i> <code>Config</code> and a <i>to</i> <code>Config</code>.</p>",
-          "shape": "DataflowEdgeList"
+        "configType":{
+          "shape":"ConfigCapabilityType",
+          "documentation":"<p>Type of a <code>Config</code>.</p>",
+          "location":"uri",
+          "locationName":"configType"
         },
-        "minimumViableContactDurationSeconds": {
-          "documentation": "<p>Smallest amount of time in seconds that you\u2019d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.</p>",
-          "shape": "DurationInSeconds"
-        },
-        "missionProfileId": {
-          "documentation": "<p>UUID of a mission profile.</p>",
-          "location": "uri",
-          "locationName": "missionProfileId",
-          "shape": "String"
-        },
-        "name": {
-          "documentation": "<p>Name of a mission profile.</p>",
-          "shape": "SafeName"
-        },
-        "trackingConfigArn": {
-          "documentation": "<p>ARN of a tracking <code>Config</code>.</p>",
-          "shape": "ConfigArn"
+        "name":{
+          "shape":"SafeName",
+          "documentation":"<p>Name of a <code>Config</code>.</p>"
         }
       },
-      "required": [
-        "missionProfileId"
-      ],
-      "type": "structure"
+      "documentation":"<p/>"
     },
-    "UplinkEchoConfig": {
-      "documentation": "<p>Information about an uplink echo <code>Config</code>.</p> <p>Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the specified <code>AntennaUplinkConfigArn</code>, are used when this <code>UplinkEchoConfig</code> is used in a contact.</p>",
-      "members": {
-        "antennaUplinkConfigArn": {
-          "documentation": "<p>ARN of an uplink <code>Config</code>.</p>",
-          "shape": "ConfigArn"
+    "UpdateMissionProfileRequest":{
+      "type":"structure",
+      "required":["missionProfileId"],
+      "members":{
+        "contactPostPassDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>"
         },
-        "enabled": {
-          "documentation": "<p>Whether or not an uplink <code>Config</code> is enabled.</p>",
-          "shape": "Boolean"
+        "contactPrePassDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>"
+        },
+        "dataflowEdges":{
+          "shape":"DataflowEdgeList",
+          "documentation":"<p>A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i> <code>Config</code> and a <i>to</i> <code>Config</code>.</p>"
+        },
+        "minimumViableContactDurationSeconds":{
+          "shape":"DurationInSeconds",
+          "documentation":"<p>Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.</p>"
+        },
+        "missionProfileId":{
+          "shape":"String",
+          "documentation":"<p>UUID of a mission profile.</p>",
+          "location":"uri",
+          "locationName":"missionProfileId"
+        },
+        "name":{
+          "shape":"SafeName",
+          "documentation":"<p>Name of a mission profile.</p>"
+        },
+        "trackingConfigArn":{
+          "shape":"ConfigArn",
+          "documentation":"<p>ARN of a tracking <code>Config</code>.</p>"
         }
       },
-      "required": [
+      "documentation":"<p/>"
+    },
+    "UplinkEchoConfig":{
+      "type":"structure",
+      "required":[
         "antennaUplinkConfigArn",
         "enabled"
       ],
-      "type": "structure"
-    },
-    "UplinkSpectrumConfig": {
-      "documentation": "<p>Information about the uplink spectral <code>Config</code>.</p>",
-      "members": {
-        "centerFrequency": {
-          "documentation": "<p>Center frequency of an uplink spectral <code>Config</code>.</p>",
-          "shape": "Frequency"
+      "members":{
+        "antennaUplinkConfigArn":{
+          "shape":"ConfigArn",
+          "documentation":"<p>ARN of an uplink <code>Config</code>.</p>"
         },
-        "polarization": {
-          "documentation": "<p>Polarization of an uplink spectral <code>Config</code>.</p>",
-          "shape": "Polarization"
+        "enabled":{
+          "shape":"Boolean",
+          "documentation":"<p>Whether or not an uplink <code>Config</code> is enabled.</p>"
         }
       },
-      "required": [
-        "centerFrequency"
-      ],
-      "type": "structure"
+      "documentation":"<p>Information about an uplink echo <code>Config</code>.</p> <p>Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the specified <code>AntennaUplinkConfigArn</code>, are used when this <code>UplinkEchoConfig</code> is used in a contact.</p>"
     },
-    "Uuid": {
-      "max": 128,
-      "min": 1,
-      "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-      "type": "string"
+    "UplinkSpectrumConfig":{
+      "type":"structure",
+      "required":["centerFrequency"],
+      "members":{
+        "centerFrequency":{
+          "shape":"Frequency",
+          "documentation":"<p>Center frequency of an uplink spectral <code>Config</code>. Valid values are between 2025 to 2120 MHz.</p>"
+        },
+        "polarization":{
+          "shape":"Polarization",
+          "documentation":"<p>Polarization of an uplink spectral <code>Config</code>. Capturing both <code>\"RIGHT_HAND\"</code> and <code>\"LEFT_HAND\"</code> polarization requires two separate configs.</p>"
+        }
+      },
+      "documentation":"<p>Information about the uplink spectral <code>Config</code>.</p>"
     },
-    "noradSatelliteID": {
-      "max": 99999,
-      "min": 1,
-      "type": "integer"
+    "Uuid":{
+      "type":"string",
+      "max":128,
+      "min":1,
+      "pattern":"[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
     },
-    "satelliteArn": {
-      "type": "string"
-    }
+    "noradSatelliteID":{
+      "type":"integer",
+      "max":99999,
+      "min":1
+    },
+    "satelliteArn":{"type":"string"}
   },
-  "version": "2.0"
+  "documentation":"<p>Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.</p>"
 }

@@ -11,18 +11,16 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
+import base64
+import json
+import logging
 from itertools import tee
 
-from botocore.compat import six
-
 import jmespath
-import json
-import base64
-import logging
-from botocore.exceptions import PaginationError
-from botocore.compat import zip
-from botocore.utils import set_value_from_jmespath, merge_dicts
 
+from botocore.compat import six, zip
+from botocore.exceptions import PaginationError
+from botocore.utils import merge_dicts, set_value_from_jmespath
 
 log = logging.getLogger(__name__)
 
@@ -274,12 +272,14 @@ class PageIterator(object):
             num_current_response = len(current_response)
             truncate_amount = 0
             if self._max_items is not None:
-                truncate_amount = (total_items + num_current_response) \
-                                  - self._max_items
+                truncate_amount = (
+                    total_items + num_current_response - self._max_items
+                )
             if truncate_amount > 0:
-                self._truncate_response(parsed, primary_result_key,
-                                        truncate_amount, starting_truncation,
-                                        next_token)
+                self._truncate_response(
+                    parsed, primary_result_key, truncate_amount,
+                    starting_truncation, next_token
+                )
                 yield response
                 break
             else:

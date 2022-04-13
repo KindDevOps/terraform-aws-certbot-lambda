@@ -2,35 +2,35 @@
   "version": 2,
   "waiters": {
     "CodeBindingExists": {
+      "description": "Wait until code binding is generated",
+      "delay": 2,
+      "operation": "DescribeCodeBinding",
+      "maxAttempts": 30,
       "acceptors": [
         {
-          "argument": "Status",
           "expected": "CREATE_COMPLETE",
           "matcher": "path",
-          "state": "success"
+          "state": "success",
+          "argument": "Status"
         },
         {
-          "argument": "Status",
           "expected": "CREATE_IN_PROGRESS",
           "matcher": "path",
-          "state": "retry"
+          "state": "retry",
+          "argument": "Status"
         },
         {
-          "argument": "Status",
           "expected": "CREATE_FAILED",
           "matcher": "path",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Status"
         },
         {
-          "expected": "NotFoundException",
           "matcher": "error",
+          "expected": "NotFoundException",
           "state": "failure"
         }
-      ],
-      "delay": 2,
-      "description": "Wait until code binding is generated",
-      "maxAttempts": 30,
-      "operation": "DescribeCodeBinding"
+      ]
     }
   }
 }

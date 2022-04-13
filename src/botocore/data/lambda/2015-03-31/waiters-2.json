@@ -1,74 +1,126 @@
 {
   "version": 2,
   "waiters": {
-    "FunctionActive": {
-      "acceptors": [
-        {
-          "argument": "State",
-          "expected": "Active",
-          "matcher": "path",
-          "state": "success"
-        },
-        {
-          "argument": "State",
-          "expected": "Failed",
-          "matcher": "path",
-          "state": "failure"
-        },
-        {
-          "argument": "State",
-          "expected": "Pending",
-          "matcher": "path",
-          "state": "retry"
-        }
-      ],
-      "delay": 5,
-      "description": "Waits for the function's State to be Active.",
-      "maxAttempts": 60,
-      "operation": "GetFunctionConfiguration"
-    },
     "FunctionExists": {
+      "delay": 1,
+      "operation": "GetFunction",
+      "maxAttempts": 20,
       "acceptors": [
         {
-          "expected": 200,
+          "state": "success",
           "matcher": "status",
-          "state": "success"
+          "expected": 200
         },
         {
-          "expected": "ResourceNotFoundException",
+          "state": "retry",
           "matcher": "error",
-          "state": "retry"
+          "expected": "ResourceNotFoundException"
         }
-      ],
-      "delay": 1,
-      "maxAttempts": 20,
-      "operation": "GetFunction"
+      ]
+    },
+    "FunctionActive": {
+      "delay": 5,
+      "maxAttempts": 60,
+      "operation": "GetFunctionConfiguration",
+      "description": "Waits for the function's State to be Active. This waiter uses GetFunctionConfiguration API. This should be used after new function creation.",
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "Active"
+        },
+        {
+          "state": "failure",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "Failed"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "Pending"
+        }
+      ]
     },
     "FunctionUpdated": {
+      "delay": 5,
+      "maxAttempts": 60,
+      "operation": "GetFunctionConfiguration",
+      "description": "Waits for the function's LastUpdateStatus to be Successful. This waiter uses GetFunctionConfiguration API. This should be used after function updates.",
       "acceptors": [
         {
-          "argument": "LastUpdateStatus",
-          "expected": "Successful",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "LastUpdateStatus",
+          "expected": "Successful"
         },
         {
-          "argument": "LastUpdateStatus",
-          "expected": "Failed",
+          "state": "failure",
           "matcher": "path",
-          "state": "failure"
+          "argument": "LastUpdateStatus",
+          "expected": "Failed"
         },
         {
-          "argument": "LastUpdateStatus",
-          "expected": "InProgress",
+          "state": "retry",
           "matcher": "path",
-          "state": "retry"
+          "argument": "LastUpdateStatus",
+          "expected": "InProgress"
         }
-      ],
-      "delay": 5,
-      "description": "Waits for the function's LastUpdateStatus to be Successful.",
-      "maxAttempts": 60,
-      "operation": "GetFunctionConfiguration"
+      ]
+    },
+    "FunctionActiveV2": {
+      "delay": 1,
+      "maxAttempts": 300,
+      "operation": "GetFunction",
+      "description": "Waits for the function's State to be Active. This waiter uses GetFunction API. This should be used after new function creation.",
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "Configuration.State",
+          "expected": "Active"
+        },
+        {
+          "state": "failure",
+          "matcher": "path",
+          "argument": "Configuration.State",
+          "expected": "Failed"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "Configuration.State",
+          "expected": "Pending"
+        }
+      ]
+    },
+    "FunctionUpdatedV2": {
+      "delay": 1,
+      "maxAttempts": 300,
+      "operation": "GetFunction",
+      "description": "Waits for the function's LastUpdateStatus to be Successful. This waiter uses GetFunction API. This should be used after function updates.",
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "Configuration.LastUpdateStatus",
+          "expected": "Successful"
+        },
+        {
+          "state": "failure",
+          "matcher": "path",
+          "argument": "Configuration.LastUpdateStatus",
+          "expected": "Failed"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "Configuration.LastUpdateStatus",
+          "expected": "InProgress"
+        }
+      ]
     }
   }
 }

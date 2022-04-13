@@ -45,16 +45,7 @@ data "aws_iam_policy_document" "bucket_permissions" {
 
   statement {
     actions = [
-      "s3:PutObject"
-    ]
-    resources = [
-      aws_s3_bucket.certificates_store.arn,
-      "${aws_s3_bucket.certificates_store.arn}/*"
-    ]
-  }
-
-  statement {
-    actions = [
+      "s3:PutObject",
       "s3:GetObject"
     ]
     resources = [
@@ -82,12 +73,11 @@ data "aws_iam_policy_document" "bucket_permissions" {
 
   statement {
     actions = [
-      "acm:ImportCertificate"
+      "acm:ImportCertificate",
+      "acm:DescribeCertificate"
     ]
     resources = [
       "*"
     ]
   }
-
-
 }

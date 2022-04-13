@@ -1,16 +1,69 @@
 {
+  "service": {
+    "actions": {
+      "BatchGetItem": {
+        "request": { "operation": "BatchGetItem" }
+      },
+      "BatchWriteItem": {
+        "request": { "operation": "BatchWriteItem" }
+      },
+      "CreateTable": {
+        "request": { "operation": "CreateTable" },
+        "resource": {
+          "type": "Table",
+          "identifiers": [
+            { "target": "Name", "source": "response", "path": "TableDescription.TableName" }
+          ],
+          "path": "TableDescription"
+        }
+      }
+    },
+    "has": {
+      "Table": {
+        "resource": {
+          "type": "Table",
+          "identifiers": [
+            { "target": "Name", "source": "input" }
+          ]
+        }
+      }
+    },
+    "hasMany": {
+      "Tables": {
+        "request": { "operation": "ListTables" },
+        "resource": {
+          "type": "Table",
+          "identifiers": [
+            { "target": "Name", "source": "response", "path": "TableNames[]" }
+          ]
+        }
+      }
+    }
+  },
   "resources": {
     "Table": {
+      "identifiers": [
+        { 
+          "name": "Name",
+          "memberName": "TableName"
+        }
+      ],
+      "shape": "TableDescription",
+      "load": {
+        "request": {
+          "operation": "DescribeTable",
+          "params": [
+            { "target": "TableName", "source": "identifier", "name": "Name" }
+          ]
+        },
+        "path": "Table"
+      },
       "actions": {
         "Delete": {
           "request": {
             "operation": "DeleteTable",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           }
         },
@@ -18,11 +71,7 @@
           "request": {
             "operation": "DeleteItem",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           }
         },
@@ -30,11 +79,7 @@
           "request": {
             "operation": "GetItem",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           }
         },
@@ -42,11 +87,7 @@
           "request": {
             "operation": "PutItem",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           }
         },
@@ -54,11 +95,7 @@
           "request": {
             "operation": "Query",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           }
         },
@@ -66,11 +103,7 @@
           "request": {
             "operation": "Scan",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           }
         },
@@ -78,138 +111,38 @@
           "request": {
             "operation": "UpdateTable",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           },
           "resource": {
+            "type": "Table",
             "identifiers": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "Name"
-              }
+              { "target": "Name", "source": "identifier", "name": "Name" }
             ],
-            "path": "TableDescription",
-            "type": "Table"
+            "path": "TableDescription"
           }
         },
         "UpdateItem": {
           "request": {
             "operation": "UpdateItem",
             "params": [
-              {
-                "name": "Name",
-                "source": "identifier",
-                "target": "TableName"
-              }
+              { "target": "TableName", "source": "identifier", "name": "Name" }
             ]
           }
         }
       },
-      "identifiers": [
-        {
-          "memberName": "TableName",
-          "name": "Name"
-        }
-      ],
-      "load": {
-        "path": "Table",
-        "request": {
-          "operation": "DescribeTable",
-          "params": [
-            {
-              "name": "Name",
-              "source": "identifier",
-              "target": "TableName"
-            }
-          ]
-        }
-      },
-      "shape": "TableDescription",
-      "waiters": {
+      "waiters":{
         "Exists": {
+          "waiterName": "TableExists",
           "params": [
-            {
-              "name": "Name",
-              "source": "identifier",
-              "target": "TableName"
-            }
-          ],
-          "waiterName": "TableExists"
+            { "target": "TableName", "source": "identifier", "name": "Name" }
+          ]
         },
         "NotExists": {
+          "waiterName": "TableNotExists",
           "params": [
-            {
-              "name": "Name",
-              "source": "identifier",
-              "target": "TableName"
-            }
-          ],
-          "waiterName": "TableNotExists"
-        }
-      }
-    }
-  },
-  "service": {
-    "actions": {
-      "BatchGetItem": {
-        "request": {
-          "operation": "BatchGetItem"
-        }
-      },
-      "BatchWriteItem": {
-        "request": {
-          "operation": "BatchWriteItem"
-        }
-      },
-      "CreateTable": {
-        "request": {
-          "operation": "CreateTable"
-        },
-        "resource": {
-          "identifiers": [
-            {
-              "path": "TableDescription.TableName",
-              "source": "response",
-              "target": "Name"
-            }
-          ],
-          "path": "TableDescription",
-          "type": "Table"
-        }
-      }
-    },
-    "has": {
-      "Table": {
-        "resource": {
-          "identifiers": [
-            {
-              "source": "input",
-              "target": "Name"
-            }
-          ],
-          "type": "Table"
-        }
-      }
-    },
-    "hasMany": {
-      "Tables": {
-        "request": {
-          "operation": "ListTables"
-        },
-        "resource": {
-          "identifiers": [
-            {
-              "path": "TableNames[]",
-              "source": "response",
-              "target": "Name"
-            }
-          ],
-          "type": "Table"
+            { "target": "TableName", "source": "identifier", "name": "Name" }
+          ]
         }
       }
     }

@@ -23,33 +23,50 @@ import platform
 import socket
 import warnings
 
-from botocore import __version__
-from botocore import UNSIGNED
+import botocore.client
 import botocore.configloader
 import botocore.credentials
-import botocore.client
-from botocore.configprovider import ConfigValueStore
-from botocore.configprovider import ConfigChainFactory
-from botocore.configprovider import create_botocore_default_config_mapping
-from botocore.configprovider import BOTOCORE_DEFAUT_SESSION_VARIABLES
-from botocore.exceptions import ConfigNotFound, ProfileNotFound
-from botocore.exceptions import UnknownServiceError, PartialCredentialsError
+from botocore import (
+    UNSIGNED,
+    __version__,
+    handlers,
+    monitoring,
+    paginate,
+    retryhandler,
+    translate,
+    waiter,
+)
+from botocore.compat import HAS_CRT, MutableMapping
+from botocore.configprovider import (
+    BOTOCORE_DEFAUT_SESSION_VARIABLES,
+    ConfigChainFactory,
+    ConfigValueStore,
+    DefaultConfigResolver,
+    SmartDefaultsConfigStoreFactory,
+    create_botocore_default_config_mapping,
+)
 from botocore.errorfactory import ClientExceptionsFactory
-from botocore import handlers
-from botocore.hooks import HierarchicalEmitter, first_non_none_response
-from botocore.hooks import EventAliaser
+from botocore.exceptions import (
+    ConfigNotFound,
+    InvalidDefaultsMode,
+    PartialCredentialsError,
+    ProfileNotFound,
+    UnknownServiceError,
+)
+from botocore.hooks import (
+    EventAliaser,
+    HierarchicalEmitter,
+    first_non_none_response,
+)
 from botocore.loaders import create_loader
+from botocore.model import ServiceModel
 from botocore.parsers import ResponseParserFactory
 from botocore.regions import EndpointResolver
-from botocore.model import ServiceModel
-from botocore import monitoring
-from botocore import paginate
-from botocore import waiter
-from botocore import retryhandler, translate
-from botocore import utils
-from botocore.utils import EVENT_ALIASES
-from botocore.compat import MutableMapping
-
+from botocore.utils import (
+    EVENT_ALIASES,
+    IMDSRegionProvider,
+    validate_region_name,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +153,8 @@ class Session(object):
         self._register_exceptions_factory()
         self._register_config_store()
         self._register_monitor()
+        self._register_default_config_resolver()
+        self._register_smart_defaults_factory()
 
     def _register_event_emitter(self):
         self._components.register_component('event_emitter', self._events)
@@ -152,7 +171,7 @@ class Session(object):
     def _register_data_loader(self):
         self._components.lazy_register_component(
             'data_loader',
-            lambda:  create_loader(self.get_config_variable('data_path')))
+            lambda: create_loader(self.get_config_variable('data_path')))
 
     def _register_endpoint_resolver(self):
         def create_default_resolver():
@@ -161,6 +180,24 @@ class Session(object):
             return EndpointResolver(endpoints)
         self._internal_components.lazy_register_component(
             'endpoint_resolver', create_default_resolver)
+
+    def _register_default_config_resolver(self):
+        def create_default_config_resolver():
+            loader = self.get_component('data_loader')
+            defaults = loader.load_data('sdk-default-configuration')
+            return DefaultConfigResolver(defaults)
+        self._internal_components.lazy_register_component(
+            'default_config_resolver', create_default_config_resolver)
+
+    def _register_smart_defaults_factory(self):
+        def create_smart_defaults_factory():
+            default_config_resolver = self._get_internal_component(
+                'default_config_resolver')
+            imds_region_provider = IMDSRegionProvider(session=self)
+            return SmartDefaultsConfigStoreFactory(
+                default_config_resolver, imds_region_provider)
+        self._internal_components.lazy_register_component(
+            'smart_defaults_factory', create_smart_defaults_factory)
 
     def _register_response_parser_factory(self):
         self._components.register_component('response_parser_factory',
@@ -210,6 +247,13 @@ class Session(object):
             )
             return handler
         return None
+
+    def _get_crt_version(self):
+        try:
+            import awscrt
+            return awscrt.__version__
+        except AttributeError:
+            return "Unknown"
 
     @property
     def available_profiles(self):
@@ -438,7 +482,7 @@ class Session(object):
         Where:
 
          - agent_name is the value of the `user_agent_name` attribute
-           of the session object (`Boto` by default).
+           of the session object (`Botocore` by default).
          - agent_version is the value of the `user_agent_version`
            attribute of the session object (the botocore version by default).
            by default.
@@ -456,6 +500,8 @@ class Session(object):
                                           platform.python_version(),
                                           platform.system(),
                                           platform.release())
+        if HAS_CRT:
+            base += ' awscrt/%s' % self._get_crt_version()
         if os.environ.get('AWS_EXECUTION_ENV') is not None:
             base += ' exec-env/%s' % os.environ.get('AWS_EXECUTION_ENV')
         if self.user_agent_extra:
@@ -716,7 +762,7 @@ class Session(object):
 
         :type service_name: string
         :param service_name: The name of the service for which a client will
-            be created.  You can use the ``Sesssion.get_available_services()``
+            be created.  You can use the ``Session.get_available_services()``
             method to get a list of all available service names.
 
         :type region_name: string
@@ -824,6 +870,13 @@ class Session(object):
         endpoint_resolver = self._get_internal_component('endpoint_resolver')
         exceptions_factory = self._get_internal_component('exceptions_factory')
         config_store = self.get_component('config_store')
+        defaults_mode = self._resolve_defaults_mode(config, config_store)
+        if defaults_mode != 'legacy':
+            smart_defaults_factory = self._get_internal_component(
+                'smart_defaults_factory')
+            config_store = copy.deepcopy(config_store)
+            smart_defaults_factory.merge_smart_defaults(
+                config_store, defaults_mode, region_name)
         client_creator = botocore.client.ClientCreator(
             loader, endpoint_resolver, self.user_agent(), event_emitter,
             retryhandler, translate, response_parser_factory,
@@ -846,6 +899,8 @@ class Session(object):
                 region_name = config.region_name
             else:
                 region_name = self.get_config_variable('region')
+
+        validate_region_name(region_name)
         # For any client that we create in retrieving credentials
         # we want to create it using the same region as specified in
         # creating this client. It is important to note though that the
@@ -857,6 +912,24 @@ class Session(object):
         # all regions in the partition.
         self._last_client_region_used = region_name
         return region_name
+
+    def _resolve_defaults_mode(self, client_config, config_store):
+        mode = config_store.get_config_variable('defaults_mode')
+
+        if client_config and client_config.defaults_mode:
+            mode = client_config.defaults_mode
+
+        default_config_resolver = self._get_internal_component(
+            'default_config_resolver')
+        default_modes = default_config_resolver.get_default_modes()
+        lmode = mode.lower()
+        if lmode not in default_modes:
+            raise InvalidDefaultsMode(
+                mode=mode,
+                valid_modes=', '.join(default_modes)
+            )
+
+        return lmode
 
     def _missing_cred_vars(self, access_key, secret_key):
         if access_key is not None and secret_key is None:
@@ -873,6 +946,19 @@ class Session(object):
         """
         resolver = self._get_internal_component('endpoint_resolver')
         return resolver.get_available_partitions()
+
+    def get_partition_for_region(self, region_name):
+        """Lists the partition name of a particular region.
+
+        :type region_name: string
+        :param region_name: Name of the region to list partition for (e.g.,
+             us-east-1).
+
+        :rtype: string
+        :return: Returns the respective partition name (e.g., aws).
+        """
+        resolver = self._get_internal_component('endpoint_resolver')
+        return resolver.get_partition_for_region(region_name)
 
     def get_available_regions(self, service_name, partition_name='aws',
                               allow_non_regional=False):

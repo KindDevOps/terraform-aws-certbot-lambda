@@ -10,19 +10,24 @@
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
-import datetime
-import weakref
-import json
 import base64
+import datetime
+import json
+import weakref
 
 import botocore
 import botocore.auth
-from botocore.compat import six, OrderedDict
 from botocore.awsrequest import create_request_object, prepare_request_dict
-from botocore.exceptions import UnknownSignatureVersionError
-from botocore.exceptions import UnknownClientMethodError
-from botocore.exceptions import UnsupportedSignatureVersionError
-from botocore.utils import fix_s3_host, datetime2timestamp
+from botocore.compat import OrderedDict, six
+from botocore.exceptions import (
+    UnknownClientMethodError,
+    UnknownSignatureVersionError,
+    UnsupportedSignatureVersionError,
+)
+from botocore.utils import datetime2timestamp
+
+# Keep these imported.  There's pre-existing code that uses them.
+from botocore.utils import fix_s3_host # noqa
 
 
 class RequestSigner(object):
@@ -145,9 +150,11 @@ class RequestSigner(object):
             }
             if expires_in is not None:
                 kwargs['expires'] = expires_in
-            if not explicit_region_name and request.context.get(
-                    'signing', {}).get('region'):
-                kwargs['region_name'] = request.context['signing']['region']
+            signing_context = request.context.get('signing', {})
+            if not explicit_region_name and signing_context.get('region'):
+                kwargs['region_name'] = signing_context['region']
+            if signing_context.get('signing_name'):
+                kwargs['signing_name'] = signing_context['signing_name']
             try:
                 auth = self.get_auth_instance(**kwargs)
             except UnknownSignatureVersionError as e:
@@ -328,8 +335,9 @@ class CloudFrontSigner(object):
         :rtype: str
         :return: The signed URL.
         """
-        if (date_less_than is not None and policy is not None or
-                date_less_than is None and policy is None):
+        both_args_supplied = date_less_than is not None and policy is not None
+        neither_arg_supplied = date_less_than is None and policy is None
+        if both_args_supplied or neither_arg_supplied:
             e = 'Need to provide either date_less_than or policy, but not both'
             raise ValueError(e)
         if date_less_than is not None:
@@ -345,7 +353,7 @@ class CloudFrontSigner(object):
         params.extend([
             'Signature=%s' % self._url_b64encode(signature).decode('utf8'),
             'Key-Pair-Id=%s' % self.key_id,
-            ])
+        ])
         return self._build_url(url, params)
 
     def _build_url(self, base_url, extra_params):
@@ -674,6 +682,8 @@ def generate_presigned_post(self, Bucket, Key, Fields=None, Conditions=None,
 
     if fields is None:
         fields = {}
+    else:
+        fields = fields.copy()
 
     if conditions is None:
         conditions = []

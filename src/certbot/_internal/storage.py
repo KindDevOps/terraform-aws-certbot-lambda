@@ -5,13 +5,24 @@ import logging
 import re
 import shutil
 import stat
+from typing import Any
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Mapping
+from typing import Optional
+from typing import Tuple
 
 import configobj
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
 import parsedatetime
+import pkg_resources
 import pytz
-import six
 
 import certbot
+from certbot import configuration
 from certbot import crypto_util
 from certbot import errors
 from certbot import interfaces
@@ -29,14 +40,14 @@ logger = logging.getLogger(__name__)
 
 ALL_FOUR = ("cert", "privkey", "chain", "fullchain")
 README = "README"
-CURRENT_VERSION = util.get_strict_version(certbot.__version__)
+CURRENT_VERSION = pkg_resources.parse_version(certbot.__version__)
 BASE_PRIVKEY_MODE = 0o600
 
 
-def renewal_conf_files(config):
+def renewal_conf_files(config: configuration.NamespaceConfig) -> List[str]:
     """Build a list of all renewal configuration files.
 
-    :param certbot.interfaces.IConfig config: Configuration object
+    :param configuration.NamespaceConfig config: Configuration object
 
     :returns: list of renewal configuration files
     :rtype: `list` of `str`
@@ -46,7 +57,8 @@ def renewal_conf_files(config):
     result.sort()
     return result
 
-def renewal_file_for_certname(config, certname):
+
+def renewal_file_for_certname(config: configuration.NamespaceConfig, certname: str) -> str:
     """Return /path/to/certname.conf in the renewal conf directory"""
     path = os.path.join(config.renewal_configs_dir, "{0}.conf".format(certname))
     if not os.path.exists(path):
@@ -55,28 +67,31 @@ def renewal_file_for_certname(config, certname):
     return path
 
 
-def cert_path_for_cert_name(config, cert_name):
+def cert_path_for_cert_name(config: configuration.NamespaceConfig, cert_name: str) -> str:
     """ If `--cert-name` was specified, but you need a value for `--cert-path`.
 
-    :param `configuration.NamespaceConfig` config: parsed command line arguments
+    :param configuration.NamespaceConfig config: parsed command line arguments
     :param str cert_name: cert name.
 
     """
     cert_name_implied_conf = renewal_file_for_certname(config, cert_name)
-    fullchain_path = configobj.ConfigObj(cert_name_implied_conf)["fullchain"]
-    with open(fullchain_path) as f:
-        cert_path = (fullchain_path, f.read())
-    return cert_path
+    return configobj.ConfigObj(
+        cert_name_implied_conf, encoding='utf-8', default_encoding='utf-8')["fullchain"]
 
 
-def config_with_defaults(config=None):
+def config_with_defaults(config: Optional[configuration.NamespaceConfig] = None
+                         ) -> configobj.ConfigObj:
     """Merge supplied config, if provided, on top of builtin defaults."""
-    defaults_copy = configobj.ConfigObj(constants.RENEWER_DEFAULTS)
-    defaults_copy.merge(config if config is not None else configobj.ConfigObj())
+    defaults_copy = configobj.ConfigObj(
+        constants.RENEWER_DEFAULTS, encoding='utf-8', default_encoding='utf-8')
+    defaults_copy.merge(config if config is not None else configobj.ConfigObj(
+        encoding='utf-8', default_encoding='utf-8'))
     return defaults_copy
 
 
-def add_time_interval(base_time, interval, textparser=parsedatetime.Calendar()):
+def add_time_interval(base_time: datetime.datetime, interval: str,
+                      textparser: parsedatetime.Calendar = parsedatetime.Calendar()
+                      ) -> datetime.datetime:
     """Parse the time specified time interval, and add it to the base_time
 
     The interval can be in the English-language format understood by
@@ -100,7 +115,9 @@ def add_time_interval(base_time, interval, textparser=parsedatetime.Calendar()):
     return textparser.parseDT(interval, base_time, tzinfo=tzinfo)[0]
 
 
-def write_renewal_config(o_filename, n_filename, archive_dir, target, relevant_data):
+def write_renewal_config(o_filename: str, n_filename: str, archive_dir: str,
+                         target: Mapping[str, str],
+                         relevant_data: Mapping[str, Any]) -> configobj.ConfigObj:
     """Writes a renewal config file with the specified name and values.
 
     :param str o_filename: Absolute path to the previous version of config file
@@ -113,7 +130,7 @@ def write_renewal_config(o_filename, n_filename, archive_dir, target, relevant_d
     :rtype: configobj.ConfigObj
 
     """
-    config = configobj.ConfigObj(o_filename)
+    config = configobj.ConfigObj(o_filename, encoding='utf-8', default_encoding='utf-8')
     config["version"] = certbot.__version__
     config["archive_dir"] = archive_dir
     for kind in ALL_FOUR:
@@ -127,7 +144,7 @@ def write_renewal_config(o_filename, n_filename, archive_dir, target, relevant_d
 
     config["renewalparams"].update(relevant_data)
 
-    for k in config["renewalparams"].keys():
+    for k in config["renewalparams"]:
         if k not in relevant_data:
             del config["renewalparams"][k]
 
@@ -140,7 +157,8 @@ def write_renewal_config(o_filename, n_filename, archive_dir, target, relevant_d
     logger.debug("Writing new config %s.", n_filename)
 
     # Ensure that the file exists
-    open(n_filename, 'a').close()
+    with open(n_filename, 'a'):
+        pass
 
     # Copy permissions from the old version of the file, if it exists.
     if os.path.exists(o_filename):
@@ -152,7 +170,8 @@ def write_renewal_config(o_filename, n_filename, archive_dir, target, relevant_d
     return config
 
 
-def rename_renewal_config(prev_name, new_name, cli_config):
+def rename_renewal_config(prev_name: str, new_name: str,
+                          cli_config: configuration.NamespaceConfig) -> None:
     """Renames cli_config.certname's config to cli_config.new_certname.
 
     :param .NamespaceConfig cli_config: parsed command line
@@ -170,7 +189,8 @@ def rename_renewal_config(prev_name, new_name, cli_config):
             "for the new certificate name.")
 
 
-def update_configuration(lineagename, archive_dir, target, cli_config):
+def update_configuration(lineagename: str, archive_dir: str, target: Mapping[str, str],
+                         cli_config: configuration.NamespaceConfig) -> configobj.ConfigObj:
     """Modifies lineagename's config to contain the specified values.
 
     :param str lineagename: Name of the lineage being modified
@@ -195,10 +215,10 @@ def update_configuration(lineagename, archive_dir, target, cli_config):
     write_renewal_config(config_filename, temp_filename, archive_dir, target, values)
     filesystem.replace(temp_filename, config_filename)
 
-    return configobj.ConfigObj(config_filename)
+    return configobj.ConfigObj(config_filename, encoding='utf-8', default_encoding='utf-8')
 
 
-def get_link_target(link):
+def get_link_target(link: str) -> str:
     """Get an absolute path to the target of link.
 
     :param str link: Path to a symbolic link
@@ -210,7 +230,7 @@ def get_link_target(link):
 
     """
     try:
-        target = os.readlink(link)
+        target = filesystem.readlink(link)
     except OSError:
         raise errors.CertStorageError(
             "Expected {0} to be a symlink".format(link))
@@ -219,7 +239,8 @@ def get_link_target(link):
         target = os.path.join(os.path.dirname(link), target)
     return os.path.abspath(target)
 
-def _write_live_readme_to(readme_path, is_base_dir=False):
+
+def _write_live_readme_to(readme_path: str, is_base_dir: bool = False) -> None:
     prefix = ""
     if is_base_dir:
         prefix = "[cert name]/"
@@ -240,7 +261,7 @@ def _write_live_readme_to(readme_path, is_base_dir=False):
                                     "certificates.\n".format(prefix=prefix))
 
 
-def _relevant(namespaces, option):
+def _relevant(namespaces: Iterable[str], option: str) -> bool:
     """
     Is this option one that could be restored for future renewal purposes?
 
@@ -256,7 +277,7 @@ def _relevant(namespaces, option):
             any(option.startswith(namespace) for namespace in namespaces))
 
 
-def relevant_values(all_values):
+def relevant_values(all_values: Mapping[str, Any]) -> Dict[str, Any]:
     """Return a new dict containing only items relevant for renewal.
 
     :param dict all_values: The original values.
@@ -270,7 +291,7 @@ def relevant_values(all_values):
 
     rv = dict(
         (option, value)
-        for option, value in six.iteritems(all_values)
+        for option, value in all_values.items()
         if _relevant(namespaces, option) and cli.option_was_set(option, value))
     # We always save the server value to help with forward compatibility
     # and behavioral consistency when versions of Certbot with different
@@ -278,7 +299,8 @@ def relevant_values(all_values):
     rv["server"] = all_values["server"]
     return rv
 
-def lineagename_for_filename(config_filename):
+
+def lineagename_for_filename(config_filename: str) -> str:
     """Returns the lineagename for a configuration filename.
     """
     if not config_filename.endswith(".conf"):
@@ -286,16 +308,21 @@ def lineagename_for_filename(config_filename):
             "renewal config file name must end in .conf")
     return os.path.basename(config_filename[:-len(".conf")])
 
-def renewal_filename_for_lineagename(config, lineagename):
+
+def renewal_filename_for_lineagename(config: configuration.NamespaceConfig,
+                                     lineagename: str) -> str:
     """Returns the lineagename for a configuration filename.
     """
     return os.path.join(config.renewal_configs_dir, lineagename) + ".conf"
 
-def _relpath_from_file(archive_dir, from_file):
+
+def _relpath_from_file(archive_dir: str, from_file: str) -> str:
     """Path to a directory from a file"""
     return os.path.relpath(archive_dir, os.path.dirname(from_file))
 
-def full_archive_path(config_obj, cli_config, lineagename):
+
+def full_archive_path(config_obj: configobj.ConfigObj, cli_config: configuration.NamespaceConfig,
+                      lineagename: str) -> str:
     """Returns the full archive path for a lineagename
 
     Uses cli_config to determine archive path if not available from config_obj.
@@ -308,11 +335,13 @@ def full_archive_path(config_obj, cli_config, lineagename):
         return config_obj["archive_dir"]
     return os.path.join(cli_config.default_archive_dir, lineagename)
 
-def _full_live_path(cli_config, lineagename):
+
+def _full_live_path(cli_config: configuration.NamespaceConfig, lineagename: str) -> str:
     """Returns the full default live path for a lineagename"""
     return os.path.join(cli_config.live_dir, lineagename)
 
-def delete_files(config, certname):
+
+def delete_files(config: configuration.NamespaceConfig, certname: str) -> None:
     """Delete all files related to the certificate.
 
     If some files are not found, ignore them and continue.
@@ -322,10 +351,11 @@ def delete_files(config, certname):
     full_default_archive_dir = full_archive_path(None, config, certname)
     full_default_live_dir = _full_live_path(config, certname)
     try:
-        renewal_config = configobj.ConfigObj(renewal_filename)
+        renewal_config = configobj.ConfigObj(
+            renewal_filename, encoding='utf-8', default_encoding='utf-8')
     except configobj.ConfigObjError:
         # config is corrupted
-        logger.warning("Could not parse %s. You may wish to manually "
+        logger.error("Could not parse %s. You may wish to manually "
             "delete the contents of %s and %s.", renewal_filename,
             full_default_live_dir, full_default_archive_dir)
         raise errors.CertStorageError(
@@ -334,7 +364,7 @@ def delete_files(config, certname):
         # we couldn't read it, but let's at least delete it
         # if this was going to fail, it already would have.
         os.remove(renewal_filename)
-        logger.debug("Removed %s", renewal_filename)
+        logger.info("Removed %s", renewal_filename)
 
     # cert files and (hopefully) live directory
     # it's not guaranteed that the files are in our default storage
@@ -413,7 +443,8 @@ class RenewableCert(interfaces.RenewableCert):
         renewal configuration file and/or systemwide defaults.
 
     """
-    def __init__(self, config_filename, cli_config, update_symlinks=False):
+    def __init__(self, config_filename: str, cli_config: configuration.NamespaceConfig,
+                 update_symlinks: bool = False) -> None:
         """Instantiate a RenewableCert object from an existing lineage.
 
         :param str config_filename: the path to the renewal config file
@@ -432,7 +463,8 @@ class RenewableCert(interfaces.RenewableCert):
         # systemwide renewal configuration; self.configfile should be
         # used to make and save changes.
         try:
-            self.configfile = configobj.ConfigObj(config_filename)
+            self.configfile = configobj.ConfigObj(
+                config_filename, encoding='utf-8', default_encoding='utf-8')
         except configobj.ConfigObjError:
             raise errors.CertStorageError(
                 "error parsing {0}".format(config_filename))
@@ -448,7 +480,7 @@ class RenewableCert(interfaces.RenewableCert):
 
         conf_version = self.configuration.get("version")
         if (conf_version is not None and
-                util.get_strict_version(conf_version) > CURRENT_VERSION):
+                pkg_resources.parse_version(conf_version) > CURRENT_VERSION):
             logger.info(
                 "Attempting to parse the version %s renewal configuration "
                 "file found at %s with version %s of Certbot. This might not "
@@ -466,27 +498,27 @@ class RenewableCert(interfaces.RenewableCert):
         self._check_symlinks()
 
     @property
-    def key_path(self):
+    def key_path(self) -> str:
         """Duck type for self.privkey"""
         return self.privkey
 
     @property
-    def cert_path(self):
+    def cert_path(self) -> str:
         """Duck type for self.cert"""
         return self.cert
 
     @property
-    def chain_path(self):
+    def chain_path(self) -> str:
         """Duck type for self.chain"""
         return self.chain
 
     @property
-    def fullchain_path(self):
+    def fullchain_path(self) -> str:
         """Duck type for self.fullchain"""
         return self.fullchain
 
     @property
-    def lineagename(self):
+    def lineagename(self) -> str:
         """Name given to the certificate lineage.
 
         :rtype: str
@@ -495,21 +527,24 @@ class RenewableCert(interfaces.RenewableCert):
         return self._lineagename
 
     @property
-    def target_expiry(self):
+    def target_expiry(self) -> datetime.datetime:
         """The current target certificate's expiration datetime
 
         :returns: Expiration datetime of the current target certificate
         :rtype: :class:`datetime.datetime`
         """
-        return crypto_util.notAfter(self.current_target("cert"))
+        cert_path = self.current_target("cert")
+        if not cert_path:
+            raise errors.Error("Target certificate does not exist.")
+        return crypto_util.notAfter(cert_path)
 
     @property
-    def archive_dir(self):
+    def archive_dir(self) -> str:
         """Returns the default or specified archive directory"""
         return full_archive_path(self.configuration,
             self.cli_config, self.lineagename)
 
-    def relative_archive_dir(self, from_file):
+    def relative_archive_dir(self, from_file: str) -> str:
         """Returns the default or specified archive directory as a relative path
 
         Used for creating symbolic links.
@@ -517,14 +552,18 @@ class RenewableCert(interfaces.RenewableCert):
         return _relpath_from_file(self.archive_dir, from_file)
 
     @property
-    def is_test_cert(self):
+    def server(self) -> Optional[str]:
+        """Returns the ACME server associated with this certificate"""
+        return self.configuration["renewalparams"].get("server", None)
+
+    @property
+    def is_test_cert(self) -> bool:
         """Returns true if this is a test cert from a staging server."""
-        server = self.configuration["renewalparams"].get("server", None)
-        if server:
-            return util.is_staging(server)
+        if self.server:
+            return util.is_staging(self.server)
         return False
 
-    def _check_symlinks(self):
+    def _check_symlinks(self) -> None:
         """Raises an exception if a symlink doesn't exist"""
         for kind in ALL_FOUR:
             link = getattr(self, kind)
@@ -536,7 +575,7 @@ class RenewableCert(interfaces.RenewableCert):
                 raise errors.CertStorageError("target {0} of symlink {1} does "
                                               "not exist".format(target, link))
 
-    def _update_symlinks(self):
+    def _update_symlinks(self) -> None:
         """Updates symlinks to use archive_dir"""
         for kind in ALL_FOUR:
             link = getattr(self, kind)
@@ -547,7 +586,7 @@ class RenewableCert(interfaces.RenewableCert):
             os.unlink(link)
             os.symlink(new_link, link)
 
-    def _consistent(self):
+    def _consistent(self) -> bool:
         """Are the files associated with this lineage self-consistent?
 
         :returns: Whether the files stored in connection with this
@@ -615,7 +654,7 @@ class RenewableCert(interfaces.RenewableCert):
         #      for x in ALL_FOUR))) == 1
         return True
 
-    def _fix(self):
+    def _fix(self) -> None:
         """Attempt to fix defects or inconsistencies in this lineage.
 
         .. todo:: Currently unimplemented.
@@ -633,7 +672,7 @@ class RenewableCert(interfaces.RenewableCert):
     #       happen as a result of random tampering by a sysadmin, or
     #       filesystem errors, or crashes.)
 
-    def _previous_symlinks(self):
+    def _previous_symlinks(self) -> List[Tuple[str, str]]:
         """Returns the kind and path of all symlinks used in recovery.
 
         :returns: list of (kind, symlink) tuples
@@ -648,7 +687,7 @@ class RenewableCert(interfaces.RenewableCert):
 
         return previous_symlinks
 
-    def _fix_symlinks(self):
+    def _fix_symlinks(self) -> None:
         """Fixes symlinks in the event of an incomplete version update.
 
         If there is no problem with the current symlinks, this function
@@ -661,13 +700,13 @@ class RenewableCert(interfaces.RenewableCert):
                 current_link = getattr(self, kind)
                 if os.path.lexists(current_link):
                     os.unlink(current_link)
-                os.symlink(os.readlink(previous_link), current_link)
+                os.symlink(filesystem.readlink(previous_link), current_link)
 
         for _, link in previous_symlinks:
             if os.path.exists(link):
                 os.unlink(link)
 
-    def current_target(self, kind):
+    def current_target(self, kind: str) -> Optional[str]:
         """Returns full path to which the specified item currently points.
 
         :param str kind: the lineage member item ("cert", "privkey",
@@ -687,7 +726,7 @@ class RenewableCert(interfaces.RenewableCert):
             return None
         return get_link_target(link)
 
-    def current_version(self, kind):
+    def current_version(self, kind: str) -> Optional[int]:
         """Returns numerical version of the specified item.
 
         For example, if kind is "chain" and the current chain link
@@ -714,7 +753,7 @@ class RenewableCert(interfaces.RenewableCert):
         logger.debug("No matches for target %s.", kind)
         return None
 
-    def version(self, kind, version):
+    def version(self, kind: str, version: int) -> str:
         """The filename that corresponds to the specified version and kind.
 
         .. warning:: The specified version may not exist in this
@@ -731,10 +770,13 @@ class RenewableCert(interfaces.RenewableCert):
         """
         if kind not in ALL_FOUR:
             raise errors.CertStorageError("unknown kind of item")
-        where = os.path.dirname(self.current_target(kind))
+        link = self.current_target(kind)
+        if not link:
+            raise errors.Error(f"Target {kind} does not exist!")
+        where = os.path.dirname(link)
         return os.path.join(where, "{0}{1}.pem".format(kind, version))
 
-    def available_versions(self, kind):
+    def available_versions(self, kind: str) -> List[int]:
         """Which alternative versions of the specified kind of item exist?
 
         The archive directory where the current version is stored is
@@ -749,13 +791,16 @@ class RenewableCert(interfaces.RenewableCert):
         """
         if kind not in ALL_FOUR:
             raise errors.CertStorageError("unknown kind of item")
-        where = os.path.dirname(self.current_target(kind))
+        link = self.current_target(kind)
+        if not link:
+            raise errors.Error(f"Target {kind} does not exist!")
+        where = os.path.dirname(link)
         files = os.listdir(where)
         pattern = re.compile(r"^{0}([0-9]+)\.pem$".format(kind))
         matches = [pattern.match(f) for f in files]
         return sorted([int(m.groups()[0]) for m in matches if m])
 
-    def newest_available_version(self, kind):
+    def newest_available_version(self, kind: str) -> int:
         """Newest available version of the specified kind of item?
 
         :param str kind: the lineage member item (``cert``,
@@ -767,7 +812,7 @@ class RenewableCert(interfaces.RenewableCert):
         """
         return max(self.available_versions(kind))
 
-    def latest_common_version(self):
+    def latest_common_version(self) -> int:
         """Newest version for which all items are available?
 
         :returns: the newest available version for which all members
@@ -782,7 +827,7 @@ class RenewableCert(interfaces.RenewableCert):
         versions = [self.available_versions(x) for x in ALL_FOUR]
         return max(n for n in versions[0] if all(n in v for v in versions[1:]))
 
-    def next_free_version(self):
+    def next_free_version(self) -> int:
         """Smallest version newer than all full or partial versions?
 
         :returns: the smallest version number that is larger than any
@@ -796,7 +841,7 @@ class RenewableCert(interfaces.RenewableCert):
         # for the others.
         return max(self.newest_available_version(x) for x in ALL_FOUR) + 1
 
-    def ensure_deployed(self):
+    def ensure_deployed(self) -> bool:
         """Make sure we've deployed the latest version.
 
         :returns: False if a change was needed, True otherwise
@@ -805,14 +850,13 @@ class RenewableCert(interfaces.RenewableCert):
         May need to recover from rare interrupted / crashed states."""
 
         if self.has_pending_deployment():
-            logger.warning("Found a new cert /archive/ that was not linked to in /live/; "
-                        "fixing...")
+            logger.warning("Found a new certificate /archive/ that was not "
+                           "linked to in /live/; fixing...")
             self.update_all_links_to(self.latest_common_version())
             return False
         return True
 
-
-    def has_pending_deployment(self):
+    def has_pending_deployment(self) -> bool:
         """Is there a later version of all of the managed items?
 
         :returns: ``True`` if there is a complete version of this
@@ -821,12 +865,18 @@ class RenewableCert(interfaces.RenewableCert):
         :rtype: bool
 
         """
+        all_versions: List[int] = []
+        for item in ALL_FOUR:
+            version = self.current_version(item)
+            if version is None:
+                raise errors.Error(f"{item} is required but missing for this certificate.")
+            all_versions.append(version)
         # TODO: consider whether to assume consistency or treat
         #       inconsistent/consistent versions differently
-        smallest_current = min(self.current_version(x) for x in ALL_FOUR)
+        smallest_current = min(all_versions)
         return smallest_current < self.latest_common_version()
 
-    def _update_link_to(self, kind, version):
+    def _update_link_to(self, kind: str, version: int) -> None:
         """Make the specified item point at the specified version.
 
         (Note that this method doesn't verify that the specified version
@@ -842,7 +892,7 @@ class RenewableCert(interfaces.RenewableCert):
         link = getattr(self, kind)
         filename = "{0}{1}.pem".format(kind, version)
         # Relative rather than absolute target directory
-        target_directory = os.path.dirname(os.readlink(link))
+        target_directory = os.path.dirname(filesystem.readlink(link))
         # TODO: it could be safer to make the link first under a temporary
         #       filename, then unlink the old link, then rename the new link
         #       to the old link; this ensures that this process is able to
@@ -852,7 +902,7 @@ class RenewableCert(interfaces.RenewableCert):
         os.unlink(link)
         os.symlink(os.path.join(target_directory, filename), link)
 
-    def update_all_links_to(self, version):
+    def update_all_links_to(self, version: int) -> None:
         """Change all member objects to point to the specified version.
 
         :param int version: the desired version
@@ -861,7 +911,10 @@ class RenewableCert(interfaces.RenewableCert):
         with error_handler.ErrorHandler(self._fix_symlinks):
             previous_links = self._previous_symlinks()
             for kind, link in previous_links:
-                os.symlink(self.current_target(kind), link)
+                target = self.current_target(kind)
+                if not target:
+                    raise errors.Error(f"Target {kind} does not exist!")
+                os.symlink(target, link)
 
             for kind in ALL_FOUR:
                 self._update_link_to(kind, version)
@@ -869,7 +922,7 @@ class RenewableCert(interfaces.RenewableCert):
             for _, link in previous_links:
                 os.unlink(link)
 
-    def names(self):
+    def names(self) -> List[str]:
         """What are the subject names of this certificate?
 
         :returns: the subject names
@@ -879,11 +932,11 @@ class RenewableCert(interfaces.RenewableCert):
         """
         target = self.current_target("cert")
         if target is None:
-            raise errors.CertStorageError("could not find cert file")
-        with open(target) as f:
+            raise errors.CertStorageError("could not find the certificate file")
+        with open(target, "rb") as f:
             return crypto_util.get_names_from_cert(f.read())
 
-    def ocsp_revoked(self, version):
+    def ocsp_revoked(self, version: int) -> bool:
         """Is the specified cert version revoked according to OCSP?
 
         Also returns True if the cert version is declared as revoked
@@ -911,7 +964,7 @@ class RenewableCert(interfaces.RenewableCert):
             logger.debug(str(e))
             return False
 
-    def autorenewal_is_enabled(self):
+    def autorenewal_is_enabled(self) -> bool:
         """Is automatic renewal enabled for this cert?
 
         If autorenew is not specified, defaults to True.
@@ -923,7 +976,7 @@ class RenewableCert(interfaces.RenewableCert):
         return ("autorenew" not in self.configuration["renewalparams"] or
                 self.configuration["renewalparams"].as_bool("autorenew"))
 
-    def should_autorenew(self):
+    def should_autorenew(self) -> bool:
         """Should we now try to autorenew the most recent cert version?
 
         This is a policy question and does not only depend on whether
@@ -961,7 +1014,8 @@ class RenewableCert(interfaces.RenewableCert):
         return False
 
     @classmethod
-    def new_lineage(cls, lineagename, cert, privkey, chain, cli_config):
+    def new_lineage(cls, lineagename: str, cert: bytes, privkey: bytes, chain: bytes,
+                    cli_config: configuration.NamespaceConfig) -> "RenewableCert":
         """Create a new certificate lineage.
 
         Attempts to create a certificate lineage -- enrolled for
@@ -1007,39 +1061,39 @@ class RenewableCert(interfaces.RenewableCert):
         lineagename = lineagename_for_filename(config_filename)
         archive = full_archive_path(None, cli_config, lineagename)
         live_dir = _full_live_path(cli_config, lineagename)
-        if os.path.exists(archive):
+        if os.path.exists(archive) and (not os.path.isdir(archive) or os.listdir(archive)):
             config_file.close()
             raise errors.CertStorageError(
                 "archive directory exists for " + lineagename)
-        if os.path.exists(live_dir):
+        if os.path.exists(live_dir) and (not os.path.isdir(live_dir) or os.listdir(live_dir)):
             config_file.close()
             raise errors.CertStorageError(
                 "live directory exists for " + lineagename)
-        filesystem.mkdir(archive)
-        filesystem.mkdir(live_dir)
-        logger.debug("Archive directory %s and live "
-                     "directory %s created.", archive, live_dir)
+        for i in (archive, live_dir):
+            if not os.path.exists(i):
+                filesystem.makedirs(i)
+                logger.debug("Creating directory %s.", i)
 
         # Put the data into the appropriate files on disk
         target = {kind: os.path.join(live_dir, kind + ".pem") for kind in ALL_FOUR}
         archive_target = {kind: os.path.join(archive, kind + "1.pem") for kind in ALL_FOUR}
         for kind in ALL_FOUR:
             os.symlink(_relpath_from_file(archive_target[kind], target[kind]), target[kind])
-        with open(target["cert"], "wb") as f:
+        with open(target["cert"], "wb") as f_b:
             logger.debug("Writing certificate to %s.", target["cert"])
-            f.write(cert)
-        with util.safe_open(archive_target["privkey"], "wb", chmod=BASE_PRIVKEY_MODE) as f:
+            f_b.write(cert)
+        with util.safe_open(archive_target["privkey"], "wb", chmod=BASE_PRIVKEY_MODE) as f_a:
             logger.debug("Writing private key to %s.", target["privkey"])
-            f.write(privkey)
+            f_a.write(privkey)
             # XXX: Let's make sure to get the file permissions right here
-        with open(target["chain"], "wb") as f:
+        with open(target["chain"], "wb") as f_b:
             logger.debug("Writing chain to %s.", target["chain"])
-            f.write(chain)
-        with open(target["fullchain"], "wb") as f:
+            f_b.write(chain)
+        with open(target["fullchain"], "wb") as f_b:
             # assumes that OpenSSL.crypto.dump_certificate includes
             # ending newline character
             logger.debug("Writing full chain to %s.", target["fullchain"])
-            f.write(cert + chain)
+            f_b.write(cert + chain)
 
         # Write a README file to the live directory
         readme_path = os.path.join(live_dir, README)
@@ -1055,8 +1109,25 @@ class RenewableCert(interfaces.RenewableCert):
             target, values)
         return cls(new_config.filename, cli_config)
 
-    def save_successor(self, prior_version, new_cert,
-                       new_privkey, new_chain, cli_config):
+    @property
+    def private_key_type(self) -> str:
+        """
+        :returns: The type of algorithm for the private, RSA or ECDSA
+        :rtype: str
+        """
+        with open(self.configuration["privkey"], "rb") as priv_key_file:
+            key = load_pem_private_key(
+                data=priv_key_file.read(),
+                password=None,
+                backend=default_backend()
+            )
+        if isinstance(key, RSAPrivateKey):
+            return "RSA"
+        else:
+            return "ECDSA"
+
+    def save_successor(self, prior_version: int, new_cert: bytes, new_privkey: bytes,
+                       new_chain: bytes, cli_config: configuration.NamespaceConfig) -> int:
         """Save new cert and chain as a successor of a prior version.
 
         Returns the new version number that was created.
@@ -1100,7 +1171,7 @@ class RenewableCert(interfaces.RenewableCert):
             # The behavior below keeps the prior key by creating a new
             # symlink to the old key or the target of the old key symlink.
             if os.path.islink(old_privkey):
-                old_privkey = os.readlink(old_privkey)
+                old_privkey = filesystem.readlink(old_privkey)
             else:
                 old_privkey = "privkey{0}.pem".format(prior_version)
             logger.debug("Writing symlink to old private key, %s.", old_privkey)
@@ -1126,7 +1197,7 @@ class RenewableCert(interfaces.RenewableCert):
             logger.debug("Writing full chain to %s.", target["fullchain"])
             f.write(new_cert + new_chain)
 
-        symlinks = dict((kind, self.configuration[kind]) for kind in ALL_FOUR)
+        symlinks = {kind: self.configuration[kind] for kind in ALL_FOUR}
         # Update renewal config file
         self.configfile = update_configuration(
             self.lineagename, self.archive_dir, symlinks, cli_config)

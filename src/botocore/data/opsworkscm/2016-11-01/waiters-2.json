@@ -2,24 +2,24 @@
   "version": 2,
   "waiters": {
     "NodeAssociated": {
+      "delay": 15,
+      "maxAttempts": 15,
+      "operation": "DescribeNodeAssociationStatus",
+      "description": "Wait until node is associated or disassociated.",
       "acceptors": [
         {
-          "argument": "NodeAssociationStatus",
           "expected": "SUCCESS",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "NodeAssociationStatus"
         },
         {
-          "argument": "NodeAssociationStatus",
           "expected": "FAILED",
+          "state": "failure",
           "matcher": "path",
-          "state": "failure"
+          "argument": "NodeAssociationStatus"
         }
-      ],
-      "delay": 15,
-      "description": "Wait until node is associated or disassociated.",
-      "maxAttempts": 15,
-      "operation": "DescribeNodeAssociationStatus"
+      ]
     }
   }
 }

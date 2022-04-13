@@ -2,435 +2,435 @@
   "version": 2,
   "waiters": {
     "BundleTaskComplete": {
+      "delay": 15,
+      "operation": "DescribeBundleTasks",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "BundleTasks[].State",
           "expected": "complete",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "BundleTasks[].State"
         },
         {
-          "argument": "BundleTasks[].State",
           "expected": "failed",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "BundleTasks[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeBundleTasks"
+      ]
     },
     "ConversionTaskCancelled": {
+      "delay": 15,
+      "operation": "DescribeConversionTasks",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "ConversionTasks[].State",
           "expected": "cancelled",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "ConversionTasks[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeConversionTasks"
+      ]
     },
     "ConversionTaskCompleted": {
+      "delay": 15,
+      "operation": "DescribeConversionTasks",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "ConversionTasks[].State",
           "expected": "completed",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "ConversionTasks[].State"
         },
         {
-          "argument": "ConversionTasks[].State",
           "expected": "cancelled",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "ConversionTasks[].State"
         },
         {
-          "argument": "ConversionTasks[].State",
           "expected": "cancelling",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "ConversionTasks[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeConversionTasks"
+      ]
     },
     "ConversionTaskDeleted": {
+      "delay": 15,
+      "operation": "DescribeConversionTasks",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "ConversionTasks[].State",
           "expected": "deleted",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "ConversionTasks[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeConversionTasks"
+      ]
     },
     "CustomerGatewayAvailable": {
+      "delay": 15,
+      "operation": "DescribeCustomerGateways",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "CustomerGateways[].State",
           "expected": "available",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "CustomerGateways[].State"
         },
         {
-          "argument": "CustomerGateways[].State",
           "expected": "deleted",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "CustomerGateways[].State"
         },
         {
-          "argument": "CustomerGateways[].State",
           "expected": "deleting",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "CustomerGateways[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeCustomerGateways"
+      ]
     },
     "ExportTaskCancelled": {
+      "delay": 15,
+      "operation": "DescribeExportTasks",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "ExportTasks[].State",
           "expected": "cancelled",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "ExportTasks[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeExportTasks"
+      ]
     },
     "ExportTaskCompleted": {
+      "delay": 15,
+      "operation": "DescribeExportTasks",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "ExportTasks[].State",
           "expected": "completed",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "ExportTasks[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeExportTasks"
+      ]
     },
     "ImageAvailable": {
+      "operation": "DescribeImages",
+      "maxAttempts": 40,
+      "delay": 15,
       "acceptors": [
         {
-          "argument": "Images[].State",
-          "expected": "available",
+          "state": "success",
           "matcher": "pathAll",
-          "state": "success"
+          "argument": "Images[].State",
+          "expected": "available"
         },
         {
-          "argument": "Images[].State",
-          "expected": "failed",
+          "state": "failure",
           "matcher": "pathAny",
-          "state": "failure"
+          "argument": "Images[].State",
+          "expected": "failed"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeImages"
+      ]
     },
     "InstanceRunning": {
+      "delay": 15,
+      "operation": "DescribeInstances",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "running",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Reservations[].Instances[].State.Name"
         },
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "shutting-down",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Reservations[].Instances[].State.Name"
         },
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "terminated",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Reservations[].Instances[].State.Name"
         },
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "stopping",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Reservations[].Instances[].State.Name"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeInstances"
+      ]
     },
     "InstanceStatusOk": {
+      "operation": "DescribeInstanceStatus",
+      "maxAttempts": 40,
+      "delay": 15,
       "acceptors": [
         {
-          "argument": "InstanceStatuses[].InstanceStatus.Status",
-          "expected": "ok",
+          "state": "success",
           "matcher": "pathAll",
-          "state": "success"
+          "argument": "InstanceStatuses[].InstanceStatus.Status",
+          "expected": "ok"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeInstanceStatus"
+      ]
     },
     "InstanceStopped": {
+      "delay": 15,
+      "operation": "DescribeInstances",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "stopped",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Reservations[].Instances[].State.Name"
         },
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "pending",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Reservations[].Instances[].State.Name"
         },
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "terminated",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Reservations[].Instances[].State.Name"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeInstances"
+      ]
     },
     "InstanceTerminated": {
+      "delay": 15,
+      "operation": "DescribeInstances",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "terminated",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Reservations[].Instances[].State.Name"
         },
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "pending",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Reservations[].Instances[].State.Name"
         },
         {
-          "argument": "Reservations[].Instances[].State.Name",
           "expected": "stopping",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Reservations[].Instances[].State.Name"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeInstances"
+      ]
     },
     "PasswordDataAvailable": {
+      "operation": "GetPasswordData",
+      "maxAttempts": 40,
+      "delay": 15,
       "acceptors": [
         {
-          "argument": "length(PasswordData) > `0`",
-          "expected": true,
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "length(PasswordData) > `0`",
+          "expected": true
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "GetPasswordData"
+      ]
     },
     "SnapshotCompleted": {
+      "delay": 15,
+      "operation": "DescribeSnapshots",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Snapshots[].State",
           "expected": "completed",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Snapshots[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeSnapshots"
+      ]
     },
     "SpotInstanceRequestFulfilled": {
+      "operation": "DescribeSpotInstanceRequests",
+      "maxAttempts": 40,
+      "delay": 15,
       "acceptors": [
         {
-          "argument": "SpotInstanceRequests[].Status.Code",
-          "expected": "fulfilled",
+          "state": "success",
           "matcher": "pathAll",
-          "state": "success"
+          "argument": "SpotInstanceRequests[].Status.Code",
+          "expected": "fulfilled"
         },
         {
-          "argument": "SpotInstanceRequests[].Status.Code",
-          "expected": "schedule-expired",
+          "state": "failure",
           "matcher": "pathAny",
-          "state": "failure"
+          "argument": "SpotInstanceRequests[].Status.Code",
+          "expected": "schedule-expired"
         },
         {
-          "argument": "SpotInstanceRequests[].Status.Code",
-          "expected": "canceled-before-fulfillment",
+          "state": "failure",
           "matcher": "pathAny",
-          "state": "failure"
+          "argument": "SpotInstanceRequests[].Status.Code",
+          "expected": "canceled-before-fulfillment"
         },
         {
-          "argument": "SpotInstanceRequests[].Status.Code",
-          "expected": "bad-parameters",
+          "state": "failure",
           "matcher": "pathAny",
-          "state": "failure"
+          "argument": "SpotInstanceRequests[].Status.Code",
+          "expected": "bad-parameters"
         },
         {
-          "argument": "SpotInstanceRequests[].Status.Code",
-          "expected": "system-error",
+          "state": "failure",
           "matcher": "pathAny",
-          "state": "failure"
+          "argument": "SpotInstanceRequests[].Status.Code",
+          "expected": "system-error"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeSpotInstanceRequests"
+      ]
     },
     "SubnetAvailable": {
+      "delay": 15,
+      "operation": "DescribeSubnets",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Subnets[].State",
           "expected": "available",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Subnets[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeSubnets"
+      ]
     },
     "SystemStatusOk": {
+      "operation": "DescribeInstanceStatus",
+      "maxAttempts": 40,
+      "delay": 15,
       "acceptors": [
         {
-          "argument": "InstanceStatuses[].SystemStatus.Status",
-          "expected": "ok",
+          "state": "success",
           "matcher": "pathAll",
-          "state": "success"
+          "argument": "InstanceStatuses[].SystemStatus.Status",
+          "expected": "ok"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeInstanceStatus"
+      ]
     },
     "VolumeAvailable": {
+      "delay": 15,
+      "operation": "DescribeVolumes",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Volumes[].State",
           "expected": "available",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Volumes[].State"
         },
         {
-          "argument": "Volumes[].State",
           "expected": "deleted",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Volumes[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeVolumes"
+      ]
     },
     "VolumeDeleted": {
+      "delay": 15,
+      "operation": "DescribeVolumes",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Volumes[].State",
           "expected": "deleted",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Volumes[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeVolumes"
+      ]
     },
     "VolumeInUse": {
+      "delay": 15,
+      "operation": "DescribeVolumes",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Volumes[].State",
           "expected": "in-use",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Volumes[].State"
         },
         {
-          "argument": "Volumes[].State",
           "expected": "deleted",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "Volumes[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeVolumes"
+      ]
     },
     "VpcAvailable": {
+      "delay": 15,
+      "operation": "DescribeVpcs",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "Vpcs[].State",
           "expected": "available",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "Vpcs[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeVpcs"
+      ]
     },
     "VpnConnectionAvailable": {
+      "delay": 15,
+      "operation": "DescribeVpnConnections",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "VpnConnections[].State",
           "expected": "available",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "VpnConnections[].State"
         },
         {
-          "argument": "VpnConnections[].State",
           "expected": "deleting",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "VpnConnections[].State"
         },
         {
-          "argument": "VpnConnections[].State",
           "expected": "deleted",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "VpnConnections[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeVpnConnections"
+      ]
     },
     "VpnConnectionDeleted": {
+      "delay": 15,
+      "operation": "DescribeVpnConnections",
+      "maxAttempts": 40,
       "acceptors": [
         {
-          "argument": "VpnConnections[].State",
           "expected": "deleted",
           "matcher": "pathAll",
-          "state": "success"
+          "state": "success",
+          "argument": "VpnConnections[].State"
         },
         {
-          "argument": "VpnConnections[].State",
           "expected": "pending",
           "matcher": "pathAny",
-          "state": "failure"
+          "state": "failure",
+          "argument": "VpnConnections[].State"
         }
-      ],
-      "delay": 15,
-      "maxAttempts": 40,
-      "operation": "DescribeVpnConnections"
+      ]
     }
   }
 }

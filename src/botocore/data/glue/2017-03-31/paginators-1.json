@@ -1,58 +1,82 @@
 {
   "pagination": {
-    "GetClassifiers": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "Classifiers"
-    },
-    "GetConnections": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "ConnectionList"
-    },
-    "GetCrawlerMetrics": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "CrawlerMetricsList"
-    },
-    "GetCrawlers": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "Crawlers"
-    },
-    "GetDatabases": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "DatabaseList"
-    },
-    "GetDevEndpoints": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "DevEndpoints"
-    },
-    "GetJobRuns": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "JobRuns"
-    },
     "GetJobs": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
+      "result_key": "Jobs",
       "output_token": "NextToken",
-      "result_key": "Jobs"
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
     },
     "GetPartitions": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
+      "result_key": "Partitions",
       "output_token": "NextToken",
-      "result_key": "Partitions"
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetDatabases": {
+      "result_key": "DatabaseList",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetClassifiers": {
+      "result_key": "Classifiers",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetTableVersions": {
+      "result_key": "TableVersions",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetCrawlers": {
+      "result_key": "Crawlers",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetDevEndpoints": {
+      "result_key": "DevEndpoints",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetJobRuns": {
+      "result_key": "JobRuns",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetTriggers": {
+      "result_key": "Triggers",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetTables": {
+      "result_key": "TableList",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetUserDefinedFunctions": {
+      "result_key": "UserDefinedFunctions",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetCrawlerMetrics": {
+      "result_key": "CrawlerMetricsList",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
+    },
+    "GetConnections": {
+      "result_key": "ConnectionList",
+      "output_token": "NextToken",
+      "input_token": "NextToken",
+      "limit_key": "MaxResults"
     },
     "GetSecurityConfigurations": {
       "input_token": "NextToken",
@@ -60,29 +84,34 @@
       "output_token": "NextToken",
       "result_key": "SecurityConfigurations"
     },
-    "GetTableVersions": {
+    "GetPartitionIndexes": {
       "input_token": "NextToken",
-      "limit_key": "MaxResults",
       "output_token": "NextToken",
-      "result_key": "TableVersions"
+      "result_key": "PartitionIndexDescriptorList"
     },
-    "GetTables": {
+    "GetResourcePolicies": {
       "input_token": "NextToken",
       "limit_key": "MaxResults",
       "output_token": "NextToken",
-      "result_key": "TableList"
+      "result_key": "GetResourcePoliciesResponseList"
     },
-    "GetTriggers": {
+    "ListRegistries": {
       "input_token": "NextToken",
       "limit_key": "MaxResults",
       "output_token": "NextToken",
-      "result_key": "Triggers"
+      "result_key": "Registries"
     },
-    "GetUserDefinedFunctions": {
+    "ListSchemaVersions": {
       "input_token": "NextToken",
       "limit_key": "MaxResults",
       "output_token": "NextToken",
-      "result_key": "UserDefinedFunctions"
+      "result_key": "Schemas"
+    },
+    "ListSchemas": {
+      "input_token": "NextToken",
+      "limit_key": "MaxResults",
+      "output_token": "NextToken",
+      "result_key": "Schemas"
     }
   }
 }

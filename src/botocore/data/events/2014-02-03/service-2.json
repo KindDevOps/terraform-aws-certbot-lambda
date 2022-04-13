@@ -1,1042 +1,998 @@
 {
-  "documentation": "<p>Amazon CloudWatch Events helps you to respond to state changes in your AWS resources. When your resources change state they automatically send events into an event stream. You can create rules that match selected events in the stream and route them to targets to take action. You can also use rules to take action on a pre-determined schedule. For example, you can configure rules to: </p> <ul> <li>Automatically invoke an AWS Lambda function to update DNS entries when an event notifies you that Amazon EC2 instance enters the running state.</li> <li>Direct specific API records from CloudTrail to an Amazon Kinesis stream for detailed analysis of potential security or availability risks.</li> <li>Periodically invoke a built-in target to create a snapshot of an Amazon EBS volume.</li> </ul> <p> For more information about Amazon CloudWatch Events features, see the <a href=\"http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide\">Amazon CloudWatch Developer Guide</a>. </p>",
-  "examples": {},
-  "metadata": {
-    "apiVersion": "2014-02-03",
-    "endpointPrefix": "events",
-    "jsonVersion": "1.1",
-    "protocol": "json",
-    "serviceFullName": "Amazon CloudWatch Events",
-    "serviceId": "CloudWatch Events",
-    "signatureVersion": "v4",
-    "targetPrefix": "AWSEvents"
+  "version":"2.0",
+  "metadata":{
+    "apiVersion":"2014-02-03",
+    "endpointPrefix":"events",
+    "jsonVersion":"1.1",
+    "serviceFullName":"Amazon CloudWatch Events",
+    "serviceId":"CloudWatch Events",
+    "signatureVersion":"v4",
+    "targetPrefix":"AWSEvents",
+    "protocol":"json"
   },
-  "operations": {
-    "DeleteRule": {
-      "documentation": "<p>Deletes a rule. You must remove all targets from a rule using <a>RemoveTargets</a> before you can delete the rule.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might still continue to match to the deleted rule. Please allow a short period of time for changes to take effect. </p>",
-      "errors": [
+  "documentation":"<p>Amazon CloudWatch Events helps you to respond to state changes in your AWS resources. When your resources change state they automatically send events into an event stream. You can create rules that match selected events in the stream and route them to targets to take action. You can also use rules to take action on a pre-determined schedule. For example, you can configure rules to: </p> <ul> <li>Automatically invoke an AWS Lambda function to update DNS entries when an event notifies you that Amazon EC2 instance enters the running state.</li> <li>Direct specific API records from CloudTrail to an Amazon Kinesis stream for detailed analysis of potential security or availability risks.</li> <li>Periodically invoke a built-in target to create a snapshot of an Amazon EBS volume.</li> </ul> <p> For more information about Amazon CloudWatch Events features, see the <a href=\"http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide\">Amazon CloudWatch Developer Guide</a>. </p>",
+  "operations":{
+    "DeleteRule":{
+      "name":"DeleteRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"DeleteRuleRequest",
+        "documentation":"<p>Container for the parameters to the <a>DeleteRule</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>This exception occurs if there is concurrent modification on rule or target.</p>",
-          "exception": true,
-          "shape": "ConcurrentModificationException"
+          "shape":"ConcurrentModificationException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if there is concurrent modification on rule or target.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>DeleteRule</a> operation.</p>",
-        "shape": "DeleteRuleRequest"
-      },
-      "name": "DeleteRule"
+      "documentation":"<p>Deletes a rule. You must remove all targets from a rule using <a>RemoveTargets</a> before you can delete the rule.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might still continue to match to the deleted rule. Please allow a short period of time for changes to take effect. </p>"
     },
-    "DescribeRule": {
-      "documentation": "<p>Describes the details of the specified rule.</p>",
-      "errors": [
+    "DescribeRule":{
+      "name":"DescribeRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"DescribeRuleRequest",
+        "documentation":"<p>Container for the parameters to the <a>DescribeRule</a> operation.</p>"
+      },
+      "output":{
+        "shape":"DescribeRuleResponse",
+        "documentation":"<p>The result of the <a>DescribeRule</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The rule does not exist.</p>",
-          "exception": true,
-          "shape": "ResourceNotFoundException"
+          "shape":"ResourceNotFoundException",
+          "exception":true,
+          "documentation":"<p>The rule does not exist.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>DescribeRule</a> operation.</p>",
-        "shape": "DescribeRuleRequest"
-      },
-      "name": "DescribeRule",
-      "output": {
-        "documentation": "<p>The result of the <a>DescribeRule</a> operation.</p>",
-        "shape": "DescribeRuleResponse"
-      }
+      "documentation":"<p>Describes the details of the specified rule.</p>"
     },
-    "DisableRule": {
-      "documentation": "<p>Disables a rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might still continue to match to the disabled rule. Please allow a short period of time for changes to take effect. </p>",
-      "errors": [
+    "DisableRule":{
+      "name":"DisableRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"DisableRuleRequest",
+        "documentation":"<p>Container for the parameters to the <a>DisableRule</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The rule does not exist.</p>",
-          "exception": true,
-          "shape": "ResourceNotFoundException"
+          "shape":"ResourceNotFoundException",
+          "exception":true,
+          "documentation":"<p>The rule does not exist.</p>"
         },
         {
-          "documentation": "<p>This exception occurs if there is concurrent modification on rule or target.</p>",
-          "exception": true,
-          "shape": "ConcurrentModificationException"
+          "shape":"ConcurrentModificationException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if there is concurrent modification on rule or target.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>DisableRule</a> operation.</p>",
-        "shape": "DisableRuleRequest"
-      },
-      "name": "DisableRule"
+      "documentation":"<p>Disables a rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might still continue to match to the disabled rule. Please allow a short period of time for changes to take effect. </p>"
     },
-    "EnableRule": {
-      "documentation": "<p>Enables a rule. If the rule does not exist, the operation fails.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might not immediately start matching to a newly enabled rule. Please allow a short period of time for changes to take effect. </p>",
-      "errors": [
+    "EnableRule":{
+      "name":"EnableRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"EnableRuleRequest",
+        "documentation":"<p>Container for the parameters to the <a>EnableRule</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The rule does not exist.</p>",
-          "exception": true,
-          "shape": "ResourceNotFoundException"
+          "shape":"ResourceNotFoundException",
+          "exception":true,
+          "documentation":"<p>The rule does not exist.</p>"
         },
         {
-          "documentation": "<p>This exception occurs if there is concurrent modification on rule or target.</p>",
-          "exception": true,
-          "shape": "ConcurrentModificationException"
+          "shape":"ConcurrentModificationException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if there is concurrent modification on rule or target.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>EnableRule</a> operation.</p>",
-        "shape": "EnableRuleRequest"
-      },
-      "name": "EnableRule"
+      "documentation":"<p>Enables a rule. If the rule does not exist, the operation fails.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might not immediately start matching to a newly enabled rule. Please allow a short period of time for changes to take effect. </p>"
     },
-    "ListRuleNamesByTarget": {
-      "documentation": "<p>Lists the names of the rules that the given target is put to. Using this action, you can find out which of the rules in Amazon CloudWatch Events can invoke a specific target in your account. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat the ListRulesByTarget action until the NextToken in the response is returned as null.</p>",
-      "errors": [
+    "ListRuleNamesByTarget":{
+      "name":"ListRuleNamesByTarget",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"ListRuleNamesByTargetRequest",
+        "documentation":"<p>Container for the parameters to the <a>ListRuleNamesByTarget</a> operation.</p>"
+      },
+      "output":{
+        "shape":"ListRuleNamesByTargetResponse",
+        "documentation":"<p>The result of the <a>ListRuleNamesByTarget</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>ListRuleNamesByTarget</a> operation.</p>",
-        "shape": "ListRuleNamesByTargetRequest"
-      },
-      "name": "ListRuleNamesByTarget",
-      "output": {
-        "documentation": "<p>The result of the <a>ListRuleNamesByTarget</a> operation.</p>",
-        "shape": "ListRuleNamesByTargetResponse"
-      }
+      "documentation":"<p>Lists the names of the rules that the given target is put to. Using this action, you can find out which of the rules in Amazon CloudWatch Events can invoke a specific target in your account. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat the ListRulesByTarget action until the NextToken in the response is returned as null.</p>"
     },
-    "ListRules": {
-      "documentation": "<p>Lists the Amazon CloudWatch Events rules in your account. You can either list all the rules or you can provide a prefix to match to the rule names. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat the ListRules action until the NextToken in the response is returned as null.</p>",
-      "errors": [
+    "ListRules":{
+      "name":"ListRules",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"ListRulesRequest",
+        "documentation":"<p>Container for the parameters to the <a>ListRules</a> operation.</p>"
+      },
+      "output":{
+        "shape":"ListRulesResponse",
+        "documentation":"<p>The result of the <a>ListRules</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>ListRules</a> operation.</p>",
-        "shape": "ListRulesRequest"
-      },
-      "name": "ListRules",
-      "output": {
-        "documentation": "<p>The result of the <a>ListRules</a> operation.</p>",
-        "shape": "ListRulesResponse"
-      }
+      "documentation":"<p>Lists the Amazon CloudWatch Events rules in your account. You can either list all the rules or you can provide a prefix to match to the rule names. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat the ListRules action until the NextToken in the response is returned as null.</p>"
     },
-    "ListTargetsByRule": {
-      "documentation": "<p>Lists of targets assigned to the rule.</p>",
-      "errors": [
+    "ListTargetsByRule":{
+      "name":"ListTargetsByRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"ListTargetsByRuleRequest",
+        "documentation":"<p>Container for the parameters to the <a>ListTargetsByRule</a> operation.</p>"
+      },
+      "output":{
+        "shape":"ListTargetsByRuleResponse",
+        "documentation":"<p>The result of the <a>ListTargetsByRule</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The rule does not exist.</p>",
-          "exception": true,
-          "shape": "ResourceNotFoundException"
+          "shape":"ResourceNotFoundException",
+          "exception":true,
+          "documentation":"<p>The rule does not exist.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>ListTargetsByRule</a> operation.</p>",
-        "shape": "ListTargetsByRuleRequest"
-      },
-      "name": "ListTargetsByRule",
-      "output": {
-        "documentation": "<p>The result of the <a>ListTargetsByRule</a> operation.</p>",
-        "shape": "ListTargetsByRuleResponse"
-      }
+      "documentation":"<p>Lists of targets assigned to the rule.</p>"
     },
-    "PutEvents": {
-      "documentation": "<p>Sends custom events to Amazon CloudWatch Events so that they can be matched to rules.</p>",
-      "errors": [
+    "PutEvents":{
+      "name":"PutEvents",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"PutEventsRequest",
+        "documentation":"<p>Container for the parameters to the <a>PutEvents</a> operation.</p>"
+      },
+      "output":{
+        "shape":"PutEventsResponse",
+        "documentation":"<p>The result of the <a>PutEvents</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>PutEvents</a> operation.</p>",
-        "shape": "PutEventsRequest"
-      },
-      "name": "PutEvents",
-      "output": {
-        "documentation": "<p>The result of the <a>PutEvents</a> operation.</p>",
-        "shape": "PutEventsResponse"
-      }
+      "documentation":"<p>Sends custom events to Amazon CloudWatch Events so that they can be matched to rules.</p>"
     },
-    "PutRule": {
-      "documentation": "<p>Creates or updates a rule. Rules are enabled by default, or based on value of the State parameter. You can disable a rule using <a>DisableRule</a>.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might not immediately start matching to new or updated rules. Please allow a short period of time for changes to take effect.</p> <p>A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule will trigger on matching events as well as on a schedule.</p> <p> <b>Note:</b> Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, CloudWatch Events uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. </p>",
-      "errors": [
+    "PutRule":{
+      "name":"PutRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"PutRuleRequest",
+        "documentation":"<p>Container for the parameters to the <a>PutRule</a> operation.</p>"
+      },
+      "output":{
+        "shape":"PutRuleResponse",
+        "documentation":"<p>The result of the <a>PutRule</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The event pattern is invalid.</p>",
-          "exception": true,
-          "shape": "InvalidEventPatternException"
+          "shape":"InvalidEventPatternException",
+          "exception":true,
+          "documentation":"<p>The event pattern is invalid.</p>"
         },
         {
-          "documentation": "<p>This exception occurs if you try to create more rules or add more targets to a rule than allowed by default.</p>",
-          "exception": true,
-          "shape": "LimitExceededException"
+          "shape":"LimitExceededException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if you try to create more rules or add more targets to a rule than allowed by default.</p>"
         },
         {
-          "documentation": "<p>This exception occurs if there is concurrent modification on rule or target.</p>",
-          "exception": true,
-          "shape": "ConcurrentModificationException"
+          "shape":"ConcurrentModificationException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if there is concurrent modification on rule or target.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>PutRule</a> operation.</p>",
-        "shape": "PutRuleRequest"
-      },
-      "name": "PutRule",
-      "output": {
-        "documentation": "<p>The result of the <a>PutRule</a> operation.</p>",
-        "shape": "PutRuleResponse"
-      }
+      "documentation":"<p>Creates or updates a rule. Rules are enabled by default, or based on value of the State parameter. You can disable a rule using <a>DisableRule</a>.</p> <p> <b>Note:</b> When you make a change with this action, incoming events might not immediately start matching to new or updated rules. Please allow a short period of time for changes to take effect.</p> <p>A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule will trigger on matching events as well as on a schedule.</p> <p> <b>Note:</b> Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, CloudWatch Events uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. </p>"
     },
-    "PutTargets": {
-      "documentation": "<p>Adds target(s) to a rule. Updates the target(s) if they are already associated with the role. In other words, if there is already a target with the given target ID, then the target associated with that ID is updated.</p> <p> <b>Note:</b> When you make a change with this action, when the associated rule triggers, new or updated targets might not be immediately invoked. Please allow a short period of time for changes to take effect. </p>",
-      "errors": [
+    "PutTargets":{
+      "name":"PutTargets",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"PutTargetsRequest",
+        "documentation":"<p>Container for the parameters to the <a>PutTargets</a> operation.</p>"
+      },
+      "output":{
+        "shape":"PutTargetsResponse",
+        "documentation":"<p>The result of the <a>PutTargets</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The rule does not exist.</p>",
-          "exception": true,
-          "shape": "ResourceNotFoundException"
+          "shape":"ResourceNotFoundException",
+          "exception":true,
+          "documentation":"<p>The rule does not exist.</p>"
         },
         {
-          "documentation": "<p>This exception occurs if there is concurrent modification on rule or target.</p>",
-          "exception": true,
-          "shape": "ConcurrentModificationException"
+          "shape":"ConcurrentModificationException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if there is concurrent modification on rule or target.</p>"
         },
         {
-          "documentation": "<p>This exception occurs if you try to create more rules or add more targets to a rule than allowed by default.</p>",
-          "exception": true,
-          "shape": "LimitExceededException"
+          "shape":"LimitExceededException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if you try to create more rules or add more targets to a rule than allowed by default.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>PutTargets</a> operation.</p>",
-        "shape": "PutTargetsRequest"
-      },
-      "name": "PutTargets",
-      "output": {
-        "documentation": "<p>The result of the <a>PutTargets</a> operation.</p>",
-        "shape": "PutTargetsResponse"
-      }
+      "documentation":"<p>Adds target(s) to a rule. Updates the target(s) if they are already associated with the role. In other words, if there is already a target with the given target ID, then the target associated with that ID is updated.</p> <p> <b>Note:</b> When you make a change with this action, when the associated rule triggers, new or updated targets might not be immediately invoked. Please allow a short period of time for changes to take effect. </p>"
     },
-    "RemoveTargets": {
-      "documentation": "<p>Removes target(s) from a rule so that when the rule is triggered, those targets will no longer be invoked.</p> <p> <b>Note:</b> When you make a change with this action, when the associated rule triggers, removed targets might still continue to be invoked. Please allow a short period of time for changes to take effect. </p>",
-      "errors": [
+    "RemoveTargets":{
+      "name":"RemoveTargets",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"RemoveTargetsRequest",
+        "documentation":"<p>Container for the parameters to the <a>RemoveTargets</a> operation.</p>"
+      },
+      "output":{
+        "shape":"RemoveTargetsResponse",
+        "documentation":"<p>The result of the <a>RemoveTargets</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The rule does not exist.</p>",
-          "exception": true,
-          "shape": "ResourceNotFoundException"
+          "shape":"ResourceNotFoundException",
+          "exception":true,
+          "documentation":"<p>The rule does not exist.</p>"
         },
         {
-          "documentation": "<p>This exception occurs if there is concurrent modification on rule or target.</p>",
-          "exception": true,
-          "shape": "ConcurrentModificationException"
+          "shape":"ConcurrentModificationException",
+          "exception":true,
+          "documentation":"<p>This exception occurs if there is concurrent modification on rule or target.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>RemoveTargets</a> operation.</p>",
-        "shape": "RemoveTargetsRequest"
-      },
-      "name": "RemoveTargets",
-      "output": {
-        "documentation": "<p>The result of the <a>RemoveTargets</a> operation.</p>",
-        "shape": "RemoveTargetsResponse"
-      }
+      "documentation":"<p>Removes target(s) from a rule so that when the rule is triggered, those targets will no longer be invoked.</p> <p> <b>Note:</b> When you make a change with this action, when the associated rule triggers, removed targets might still continue to be invoked. Please allow a short period of time for changes to take effect. </p>"
     },
-    "TestEventPattern": {
-      "documentation": "<p>Tests whether an event pattern matches the provided event.</p> <p> <b>Note:</b> Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, CloudWatch Events uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. </p>",
-      "errors": [
+    "TestEventPattern":{
+      "name":"TestEventPattern",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{
+        "shape":"TestEventPatternRequest",
+        "documentation":"<p>Container for the parameters to the <a>TestEventPattern</a> operation.</p>"
+      },
+      "output":{
+        "shape":"TestEventPatternResponse",
+        "documentation":"<p>The result of the <a>TestEventPattern</a> operation.</p>"
+      },
+      "errors":[
         {
-          "documentation": "<p>The event pattern is invalid.</p>",
-          "exception": true,
-          "shape": "InvalidEventPatternException"
+          "shape":"InvalidEventPatternException",
+          "exception":true,
+          "documentation":"<p>The event pattern is invalid.</p>"
         },
         {
-          "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-          "exception": true,
-          "fault": true,
-          "shape": "InternalException"
+          "shape":"InternalException",
+          "exception":true,
+          "fault":true,
+          "documentation":"<p>This exception occurs due to unexpected causes.</p>"
         }
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/"
-      },
-      "input": {
-        "documentation": "<p>Container for the parameters to the <a>TestEventPattern</a> operation.</p>",
-        "shape": "TestEventPatternRequest"
-      },
-      "name": "TestEventPattern",
-      "output": {
-        "documentation": "<p>The result of the <a>TestEventPattern</a> operation.</p>",
-        "shape": "TestEventPatternResponse"
-      }
+      "documentation":"<p>Tests whether an event pattern matches the provided event.</p> <p> <b>Note:</b> Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, CloudWatch Events uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. </p>"
     }
   },
-  "shapes": {
-    "Boolean": {
-      "type": "boolean"
+  "shapes":{
+    "Boolean":{"type":"boolean"},
+    "ConcurrentModificationException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true,
+      "documentation":"<p>This exception occurs if there is concurrent modification on rule or target.</p>"
     },
-    "ConcurrentModificationException": {
-      "documentation": "<p>This exception occurs if there is concurrent modification on rule or target.</p>",
-      "exception": true,
-      "members": {},
-      "type": "structure"
-    },
-    "DeleteRuleRequest": {
-      "documentation": "<p>Container for the parameters to the <a>DeleteRule</a> operation.</p>",
-      "members": {
-        "Name": {
-          "documentation": "<p>The name of the rule to be deleted.</p>",
-          "shape": "RuleName"
+    "DeleteRuleRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule to be deleted.</p>"
         }
       },
-      "required": [
-        "Name"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>DeleteRule</a> operation.</p>"
     },
-    "DescribeRuleRequest": {
-      "documentation": "<p>Container for the parameters to the <a>DescribeRule</a> operation.</p>",
-      "members": {
-        "Name": {
-          "documentation": "<p>The name of the rule you want to describe details for.</p>",
-          "shape": "RuleName"
+    "DescribeRuleRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule you want to describe details for.</p>"
         }
       },
-      "required": [
-        "Name"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>DescribeRule</a> operation.</p>"
     },
-    "DescribeRuleResponse": {
-      "documentation": "<p>The result of the <a>DescribeRule</a> operation.</p>",
-      "members": {
-        "Arn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) associated with the rule.</p>",
-          "shape": "RuleArn"
+    "DescribeRuleResponse":{
+      "type":"structure",
+      "members":{
+        "Name":{
+          "shape":"RuleName",
+          "documentation":"<p>The rule's name.</p>"
         },
-        "Description": {
-          "documentation": "<p>The rule's description.</p>",
-          "shape": "RuleDescription"
+        "Arn":{
+          "shape":"RuleArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) associated with the rule.</p>"
         },
-        "EventPattern": {
-          "documentation": "<p>The event pattern.</p>",
-          "shape": "EventPattern"
+        "EventPattern":{
+          "shape":"EventPattern",
+          "documentation":"<p>The event pattern.</p>"
         },
-        "Name": {
-          "documentation": "<p>The rule's name.</p>",
-          "shape": "RuleName"
+        "ScheduleExpression":{
+          "shape":"ScheduleExpression",
+          "documentation":"<p>The scheduling expression. For example, \"cron(0 20 * * ? *)\", \"rate(5 minutes)\".</p>"
         },
-        "RoleArn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) of the IAM role associated with the rule.</p>",
-          "shape": "RoleArn"
+        "State":{
+          "shape":"RuleState",
+          "documentation":"<p>Specifies whether the rule is enabled or disabled.</p>"
         },
-        "ScheduleExpression": {
-          "documentation": "<p>The scheduling expression. For example, \"cron(0 20 * * ? *)\", \"rate(5 minutes)\".</p>",
-          "shape": "ScheduleExpression"
+        "Description":{
+          "shape":"RuleDescription",
+          "documentation":"<p>The rule's description.</p>"
         },
-        "State": {
-          "documentation": "<p>Specifies whether the rule is enabled or disabled.</p>",
-          "shape": "RuleState"
+        "RoleArn":{
+          "shape":"RoleArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the IAM role associated with the rule.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>DescribeRule</a> operation.</p>"
     },
-    "DisableRuleRequest": {
-      "documentation": "<p>Container for the parameters to the <a>DisableRule</a> operation.</p>",
-      "members": {
-        "Name": {
-          "documentation": "<p>The name of the rule you want to disable.</p>",
-          "shape": "RuleName"
+    "DisableRuleRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule you want to disable.</p>"
         }
       },
-      "required": [
-        "Name"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>DisableRule</a> operation.</p>"
     },
-    "EnableRuleRequest": {
-      "documentation": "<p>Container for the parameters to the <a>EnableRule</a> operation.</p>",
-      "members": {
-        "Name": {
-          "documentation": "<p>The name of the rule that you want to enable.</p>",
-          "shape": "RuleName"
+    "EnableRuleRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule that you want to enable.</p>"
         }
       },
-      "required": [
-        "Name"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>EnableRule</a> operation.</p>"
     },
-    "ErrorCode": {
-      "type": "string"
+    "ErrorCode":{"type":"string"},
+    "ErrorMessage":{"type":"string"},
+    "EventId":{"type":"string"},
+    "EventPattern":{
+      "type":"string",
+      "max":2048
     },
-    "ErrorMessage": {
-      "type": "string"
+    "EventResource":{"type":"string"},
+    "EventResourceList":{
+      "type":"list",
+      "member":{"shape":"EventResource"}
     },
-    "EventId": {
-      "type": "string"
-    },
-    "EventPattern": {
-      "max": 2048,
-      "type": "string"
-    },
-    "EventResource": {
-      "type": "string"
-    },
-    "EventResourceList": {
-      "member": {
-        "shape": "EventResource"
+    "EventTime":{"type":"timestamp"},
+    "Integer":{"type":"integer"},
+    "InternalException":{
+      "type":"structure",
+      "members":{
       },
-      "type": "list"
+      "exception":true,
+      "fault":true,
+      "documentation":"<p>This exception occurs due to unexpected causes.</p>"
     },
-    "EventTime": {
-      "type": "timestamp"
+    "InvalidEventPatternException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true,
+      "documentation":"<p>The event pattern is invalid.</p>"
     },
-    "Integer": {
-      "type": "integer"
+    "LimitExceededException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true,
+      "documentation":"<p>This exception occurs if you try to create more rules or add more targets to a rule than allowed by default.</p>"
     },
-    "InternalException": {
-      "documentation": "<p>This exception occurs due to unexpected causes.</p>",
-      "exception": true,
-      "fault": true,
-      "members": {},
-      "type": "structure"
+    "LimitMax100":{
+      "type":"integer",
+      "min":1,
+      "max":100
     },
-    "InvalidEventPatternException": {
-      "documentation": "<p>The event pattern is invalid.</p>",
-      "exception": true,
-      "members": {},
-      "type": "structure"
-    },
-    "LimitExceededException": {
-      "documentation": "<p>This exception occurs if you try to create more rules or add more targets to a rule than allowed by default.</p>",
-      "exception": true,
-      "members": {},
-      "type": "structure"
-    },
-    "LimitMax100": {
-      "max": 100,
-      "min": 1,
-      "type": "integer"
-    },
-    "ListRuleNamesByTargetRequest": {
-      "documentation": "<p>Container for the parameters to the <a>ListRuleNamesByTarget</a> operation.</p>",
-      "members": {
-        "Limit": {
-          "documentation": "<p>The maximum number of results to return.</p>",
-          "shape": "LimitMax100"
+    "ListRuleNamesByTargetRequest":{
+      "type":"structure",
+      "required":["TargetArn"],
+      "members":{
+        "TargetArn":{
+          "shape":"TargetArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the target resource that you want to list the rules for.</p>"
         },
-        "NextToken": {
-          "documentation": "<p>The token returned by a previous call to indicate that there is more data available.</p>",
-          "shape": "NextToken"
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>The token returned by a previous call to indicate that there is more data available.</p>"
         },
-        "TargetArn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) of the target resource that you want to list the rules for.</p>",
-          "shape": "TargetArn"
+        "Limit":{
+          "shape":"LimitMax100",
+          "documentation":"<p>The maximum number of results to return.</p>"
         }
       },
-      "required": [
-        "TargetArn"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>ListRuleNamesByTarget</a> operation.</p>"
     },
-    "ListRuleNamesByTargetResponse": {
-      "documentation": "<p>The result of the <a>ListRuleNamesByTarget</a> operation.</p>",
-      "members": {
-        "NextToken": {
-          "documentation": "<p>Indicates that there are additional results to retrieve.</p>",
-          "shape": "NextToken"
+    "ListRuleNamesByTargetResponse":{
+      "type":"structure",
+      "members":{
+        "RuleNames":{
+          "shape":"RuleNameList",
+          "documentation":"<p>List of rules names that can invoke the given target.</p>"
         },
-        "RuleNames": {
-          "documentation": "<p>List of rules names that can invoke the given target.</p>",
-          "shape": "RuleNameList"
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>Indicates that there are additional results to retrieve.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>ListRuleNamesByTarget</a> operation.</p>"
     },
-    "ListRulesRequest": {
-      "documentation": "<p>Container for the parameters to the <a>ListRules</a> operation.</p>",
-      "members": {
-        "Limit": {
-          "documentation": "<p>The maximum number of results to return.</p>",
-          "shape": "LimitMax100"
+    "ListRulesRequest":{
+      "type":"structure",
+      "members":{
+        "NamePrefix":{
+          "shape":"RuleName",
+          "documentation":"<p>The prefix matching the rule name.</p>"
         },
-        "NamePrefix": {
-          "documentation": "<p>The prefix matching the rule name.</p>",
-          "shape": "RuleName"
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>The token returned by a previous call to indicate that there is more data available.</p>"
         },
-        "NextToken": {
-          "documentation": "<p>The token returned by a previous call to indicate that there is more data available.</p>",
-          "shape": "NextToken"
+        "Limit":{
+          "shape":"LimitMax100",
+          "documentation":"<p>The maximum number of results to return.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>ListRules</a> operation.</p>"
     },
-    "ListRulesResponse": {
-      "documentation": "<p>The result of the <a>ListRules</a> operation.</p>",
-      "members": {
-        "NextToken": {
-          "documentation": "<p>Indicates that there are additional results to retrieve.</p>",
-          "shape": "NextToken"
+    "ListRulesResponse":{
+      "type":"structure",
+      "members":{
+        "Rules":{
+          "shape":"RuleResponseList",
+          "documentation":"<p>List of rules matching the specified criteria.</p>"
         },
-        "Rules": {
-          "documentation": "<p>List of rules matching the specified criteria.</p>",
-          "shape": "RuleResponseList"
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>Indicates that there are additional results to retrieve.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>ListRules</a> operation.</p>"
     },
-    "ListTargetsByRuleRequest": {
-      "documentation": "<p>Container for the parameters to the <a>ListTargetsByRule</a> operation.</p>",
-      "members": {
-        "Limit": {
-          "documentation": "<p>The maximum number of results to return.</p>",
-          "shape": "LimitMax100"
+    "ListTargetsByRuleRequest":{
+      "type":"structure",
+      "required":["Rule"],
+      "members":{
+        "Rule":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule whose targets you want to list.</p>"
         },
-        "NextToken": {
-          "documentation": "<p>The token returned by a previous call to indicate that there is more data available.</p>",
-          "shape": "NextToken"
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>The token returned by a previous call to indicate that there is more data available.</p>"
         },
-        "Rule": {
-          "documentation": "<p>The name of the rule whose targets you want to list.</p>",
-          "shape": "RuleName"
+        "Limit":{
+          "shape":"LimitMax100",
+          "documentation":"<p>The maximum number of results to return.</p>"
         }
       },
-      "required": [
-        "Rule"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>ListTargetsByRule</a> operation.</p>"
     },
-    "ListTargetsByRuleResponse": {
-      "documentation": "<p>The result of the <a>ListTargetsByRule</a> operation.</p>",
-      "members": {
-        "NextToken": {
-          "documentation": "<p>Indicates that there are additional results to retrieve.</p>",
-          "shape": "NextToken"
+    "ListTargetsByRuleResponse":{
+      "type":"structure",
+      "members":{
+        "Targets":{
+          "shape":"TargetList",
+          "documentation":"<p>Lists the targets assigned to the rule.</p>"
         },
-        "Targets": {
-          "documentation": "<p>Lists the targets assigned to the rule.</p>",
-          "shape": "TargetList"
+        "NextToken":{
+          "shape":"NextToken",
+          "documentation":"<p>Indicates that there are additional results to retrieve.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>ListTargetsByRule</a> operation.</p>"
     },
-    "NextToken": {
-      "max": 2048,
-      "min": 1,
-      "type": "string"
+    "NextToken":{
+      "type":"string",
+      "min":1,
+      "max":2048
     },
-    "PutEventsRequest": {
-      "documentation": "<p>Container for the parameters to the <a>PutEvents</a> operation.</p>",
-      "members": {
-        "Entries": {
-          "documentation": "<p>The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.</p>",
-          "shape": "PutEventsRequestEntryList"
+    "PutEventsRequest":{
+      "type":"structure",
+      "required":["Entries"],
+      "members":{
+        "Entries":{
+          "shape":"PutEventsRequestEntryList",
+          "documentation":"<p>The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.</p>"
         }
       },
-      "required": [
-        "Entries"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>PutEvents</a> operation.</p>"
     },
-    "PutEventsRequestEntry": {
-      "documentation": "<p>Contains information about the event to be used in the PutEvents action.</p>",
-      "members": {
-        "Detail": {
-          "documentation": "<p>In the JSON sense, an object containing fields, which may also contain nested sub-objects. No constraints are imposed on its contents.</p>",
-          "shape": "String"
+    "PutEventsRequestEntry":{
+      "type":"structure",
+      "members":{
+        "Time":{
+          "shape":"EventTime",
+          "documentation":"<p>Timestamp of event, per <a href=\"https://www.rfc-editor.org/rfc/rfc3339.txt\">RFC3339</a>. If no timestamp is provided, the timestamp of the <a>PutEvents</a> call will be used.</p>"
         },
-        "DetailType": {
-          "documentation": "<p>Free-form string used to decide what fields to expect in the event detail.</p>",
-          "shape": "String"
+        "Source":{
+          "shape":"String",
+          "documentation":"<p>The source of the event.</p>"
         },
-        "Resources": {
-          "documentation": "<p>AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.</p>",
-          "shape": "EventResourceList"
+        "Resources":{
+          "shape":"EventResourceList",
+          "documentation":"<p>AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.</p>"
         },
-        "Source": {
-          "documentation": "<p>The source of the event.</p>",
-          "shape": "String"
+        "DetailType":{
+          "shape":"String",
+          "documentation":"<p>Free-form string used to decide what fields to expect in the event detail.</p>"
         },
-        "Time": {
-          "documentation": "<p>Timestamp of event, per <a href=\"https://www.rfc-editor.org/rfc/rfc3339.txt\">RFC3339</a>. If no timestamp is provided, the timestamp of the <a>PutEvents</a> call will be used.</p>",
-          "shape": "EventTime"
+        "Detail":{
+          "shape":"String",
+          "documentation":"<p>In the JSON sense, an object containing fields, which may also contain nested sub-objects. No constraints are imposed on its contents.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Contains information about the event to be used in the PutEvents action.</p>"
     },
-    "PutEventsRequestEntryList": {
-      "max": 10,
-      "member": {
-        "shape": "PutEventsRequestEntry"
-      },
-      "min": 1,
-      "type": "list"
+    "PutEventsRequestEntryList":{
+      "type":"list",
+      "member":{"shape":"PutEventsRequestEntry"},
+      "min":1,
+      "max":10
     },
-    "PutEventsResponse": {
-      "documentation": "<p>The result of the <a>PutEvents</a> operation.</p>",
-      "members": {
-        "Entries": {
-          "documentation": "<p>A list of successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry will have the event ID in it. If not, then the ErrorCode and ErrorMessage can be used to identify the problem with the entry.</p>",
-          "shape": "PutEventsResultEntryList"
+    "PutEventsResponse":{
+      "type":"structure",
+      "members":{
+        "FailedEntryCount":{
+          "shape":"Integer",
+          "documentation":"<p>The number of failed entries.</p>"
         },
-        "FailedEntryCount": {
-          "documentation": "<p>The number of failed entries.</p>",
-          "shape": "Integer"
+        "Entries":{
+          "shape":"PutEventsResultEntryList",
+          "documentation":"<p>A list of successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry will have the event ID in it. If not, then the ErrorCode and ErrorMessage can be used to identify the problem with the entry.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>PutEvents</a> operation.</p>"
     },
-    "PutEventsResultEntry": {
-      "documentation": "<p>A PutEventsResult contains a list of PutEventsResultEntry.</p>",
-      "members": {
-        "ErrorCode": {
-          "documentation": "<p>The error code representing why the event submission failed on this entry.</p>",
-          "shape": "ErrorCode"
+    "PutEventsResultEntry":{
+      "type":"structure",
+      "members":{
+        "EventId":{
+          "shape":"EventId",
+          "documentation":"<p>The ID of the event submitted to Amazon CloudWatch Events.</p>"
         },
-        "ErrorMessage": {
-          "documentation": "<p>The error message explaining why the event submission failed on this entry.</p>",
-          "shape": "ErrorMessage"
+        "ErrorCode":{
+          "shape":"ErrorCode",
+          "documentation":"<p>The error code representing why the event submission failed on this entry.</p>"
         },
-        "EventId": {
-          "documentation": "<p>The ID of the event submitted to Amazon CloudWatch Events.</p>",
-          "shape": "EventId"
+        "ErrorMessage":{
+          "shape":"ErrorMessage",
+          "documentation":"<p>The error message explaining why the event submission failed on this entry.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>A PutEventsResult contains a list of PutEventsResultEntry.</p>"
     },
-    "PutEventsResultEntryList": {
-      "member": {
-        "shape": "PutEventsResultEntry"
-      },
-      "type": "list"
+    "PutEventsResultEntryList":{
+      "type":"list",
+      "member":{"shape":"PutEventsResultEntry"}
     },
-    "PutRuleRequest": {
-      "documentation": "<p>Container for the parameters to the <a>PutRule</a> operation.</p>",
-      "members": {
-        "Description": {
-          "documentation": "<p>A description of the rule.</p>",
-          "shape": "RuleDescription"
+    "PutRuleRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule that you are creating or updating.</p>"
         },
-        "EventPattern": {
-          "documentation": "<p>The event pattern.</p>",
-          "shape": "EventPattern"
+        "ScheduleExpression":{
+          "shape":"ScheduleExpression",
+          "documentation":"<p>The scheduling expression. For example, \"cron(0 20 * * ? *)\", \"rate(5 minutes)\".</p>"
         },
-        "Name": {
-          "documentation": "<p>The name of the rule that you are creating or updating.</p>",
-          "shape": "RuleName"
+        "EventPattern":{
+          "shape":"EventPattern",
+          "documentation":"<p>The event pattern.</p>"
         },
-        "RoleArn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) of the IAM role associated with the rule.</p>",
-          "shape": "RoleArn"
+        "State":{
+          "shape":"RuleState",
+          "documentation":"<p>Indicates whether the rule is enabled or disabled.</p>"
         },
-        "ScheduleExpression": {
-          "documentation": "<p>The scheduling expression. For example, \"cron(0 20 * * ? *)\", \"rate(5 minutes)\".</p>",
-          "shape": "ScheduleExpression"
+        "Description":{
+          "shape":"RuleDescription",
+          "documentation":"<p>A description of the rule.</p>"
         },
-        "State": {
-          "documentation": "<p>Indicates whether the rule is enabled or disabled.</p>",
-          "shape": "RuleState"
+        "RoleArn":{
+          "shape":"RoleArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the IAM role associated with the rule.</p>"
         }
       },
-      "required": [
-        "Name"
-      ],
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>PutRule</a> operation.</p>"
     },
-    "PutRuleResponse": {
-      "documentation": "<p>The result of the <a>PutRule</a> operation.</p>",
-      "members": {
-        "RuleArn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) that identifies the rule.</p>",
-          "shape": "RuleArn"
+    "PutRuleResponse":{
+      "type":"structure",
+      "members":{
+        "RuleArn":{
+          "shape":"RuleArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) that identifies the rule.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>PutRule</a> operation.</p>"
     },
-    "PutTargetsRequest": {
-      "documentation": "<p>Container for the parameters to the <a>PutTargets</a> operation.</p>",
-      "members": {
-        "Rule": {
-          "documentation": "<p>The name of the rule you want to add targets to.</p>",
-          "shape": "RuleName"
-        },
-        "Targets": {
-          "documentation": "<p>List of targets you want to update or add to the rule.</p>",
-          "shape": "TargetList"
-        }
-      },
-      "required": [
+    "PutTargetsRequest":{
+      "type":"structure",
+      "required":[
         "Rule",
         "Targets"
       ],
-      "type": "structure"
-    },
-    "PutTargetsResponse": {
-      "documentation": "<p>The result of the <a>PutTargets</a> operation.</p>",
-      "members": {
-        "FailedEntries": {
-          "documentation": "<p>An array of failed target entries.</p>",
-          "shape": "PutTargetsResultEntryList"
+      "members":{
+        "Rule":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule you want to add targets to.</p>"
         },
-        "FailedEntryCount": {
-          "documentation": "<p>The number of failed entries.</p>",
-          "shape": "Integer"
+        "Targets":{
+          "shape":"TargetList",
+          "documentation":"<p>List of targets you want to update or add to the rule.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>PutTargets</a> operation.</p>"
     },
-    "PutTargetsResultEntry": {
-      "documentation": "<p>A PutTargetsResult contains a list of PutTargetsResultEntry.</p>",
-      "members": {
-        "ErrorCode": {
-          "documentation": "<p>The error code representing why the target submission failed on this entry.</p>",
-          "shape": "ErrorCode"
+    "PutTargetsResponse":{
+      "type":"structure",
+      "members":{
+        "FailedEntryCount":{
+          "shape":"Integer",
+          "documentation":"<p>The number of failed entries.</p>"
         },
-        "ErrorMessage": {
-          "documentation": "<p>The error message explaining why the target submission failed on this entry.</p>",
-          "shape": "ErrorMessage"
-        },
-        "TargetId": {
-          "documentation": "<p>The ID of the target submitted to Amazon CloudWatch Events.</p>",
-          "shape": "TargetId"
+        "FailedEntries":{
+          "shape":"PutTargetsResultEntryList",
+          "documentation":"<p>An array of failed target entries.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>PutTargets</a> operation.</p>"
     },
-    "PutTargetsResultEntryList": {
-      "member": {
-        "shape": "PutTargetsResultEntry"
-      },
-      "type": "list"
-    },
-    "RemoveTargetsRequest": {
-      "documentation": "<p>Container for the parameters to the <a>RemoveTargets</a> operation.</p>",
-      "members": {
-        "Ids": {
-          "documentation": "<p>The list of target IDs to remove from the rule.</p>",
-          "shape": "TargetIdList"
+    "PutTargetsResultEntry":{
+      "type":"structure",
+      "members":{
+        "TargetId":{
+          "shape":"TargetId",
+          "documentation":"<p>The ID of the target submitted to Amazon CloudWatch Events.</p>"
         },
-        "Rule": {
-          "documentation": "<p>The name of the rule you want to remove targets from.</p>",
-          "shape": "RuleName"
+        "ErrorCode":{
+          "shape":"ErrorCode",
+          "documentation":"<p>The error code representing why the target submission failed on this entry.</p>"
+        },
+        "ErrorMessage":{
+          "shape":"ErrorMessage",
+          "documentation":"<p>The error message explaining why the target submission failed on this entry.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>A PutTargetsResult contains a list of PutTargetsResultEntry.</p>"
+    },
+    "PutTargetsResultEntryList":{
+      "type":"list",
+      "member":{"shape":"PutTargetsResultEntry"}
+    },
+    "RemoveTargetsRequest":{
+      "type":"structure",
+      "required":[
         "Rule",
         "Ids"
       ],
-      "type": "structure"
-    },
-    "RemoveTargetsResponse": {
-      "documentation": "<p>The result of the <a>RemoveTargets</a> operation.</p>",
-      "members": {
-        "FailedEntries": {
-          "documentation": "<p>An array of failed target entries.</p>",
-          "shape": "RemoveTargetsResultEntryList"
+      "members":{
+        "Rule":{
+          "shape":"RuleName",
+          "documentation":"<p>The name of the rule you want to remove targets from.</p>"
         },
-        "FailedEntryCount": {
-          "documentation": "<p>The number of failed entries.</p>",
-          "shape": "Integer"
+        "Ids":{
+          "shape":"TargetIdList",
+          "documentation":"<p>The list of target IDs to remove from the rule.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>RemoveTargets</a> operation.</p>"
     },
-    "RemoveTargetsResultEntry": {
-      "documentation": "<p>The ID of the target requested to be removed from the rule by Amazon CloudWatch Events.</p>",
-      "members": {
-        "ErrorCode": {
-          "documentation": "<p>The error code representing why the target removal failed on this entry.</p>",
-          "shape": "ErrorCode"
+    "RemoveTargetsResponse":{
+      "type":"structure",
+      "members":{
+        "FailedEntryCount":{
+          "shape":"Integer",
+          "documentation":"<p>The number of failed entries.</p>"
         },
-        "ErrorMessage": {
-          "documentation": "<p>The error message explaining why the target removal failed on this entry.</p>",
-          "shape": "ErrorMessage"
-        },
-        "TargetId": {
-          "documentation": "<p>The ID of the target requested to be removed by Amazon CloudWatch Events.</p>",
-          "shape": "TargetId"
+        "FailedEntries":{
+          "shape":"RemoveTargetsResultEntryList",
+          "documentation":"<p>An array of failed target entries.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The result of the <a>RemoveTargets</a> operation.</p>"
     },
-    "RemoveTargetsResultEntryList": {
-      "member": {
-        "shape": "RemoveTargetsResultEntry"
-      },
-      "type": "list"
-    },
-    "ResourceNotFoundException": {
-      "documentation": "<p>The rule does not exist.</p>",
-      "exception": true,
-      "members": {},
-      "type": "structure"
-    },
-    "RoleArn": {
-      "max": 1600,
-      "min": 1,
-      "type": "string"
-    },
-    "Rule": {
-      "documentation": "<p>Contains information about a rule in Amazon CloudWatch Events. A ListRulesResult contains a list of Rules.</p>",
-      "members": {
-        "Arn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) of the rule.</p>",
-          "shape": "RuleArn"
+    "RemoveTargetsResultEntry":{
+      "type":"structure",
+      "members":{
+        "TargetId":{
+          "shape":"TargetId",
+          "documentation":"<p>The ID of the target requested to be removed by Amazon CloudWatch Events.</p>"
         },
-        "Description": {
-          "documentation": "<p>The description of the rule.</p>",
-          "shape": "RuleDescription"
+        "ErrorCode":{
+          "shape":"ErrorCode",
+          "documentation":"<p>The error code representing why the target removal failed on this entry.</p>"
         },
-        "EventPattern": {
-          "documentation": "<p>The event pattern of the rule.</p>",
-          "shape": "EventPattern"
-        },
-        "Name": {
-          "documentation": "<p>The rule's name.</p>",
-          "shape": "RuleName"
-        },
-        "RoleArn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) associated with the role that is used for target invocation.</p>",
-          "shape": "RoleArn"
-        },
-        "ScheduleExpression": {
-          "documentation": "<p>The scheduling expression. For example, \"cron(0 20 * * ? *)\", \"rate(5 minutes)\".</p>",
-          "shape": "ScheduleExpression"
-        },
-        "State": {
-          "documentation": "<p>The rule's state.</p>",
-          "shape": "RuleState"
+        "ErrorMessage":{
+          "shape":"ErrorMessage",
+          "documentation":"<p>The error message explaining why the target removal failed on this entry.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>The ID of the target requested to be removed from the rule by Amazon CloudWatch Events.</p>"
     },
-    "RuleArn": {
-      "max": 1600,
-      "min": 1,
-      "type": "string"
+    "RemoveTargetsResultEntryList":{
+      "type":"list",
+      "member":{"shape":"RemoveTargetsResultEntry"}
     },
-    "RuleDescription": {
-      "max": 512,
-      "type": "string"
-    },
-    "RuleName": {
-      "max": 64,
-      "min": 1,
-      "pattern": "[\\.\\-_A-Za-z0-9]+",
-      "type": "string"
-    },
-    "RuleNameList": {
-      "member": {
-        "shape": "RuleName"
+    "ResourceNotFoundException":{
+      "type":"structure",
+      "members":{
       },
-      "type": "list"
+      "exception":true,
+      "documentation":"<p>The rule does not exist.</p>"
     },
-    "RuleResponseList": {
-      "member": {
-        "shape": "Rule"
+    "RoleArn":{
+      "type":"string",
+      "min":1,
+      "max":1600
+    },
+    "Rule":{
+      "type":"structure",
+      "members":{
+        "Name":{
+          "shape":"RuleName",
+          "documentation":"<p>The rule's name.</p>"
+        },
+        "Arn":{
+          "shape":"RuleArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the rule.</p>"
+        },
+        "EventPattern":{
+          "shape":"EventPattern",
+          "documentation":"<p>The event pattern of the rule.</p>"
+        },
+        "State":{
+          "shape":"RuleState",
+          "documentation":"<p>The rule's state.</p>"
+        },
+        "Description":{
+          "shape":"RuleDescription",
+          "documentation":"<p>The description of the rule.</p>"
+        },
+        "ScheduleExpression":{
+          "shape":"ScheduleExpression",
+          "documentation":"<p>The scheduling expression. For example, \"cron(0 20 * * ? *)\", \"rate(5 minutes)\".</p>"
+        },
+        "RoleArn":{
+          "shape":"RoleArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) associated with the role that is used for target invocation.</p>"
+        }
       },
-      "type": "list"
+      "documentation":"<p>Contains information about a rule in Amazon CloudWatch Events. A ListRulesResult contains a list of Rules.</p>"
     },
-    "RuleState": {
-      "enum": [
+    "RuleArn":{
+      "type":"string",
+      "min":1,
+      "max":1600
+    },
+    "RuleDescription":{
+      "type":"string",
+      "max":512
+    },
+    "RuleName":{
+      "type":"string",
+      "min":1,
+      "max":64,
+      "pattern":"[\\.\\-_A-Za-z0-9]+"
+    },
+    "RuleNameList":{
+      "type":"list",
+      "member":{"shape":"RuleName"}
+    },
+    "RuleResponseList":{
+      "type":"list",
+      "member":{"shape":"Rule"}
+    },
+    "RuleState":{
+      "type":"string",
+      "enum":[
         "ENABLED",
         "DISABLED"
-      ],
-      "type": "string"
+      ]
     },
-    "ScheduleExpression": {
-      "max": 256,
-      "type": "string"
+    "ScheduleExpression":{
+      "type":"string",
+      "max":256
     },
-    "String": {
-      "type": "string"
-    },
-    "Target": {
-      "documentation": "<p>Targets are the resources that can be invoked when a rule is triggered. For example, AWS Lambda functions, Amazon Kinesis streams, and built-in targets.</p> <p><b>Input</b> and <b>InputPath</b> are mutually-exclusive and optional parameters of a target. When a rule is triggered due to a matched event, if for a target:</p> <ul> <li>Neither <b>Input</b> nor <b>InputPath</b> is specified, then the entire event is passed to the target in JSON form.</li> <li> <b>InputPath</b> is specified in the form of JSONPath (e.g. <b>$.detail</b>), then only the part of the event specified in the path is passed to the target (e.g. only the detail part of the event is passed). </li> <li> <b>Input</b> is specified in the form of a valid JSON, then the matched event is overridden with this constant.</li> </ul>",
-      "members": {
-        "Arn": {
-          "documentation": "<p>The Amazon Resource Name (ARN) associated of the target.</p>",
-          "shape": "TargetArn"
-        },
-        "Id": {
-          "documentation": "<p>The unique target assignment ID.</p>",
-          "shape": "TargetId"
-        },
-        "Input": {
-          "documentation": "<p>Valid JSON text passed to the target. For more information about JSON text, see <a href=\"http://www.rfc-editor.org/rfc/rfc7159.txt\">The JavaScript Object Notation (JSON) Data Interchange Format</a>.</p>",
-          "shape": "TargetInput"
-        },
-        "InputPath": {
-          "documentation": "<p>The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. For more information about JSON paths, see <a href=\"http://goessner.net/articles/JsonPath/\">JSONPath</a>.</p>",
-          "shape": "TargetInputPath"
-        }
-      },
-      "required": [
+    "String":{"type":"string"},
+    "Target":{
+      "type":"structure",
+      "required":[
         "Id",
         "Arn"
       ],
-      "type": "structure"
-    },
-    "TargetArn": {
-      "max": 1600,
-      "min": 1,
-      "type": "string"
-    },
-    "TargetId": {
-      "max": 64,
-      "min": 1,
-      "pattern": "[\\.\\-_A-Za-z0-9]+",
-      "type": "string"
-    },
-    "TargetIdList": {
-      "max": 100,
-      "member": {
-        "shape": "TargetId"
-      },
-      "min": 1,
-      "type": "list"
-    },
-    "TargetInput": {
-      "max": 8192,
-      "type": "string"
-    },
-    "TargetInputPath": {
-      "max": 256,
-      "type": "string"
-    },
-    "TargetList": {
-      "member": {
-        "shape": "Target"
-      },
-      "type": "list"
-    },
-    "TestEventPatternRequest": {
-      "documentation": "<p>Container for the parameters to the <a>TestEventPattern</a> operation.</p>",
-      "members": {
-        "Event": {
-          "documentation": "<p>The event in the JSON format to test against the event pattern.</p>",
-          "shape": "String"
+      "members":{
+        "Id":{
+          "shape":"TargetId",
+          "documentation":"<p>The unique target assignment ID.</p>"
         },
-        "EventPattern": {
-          "documentation": "<p>The event pattern you want to test.</p>",
-          "shape": "EventPattern"
+        "Arn":{
+          "shape":"TargetArn",
+          "documentation":"<p>The Amazon Resource Name (ARN) associated of the target.</p>"
+        },
+        "Input":{
+          "shape":"TargetInput",
+          "documentation":"<p>Valid JSON text passed to the target. For more information about JSON text, see <a href=\"http://www.rfc-editor.org/rfc/rfc7159.txt\">The JavaScript Object Notation (JSON) Data Interchange Format</a>.</p>"
+        },
+        "InputPath":{
+          "shape":"TargetInputPath",
+          "documentation":"<p>The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. For more information about JSON paths, see <a href=\"http://goessner.net/articles/JsonPath/\">JSONPath</a>.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Targets are the resources that can be invoked when a rule is triggered. For example, AWS Lambda functions, Amazon Kinesis streams, and built-in targets.</p> <p><b>Input</b> and <b>InputPath</b> are mutually-exclusive and optional parameters of a target. When a rule is triggered due to a matched event, if for a target:</p> <ul> <li>Neither <b>Input</b> nor <b>InputPath</b> is specified, then the entire event is passed to the target in JSON form.</li> <li> <b>InputPath</b> is specified in the form of JSONPath (e.g. <b>$.detail</b>), then only the part of the event specified in the path is passed to the target (e.g. only the detail part of the event is passed). </li> <li> <b>Input</b> is specified in the form of a valid JSON, then the matched event is overridden with this constant.</li> </ul>"
+    },
+    "TargetArn":{
+      "type":"string",
+      "min":1,
+      "max":1600
+    },
+    "TargetId":{
+      "type":"string",
+      "min":1,
+      "max":64,
+      "pattern":"[\\.\\-_A-Za-z0-9]+"
+    },
+    "TargetIdList":{
+      "type":"list",
+      "member":{"shape":"TargetId"},
+      "min":1,
+      "max":100
+    },
+    "TargetInput":{
+      "type":"string",
+      "max":8192
+    },
+    "TargetInputPath":{
+      "type":"string",
+      "max":256
+    },
+    "TargetList":{
+      "type":"list",
+      "member":{"shape":"Target"}
+    },
+    "TestEventPatternRequest":{
+      "type":"structure",
+      "required":[
         "EventPattern",
         "Event"
       ],
-      "type": "structure"
-    },
-    "TestEventPatternResponse": {
-      "documentation": "<p>The result of the <a>TestEventPattern</a> operation.</p>",
-      "members": {
-        "Result": {
-          "documentation": "<p>Indicates whether the event matches the event pattern.</p>",
-          "shape": "Boolean"
+      "members":{
+        "EventPattern":{
+          "shape":"EventPattern",
+          "documentation":"<p>The event pattern you want to test.</p>"
+        },
+        "Event":{
+          "shape":"String",
+          "documentation":"<p>The event in the JSON format to test against the event pattern.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Container for the parameters to the <a>TestEventPattern</a> operation.</p>"
+    },
+    "TestEventPatternResponse":{
+      "type":"structure",
+      "members":{
+        "Result":{
+          "shape":"Boolean",
+          "documentation":"<p>Indicates whether the event matches the event pattern.</p>"
+        }
+      },
+      "documentation":"<p>The result of the <a>TestEventPattern</a> operation.</p>"
     }
   },
-  "version": "2.0"
+  "examples":{
+  }
 }

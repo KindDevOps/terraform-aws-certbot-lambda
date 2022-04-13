@@ -10,13 +10,13 @@ import cryptography
 from . import version
 
 
-_env_info = u"""\
+_env_info = """\
 pyOpenSSL: {pyopenssl}
 cryptography: {cryptography}
 cffi: {cffi}
 cryptography's compiled against OpenSSL: {crypto_openssl_compile}
 cryptography's linked OpenSSL: {crypto_openssl_link}
-Pythons's OpenSSL: {python_openssl}
+Python's OpenSSL: {python_openssl}
 Python executable: {python}
 Python version: {python_version}
 Platform: {platform}

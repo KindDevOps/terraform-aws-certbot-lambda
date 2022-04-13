@@ -1,778 +1,503 @@
 {
-  "documentation": "<p/> <p>Amazon Managed Blockchain is a fully managed service for creating and managing blockchain networks using open source frameworks. Blockchain allows you to build applications where multiple parties can securely and transparently run transactions and share data without the need for a trusted, central authority. Currently, Managed Blockchain supports the Hyperledger Fabric open source framework. </p>",
-  "metadata": {
-    "apiVersion": "2018-09-24",
-    "endpointPrefix": "managedblockchain",
-    "jsonVersion": "1.1",
-    "protocol": "rest-json",
-    "serviceAbbreviation": "ManagedBlockchain",
-    "serviceFullName": "Amazon Managed Blockchain",
-    "serviceId": "ManagedBlockchain",
-    "signatureVersion": "v4",
-    "signingName": "managedblockchain",
-    "uid": "managedblockchain-2018-09-24"
+  "version":"2.0",
+  "metadata":{
+    "apiVersion":"2018-09-24",
+    "endpointPrefix":"managedblockchain",
+    "jsonVersion":"1.1",
+    "protocol":"rest-json",
+    "serviceAbbreviation":"ManagedBlockchain",
+    "serviceFullName":"Amazon Managed Blockchain",
+    "serviceId":"ManagedBlockchain",
+    "signatureVersion":"v4",
+    "signingName":"managedblockchain",
+    "uid":"managedblockchain-2018-09-24"
   },
-  "operations": {
-    "CreateMember": {
-      "documentation": "<p>Creates a member within a Managed Blockchain network.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ResourceAlreadyExistsException"
-        },
-        {
-          "shape": "ResourceNotReadyException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ResourceLimitExceededException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+  "operations":{
+    "CreateMember":{
+      "name":"CreateMember",
+      "http":{
+        "method":"POST",
+        "requestUri":"/networks/{networkId}/members"
+      },
+      "input":{"shape":"CreateMemberInput"},
+      "output":{"shape":"CreateMemberOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceAlreadyExistsException"},
+        {"shape":"ResourceNotReadyException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ResourceLimitExceededException"},
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"TooManyTagsException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/networks/{networkId}/members"
-      },
-      "input": {
-        "shape": "CreateMemberInput"
-      },
-      "name": "CreateMember",
-      "output": {
-        "shape": "CreateMemberOutput"
-      }
+      "documentation":"<p>Creates a member within a Managed Blockchain network.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "CreateNetwork": {
-      "documentation": "<p>Creates a new blockchain network using Amazon Managed Blockchain.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceAlreadyExistsException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ResourceLimitExceededException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "CreateNetwork":{
+      "name":"CreateNetwork",
+      "http":{
+        "method":"POST",
+        "requestUri":"/networks"
+      },
+      "input":{"shape":"CreateNetworkInput"},
+      "output":{"shape":"CreateNetworkOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceAlreadyExistsException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ResourceLimitExceededException"},
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"TooManyTagsException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/networks"
-      },
-      "input": {
-        "shape": "CreateNetworkInput"
-      },
-      "name": "CreateNetwork",
-      "output": {
-        "shape": "CreateNetworkOutput"
-      }
+      "documentation":"<p>Creates a new blockchain network using Amazon Managed Blockchain.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "CreateNode": {
-      "documentation": "<p>Creates a peer node in a member.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ResourceAlreadyExistsException"
-        },
-        {
-          "shape": "ResourceNotReadyException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ResourceLimitExceededException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "CreateNode":{
+      "name":"CreateNode",
+      "http":{
+        "method":"POST",
+        "requestUri":"/networks/{networkId}/nodes"
+      },
+      "input":{"shape":"CreateNodeInput"},
+      "output":{"shape":"CreateNodeOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceAlreadyExistsException"},
+        {"shape":"ResourceNotReadyException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ResourceLimitExceededException"},
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"TooManyTagsException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/networks/{networkId}/members/{memberId}/nodes"
-      },
-      "input": {
-        "shape": "CreateNodeInput"
-      },
-      "name": "CreateNode",
-      "output": {
-        "shape": "CreateNodeOutput"
-      }
+      "documentation":"<p>Creates a node on the specified blockchain network.</p> <p>Applies to Hyperledger Fabric and Ethereum.</p>"
     },
-    "CreateProposal": {
-      "documentation": "<p>Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ResourceNotReadyException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "CreateProposal":{
+      "name":"CreateProposal",
+      "http":{
+        "method":"POST",
+        "requestUri":"/networks/{networkId}/proposals"
+      },
+      "input":{"shape":"CreateProposalInput"},
+      "output":{"shape":"CreateProposalOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceNotReadyException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"TooManyTagsException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/networks/{networkId}/proposals"
-      },
-      "input": {
-        "shape": "CreateProposalInput"
-      },
-      "name": "CreateProposal",
-      "output": {
-        "shape": "CreateProposalOutput"
-      }
+      "documentation":"<p>Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "DeleteMember": {
-      "documentation": "<p>Deletes a member. Deleting a member removes the member and all associated resources from the network. <code>DeleteMember</code> can only be called for a specified <code>MemberId</code> if the principal performing the action is associated with the AWS account that owns the member. In all other cases, the <code>DeleteMember</code> action is carried out as the result of an approved proposal to remove a member. If <code>MemberId</code> is the last member in a network specified by the last AWS account, the network is deleted also.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ResourceNotReadyException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "DeleteMember":{
+      "name":"DeleteMember",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/networks/{networkId}/members/{memberId}"
+      },
+      "input":{"shape":"DeleteMemberInput"},
+      "output":{"shape":"DeleteMemberOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceNotReadyException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/networks/{networkId}/members/{memberId}"
-      },
-      "input": {
-        "shape": "DeleteMemberInput"
-      },
-      "name": "DeleteMember",
-      "output": {
-        "shape": "DeleteMemberOutput"
-      }
+      "documentation":"<p>Deletes a member. Deleting a member removes the member and all associated resources from the network. <code>DeleteMember</code> can only be called for a specified <code>MemberId</code> if the principal performing the action is associated with the AWS account that owns the member. In all other cases, the <code>DeleteMember</code> action is carried out as the result of an approved proposal to remove a member. If <code>MemberId</code> is the last member in a network specified by the last AWS account, the network is deleted also.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "DeleteNode": {
-      "documentation": "<p>Deletes a peer node from a member that your AWS account owns. All data on the node is lost and cannot be recovered.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ResourceNotReadyException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "DeleteNode":{
+      "name":"DeleteNode",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/networks/{networkId}/nodes/{nodeId}"
+      },
+      "input":{"shape":"DeleteNodeInput"},
+      "output":{"shape":"DeleteNodeOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceNotReadyException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/networks/{networkId}/members/{memberId}/nodes/{nodeId}"
-      },
-      "input": {
-        "shape": "DeleteNodeInput"
-      },
-      "name": "DeleteNode",
-      "output": {
-        "shape": "DeleteNodeOutput"
-      }
+      "documentation":"<p>Deletes a node that your AWS account owns. All data on the node is lost and cannot be recovered.</p> <p>Applies to Hyperledger Fabric and Ethereum.</p>"
     },
-    "GetMember": {
-      "documentation": "<p>Returns detailed information about a member.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "GetMember":{
+      "name":"GetMember",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}/members/{memberId}"
+      },
+      "input":{"shape":"GetMemberInput"},
+      "output":{"shape":"GetMemberOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}/members/{memberId}"
-      },
-      "input": {
-        "shape": "GetMemberInput"
-      },
-      "name": "GetMember",
-      "output": {
-        "shape": "GetMemberOutput"
-      }
+      "documentation":"<p>Returns detailed information about a member.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "GetNetwork": {
-      "documentation": "<p>Returns detailed information about a network.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "GetNetwork":{
+      "name":"GetNetwork",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}"
+      },
+      "input":{"shape":"GetNetworkInput"},
+      "output":{"shape":"GetNetworkOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}"
-      },
-      "input": {
-        "shape": "GetNetworkInput"
-      },
-      "name": "GetNetwork",
-      "output": {
-        "shape": "GetNetworkOutput"
-      }
+      "documentation":"<p>Returns detailed information about a network.</p> <p>Applies to Hyperledger Fabric and Ethereum.</p>"
     },
-    "GetNode": {
-      "documentation": "<p>Returns detailed information about a peer node.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "GetNode":{
+      "name":"GetNode",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}/nodes/{nodeId}"
+      },
+      "input":{"shape":"GetNodeInput"},
+      "output":{"shape":"GetNodeOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}/members/{memberId}/nodes/{nodeId}"
-      },
-      "input": {
-        "shape": "GetNodeInput"
-      },
-      "name": "GetNode",
-      "output": {
-        "shape": "GetNodeOutput"
-      }
+      "documentation":"<p>Returns detailed information about a node.</p> <p>Applies to Hyperledger Fabric and Ethereum.</p>"
     },
-    "GetProposal": {
-      "documentation": "<p>Returns detailed information about a proposal.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "GetProposal":{
+      "name":"GetProposal",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}/proposals/{proposalId}"
+      },
+      "input":{"shape":"GetProposalInput"},
+      "output":{"shape":"GetProposalOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}/proposals/{proposalId}"
-      },
-      "input": {
-        "shape": "GetProposalInput"
-      },
-      "name": "GetProposal",
-      "output": {
-        "shape": "GetProposalOutput"
-      }
+      "documentation":"<p>Returns detailed information about a proposal.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "ListInvitations": {
-      "documentation": "<p>Returns a listing of all invitations made on the specified network.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "ResourceLimitExceededException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "ListInvitations":{
+      "name":"ListInvitations",
+      "http":{
+        "method":"GET",
+        "requestUri":"/invitations"
+      },
+      "input":{"shape":"ListInvitationsInput"},
+      "output":{"shape":"ListInvitationsOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ResourceLimitExceededException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/invitations"
-      },
-      "input": {
-        "shape": "ListInvitationsInput"
-      },
-      "name": "ListInvitations",
-      "output": {
-        "shape": "ListInvitationsOutput"
-      }
+      "documentation":"<p>Returns a list of all invitations for the current AWS account.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "ListMembers": {
-      "documentation": "<p>Returns a listing of the members in a network and properties of their configurations.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "ListMembers":{
+      "name":"ListMembers",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}/members"
+      },
+      "input":{"shape":"ListMembersInput"},
+      "output":{"shape":"ListMembersOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}/members"
-      },
-      "input": {
-        "shape": "ListMembersInput"
-      },
-      "name": "ListMembers",
-      "output": {
-        "shape": "ListMembersOutput"
-      }
+      "documentation":"<p>Returns a list of the members in a network and properties of their configurations.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "ListNetworks": {
-      "documentation": "<p>Returns information about the networks in which the current AWS account has members.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "ListNetworks":{
+      "name":"ListNetworks",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks"
+      },
+      "input":{"shape":"ListNetworksInput"},
+      "output":{"shape":"ListNetworksOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks"
-      },
-      "input": {
-        "shape": "ListNetworksInput"
-      },
-      "name": "ListNetworks",
-      "output": {
-        "shape": "ListNetworksOutput"
-      }
+      "documentation":"<p>Returns information about the networks in which the current AWS account participates.</p> <p>Applies to Hyperledger Fabric and Ethereum.</p>"
     },
-    "ListNodes": {
-      "documentation": "<p>Returns information about the nodes within a network.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "ListNodes":{
+      "name":"ListNodes",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}/nodes"
+      },
+      "input":{"shape":"ListNodesInput"},
+      "output":{"shape":"ListNodesOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}/members/{memberId}/nodes"
-      },
-      "input": {
-        "shape": "ListNodesInput"
-      },
-      "name": "ListNodes",
-      "output": {
-        "shape": "ListNodesOutput"
-      }
+      "documentation":"<p>Returns information about the nodes within a network.</p> <p>Applies to Hyperledger Fabric and Ethereum.</p>"
     },
-    "ListProposalVotes": {
-      "documentation": "<p>Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "ListProposalVotes":{
+      "name":"ListProposalVotes",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}/proposals/{proposalId}/votes"
+      },
+      "input":{"shape":"ListProposalVotesInput"},
+      "output":{"shape":"ListProposalVotesOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}/proposals/{proposalId}/votes"
-      },
-      "input": {
-        "shape": "ListProposalVotesInput"
-      },
-      "name": "ListProposalVotes",
-      "output": {
-        "shape": "ListProposalVotesOutput"
-      }
+      "documentation":"<p>Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "ListProposals": {
-      "documentation": "<p>Returns a listing of proposals for the network.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "ListProposals":{
+      "name":"ListProposals",
+      "http":{
+        "method":"GET",
+        "requestUri":"/networks/{networkId}/proposals"
+      },
+      "input":{"shape":"ListProposalsInput"},
+      "output":{"shape":"ListProposalsOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "GET",
-        "requestUri": "/networks/{networkId}/proposals"
-      },
-      "input": {
-        "shape": "ListProposalsInput"
-      },
-      "name": "ListProposals",
-      "output": {
-        "shape": "ListProposalsOutput"
-      }
+      "documentation":"<p>Returns a list of proposals for the network.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "RejectInvitation": {
-      "documentation": "<p>Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "IllegalActionException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "ListTagsForResource":{
+      "name":"ListTagsForResource",
+      "http":{
+        "method":"GET",
+        "requestUri":"/tags/{resourceArn}"
+      },
+      "input":{"shape":"ListTagsForResourceRequest"},
+      "output":{"shape":"ListTagsForResourceResponse"},
+      "errors":[
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"InvalidRequestException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceNotReadyException"}
       ],
-      "http": {
-        "method": "DELETE",
-        "requestUri": "/invitations/{invitationId}"
-      },
-      "input": {
-        "shape": "RejectInvitationInput"
-      },
-      "name": "RejectInvitation",
-      "output": {
-        "shape": "RejectInvitationOutput"
-      }
+      "documentation":"<p>Returns a list of tags for the specified resource. Each tag consists of a key and optional value.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
     },
-    "UpdateMember": {
-      "documentation": "<p>Updates a member configuration with new parameters.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "RejectInvitation":{
+      "name":"RejectInvitation",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/invitations/{invitationId}"
+      },
+      "input":{"shape":"RejectInvitationInput"},
+      "output":{"shape":"RejectInvitationOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"IllegalActionException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
       ],
-      "http": {
-        "method": "PATCH",
-        "requestUri": "/networks/{networkId}/members/{memberId}"
-      },
-      "input": {
-        "shape": "UpdateMemberInput"
-      },
-      "name": "UpdateMember",
-      "output": {
-        "shape": "UpdateMemberOutput"
-      }
+      "documentation":"<p>Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "UpdateNode": {
-      "documentation": "<p>Updates a node configuration with new parameters.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "TagResource":{
+      "name":"TagResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/tags/{resourceArn}"
+      },
+      "input":{"shape":"TagResourceRequest"},
+      "output":{"shape":"TagResourceResponse"},
+      "errors":[
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"InvalidRequestException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"TooManyTagsException"},
+        {"shape":"ResourceNotReadyException"}
       ],
-      "http": {
-        "method": "PATCH",
-        "requestUri": "/networks/{networkId}/members/{memberId}/nodes/{nodeId}"
-      },
-      "input": {
-        "shape": "UpdateNodeInput"
-      },
-      "name": "UpdateNode",
-      "output": {
-        "shape": "UpdateNodeOutput"
-      }
+      "documentation":"<p>Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value.</p> <p>When you specify a tag key that already exists, the tag value is overwritten with the new value. Use <code>UntagResource</code> to remove tag keys.</p> <p>A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
     },
-    "VoteOnProposal": {
-      "documentation": "<p>Casts a vote for a specified <code>ProposalId</code> on behalf of a member. The member to vote as, specified by <code>VoterMemberId</code>, must be in the same AWS account as the principal that calls the action.</p>",
-      "errors": [
-        {
-          "shape": "InvalidRequestException"
-        },
-        {
-          "shape": "IllegalActionException"
-        },
-        {
-          "shape": "AccessDeniedException"
-        },
-        {
-          "shape": "ResourceNotFoundException"
-        },
-        {
-          "shape": "ThrottlingException"
-        },
-        {
-          "shape": "InternalServiceErrorException"
-        }
+    "UntagResource":{
+      "name":"UntagResource",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/tags/{resourceArn}"
+      },
+      "input":{"shape":"UntagResourceRequest"},
+      "output":{"shape":"UntagResourceResponse"},
+      "errors":[
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"InvalidRequestException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceNotReadyException"}
       ],
-      "http": {
-        "method": "POST",
-        "requestUri": "/networks/{networkId}/proposals/{proposalId}/votes"
+      "documentation":"<p>Removes the specified tags from the Amazon Managed Blockchain resource.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
+    },
+    "UpdateMember":{
+      "name":"UpdateMember",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/networks/{networkId}/members/{memberId}"
       },
-      "input": {
-        "shape": "VoteOnProposalInput"
+      "input":{"shape":"UpdateMemberInput"},
+      "output":{"shape":"UpdateMemberOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
+      ],
+      "documentation":"<p>Updates a member configuration with new parameters.</p> <p>Applies only to Hyperledger Fabric.</p>"
+    },
+    "UpdateNode":{
+      "name":"UpdateNode",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/networks/{networkId}/nodes/{nodeId}"
       },
-      "name": "VoteOnProposal",
-      "output": {
-        "shape": "VoteOnProposalOutput"
-      }
+      "input":{"shape":"UpdateNodeInput"},
+      "output":{"shape":"UpdateNodeOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
+      ],
+      "documentation":"<p>Updates a node configuration with new parameters.</p> <p>Applies only to Hyperledger Fabric.</p>"
+    },
+    "VoteOnProposal":{
+      "name":"VoteOnProposal",
+      "http":{
+        "method":"POST",
+        "requestUri":"/networks/{networkId}/proposals/{proposalId}/votes"
+      },
+      "input":{"shape":"VoteOnProposalInput"},
+      "output":{"shape":"VoteOnProposalOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"IllegalActionException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServiceErrorException"}
+      ],
+      "documentation":"<p>Casts a vote for a specified <code>ProposalId</code> on behalf of a member. The member to vote as, specified by <code>VoterMemberId</code>, must be in the same AWS account as the principal that calls the action.</p> <p>Applies only to Hyperledger Fabric.</p>"
     }
   },
-  "shapes": {
-    "AccessDeniedException": {
-      "documentation": "<p>You do not have sufficient access to perform this action.</p>",
-      "error": {
-        "httpStatusCode": 403
+  "shapes":{
+    "AccessDeniedException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
       },
-      "exception": true,
-      "members": {},
-      "type": "structure"
+      "documentation":"<p>You do not have sufficient access to perform this action.</p>",
+      "error":{"httpStatusCode":403},
+      "exception":true
     },
-    "ApprovalThresholdPolicy": {
-      "documentation": "<p>A policy type that defines the voting rules for the network. The rules decide if a proposal is approved. Approval may be based on criteria such as the percentage of <code>YES</code> votes and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.</p>",
-      "members": {
-        "ProposalDurationInHours": {
-          "documentation": "<p>The duration from the time that a proposal is created until it expires. If members cast neither the required number of <code>YES</code> votes to approve the proposal nor the number of <code>NO</code> votes required to reject it before the duration expires, the proposal is <code>EXPIRED</code> and <code>ProposalActions</code> are not carried out.</p>",
-          "shape": "ProposalDurationInt"
+    "ApprovalThresholdPolicy":{
+      "type":"structure",
+      "members":{
+        "ThresholdPercentage":{
+          "shape":"ThresholdPercentageInt",
+          "documentation":"<p>The percentage of votes among all members that must be <code>YES</code> for a proposal to be approved. For example, a <code>ThresholdPercentage</code> value of <code>50</code> indicates 50%. The <code>ThresholdComparator</code> determines the precise comparison. If a <code>ThresholdPercentage</code> value of <code>50</code> is specified on a network with 10 members, along with a <code>ThresholdComparator</code> value of <code>GREATER_THAN</code>, this indicates that 6 <code>YES</code> votes are required for the proposal to be approved.</p>"
         },
-        "ThresholdComparator": {
-          "documentation": "<p>Determines whether the vote percentage must be greater than the <code>ThresholdPercentage</code> or must be greater than or equal to the <code>ThreholdPercentage</code> to be approved.</p>",
-          "shape": "ThresholdComparator"
+        "ProposalDurationInHours":{
+          "shape":"ProposalDurationInt",
+          "documentation":"<p>The duration from the time that a proposal is created until it expires. If members cast neither the required number of <code>YES</code> votes to approve the proposal nor the number of <code>NO</code> votes required to reject it before the duration expires, the proposal is <code>EXPIRED</code> and <code>ProposalActions</code> are not carried out.</p>"
         },
-        "ThresholdPercentage": {
-          "documentation": "<p>The percentage of votes among all members that must be <code>YES</code> for a proposal to be approved. For example, a <code>ThresholdPercentage</code> value of <code>50</code> indicates 50%. The <code>ThresholdComparator</code> determines the precise comparison. If a <code>ThresholdPercentage</code> value of <code>50</code> is specified on a network with 10 members, along with a <code>ThresholdComparator</code> value of <code>GREATER_THAN</code>, this indicates that 6 <code>YES</code> votes are required for the proposal to be approved.</p>",
-          "shape": "ThresholdPercentageInt"
+        "ThresholdComparator":{
+          "shape":"ThresholdComparator",
+          "documentation":"<p>Determines whether the vote percentage must be greater than the <code>ThresholdPercentage</code> or must be greater than or equal to the <code>ThreholdPercentage</code> to be approved.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>A policy type that defines the voting rules for the network. The rules decide if a proposal is approved. Approval may be based on criteria such as the percentage of <code>YES</code> votes and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "AvailabilityZoneString": {
-      "type": "string"
+    "ArnString":{
+      "type":"string",
+      "max":1011,
+      "min":1,
+      "pattern":"^arn:.+:.+:.+:.+:.+"
     },
-    "ClientRequestTokenString": {
-      "max": 64,
-      "min": 1,
-      "type": "string"
+    "AvailabilityZoneString":{"type":"string"},
+    "ClientRequestTokenString":{
+      "type":"string",
+      "max":64,
+      "min":1
     },
-    "CreateMemberInput": {
-      "members": {
-        "ClientRequestToken": {
-          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
-          "idempotencyToken": true,
-          "shape": "ClientRequestTokenString"
-        },
-        "InvitationId": {
-          "documentation": "<p>The unique identifier of the invitation that is sent to the member to join the network.</p>",
-          "shape": "ResourceIdString"
-        },
-        "MemberConfiguration": {
-          "documentation": "<p>Member configuration parameters.</p>",
-          "shape": "MemberConfiguration"
-        },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network in which the member is created.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        }
-      },
-      "required": [
+    "CreateMemberInput":{
+      "type":"structure",
+      "required":[
         "ClientRequestToken",
         "InvitationId",
         "NetworkId",
         "MemberConfiguration"
       ],
-      "type": "structure"
-    },
-    "CreateMemberOutput": {
-      "members": {
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member.</p>",
-          "shape": "ResourceIdString"
+      "members":{
+        "ClientRequestToken":{
+          "shape":"ClientRequestTokenString",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
+          "idempotencyToken":true
+        },
+        "InvitationId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the invitation that is sent to the member to join the network.</p>"
+        },
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network in which the member is created.</p>",
+          "location":"uri",
+          "locationName":"networkId"
+        },
+        "MemberConfiguration":{
+          "shape":"MemberConfiguration",
+          "documentation":"<p>Member configuration parameters.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "CreateNetworkInput": {
-      "members": {
-        "ClientRequestToken": {
-          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
-          "idempotencyToken": true,
-          "shape": "ClientRequestTokenString"
-        },
-        "Description": {
-          "documentation": "<p>An optional description for the network.</p>",
-          "shape": "DescriptionString"
-        },
-        "Framework": {
-          "documentation": "<p>The blockchain framework that the network uses.</p>",
-          "shape": "Framework"
-        },
-        "FrameworkConfiguration": {
-          "documentation": "<p> Configuration properties of the blockchain framework relevant to the network configuration. </p>",
-          "shape": "NetworkFrameworkConfiguration"
-        },
-        "FrameworkVersion": {
-          "documentation": "<p>The version of the blockchain framework that the network uses.</p>",
-          "shape": "FrameworkVersionString"
-        },
-        "MemberConfiguration": {
-          "documentation": "<p>Configuration properties for the first member within the network.</p>",
-          "shape": "MemberConfiguration"
-        },
-        "Name": {
-          "documentation": "<p>The name of the network.</p>",
-          "shape": "NameString"
-        },
-        "VotingPolicy": {
-          "documentation": "<p> The voting rules used by the network to determine if a proposal is approved. </p>",
-          "shape": "VotingPolicy"
+    "CreateMemberOutput":{
+      "type":"structure",
+      "members":{
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "CreateNetworkInput":{
+      "type":"structure",
+      "required":[
         "ClientRequestToken",
         "Name",
         "Framework",
@@ -780,1632 +505,1844 @@
         "VotingPolicy",
         "MemberConfiguration"
       ],
-      "type": "structure"
-    },
-    "CreateNetworkOutput": {
-      "members": {
-        "MemberId": {
-          "documentation": "<p>The unique identifier for the first member within the network.</p>",
-          "shape": "ResourceIdString"
+      "members":{
+        "ClientRequestToken":{
+          "shape":"ClientRequestTokenString",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
+          "idempotencyToken":true
         },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier for the network.</p>",
-          "shape": "ResourceIdString"
+        "Name":{
+          "shape":"NameString",
+          "documentation":"<p>The name of the network.</p>"
+        },
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>An optional description for the network.</p>"
+        },
+        "Framework":{
+          "shape":"Framework",
+          "documentation":"<p>The blockchain framework that the network uses.</p>"
+        },
+        "FrameworkVersion":{
+          "shape":"FrameworkVersionString",
+          "documentation":"<p>The version of the blockchain framework that the network uses.</p>"
+        },
+        "FrameworkConfiguration":{
+          "shape":"NetworkFrameworkConfiguration",
+          "documentation":"<p> Configuration properties of the blockchain framework relevant to the network configuration. </p>"
+        },
+        "VotingPolicy":{
+          "shape":"VotingPolicy",
+          "documentation":"<p> The voting rules used by the network to determine if a proposal is approved. </p>"
+        },
+        "MemberConfiguration":{
+          "shape":"MemberConfiguration",
+          "documentation":"<p>Configuration properties for the first member within the network.</p>"
+        },
+        "Tags":{
+          "shape":"InputTagMap",
+          "documentation":"<p>Tags to assign to the network. Each tag consists of a key and optional value.</p> <p>When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "CreateNodeInput": {
-      "members": {
-        "ClientRequestToken": {
-          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
-          "idempotencyToken": true,
-          "shape": "ClientRequestTokenString"
+    "CreateNetworkOutput":{
+      "type":"structure",
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier for the network.</p>"
         },
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member that owns this node.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
-        },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network in which this node runs.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        },
-        "NodeConfiguration": {
-          "documentation": "<p>The properties of a node configuration.</p>",
-          "shape": "NodeConfiguration"
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier for the first member within the network.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "CreateNodeInput":{
+      "type":"structure",
+      "required":[
         "ClientRequestToken",
         "NetworkId",
-        "MemberId",
         "NodeConfiguration"
       ],
-      "type": "structure"
-    },
-    "CreateNodeOutput": {
-      "members": {
-        "NodeId": {
-          "documentation": "<p>The unique identifier of the node.</p>",
-          "shape": "ResourceIdString"
+      "members":{
+        "ClientRequestToken":{
+          "shape":"ClientRequestTokenString",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
+          "idempotencyToken":true
+        },
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network for the node.</p> <p>Ethereum public networks have the following <code>NetworkId</code>s:</p> <ul> <li> <p> <code>n-ethereum-mainnet</code> </p> </li> <li> <p> <code>n-ethereum-rinkeby</code> </p> </li> <li> <p> <code>n-ethereum-ropsten</code> </p> </li> </ul>",
+          "location":"uri",
+          "locationName":"networkId"
+        },
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member that owns this node.</p> <p>Applies only to Hyperledger Fabric.</p>"
+        },
+        "NodeConfiguration":{
+          "shape":"NodeConfiguration",
+          "documentation":"<p>The properties of a node configuration.</p>"
+        },
+        "Tags":{
+          "shape":"InputTagMap",
+          "documentation":"<p>Tags to assign to the node. Each tag consists of a key and optional value.</p> <p>When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "CreateProposalInput": {
-      "members": {
-        "Actions": {
-          "documentation": "<p>The type of actions proposed, such as inviting a member or removing a member. The types of <code>Actions</code> in a proposal are mutually exclusive. For example, a proposal with <code>Invitations</code> actions cannot also contain <code>Removals</code> actions.</p>",
-          "shape": "ProposalActions"
-        },
-        "ClientRequestToken": {
-          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
-          "idempotencyToken": true,
-          "shape": "ClientRequestTokenString"
-        },
-        "Description": {
-          "documentation": "<p>A description for the proposal that is visible to voting members, for example, \"Proposal to add Example Corp. as member.\"</p>",
-          "shape": "DescriptionString"
-        },
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member that is creating the proposal. This identifier is especially useful for identifying the member making the proposal when multiple members exist in a single AWS account.</p>",
-          "shape": "ResourceIdString"
-        },
-        "NetworkId": {
-          "documentation": "<p> The unique identifier of the network for which the proposal is made.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
+    "CreateNodeOutput":{
+      "type":"structure",
+      "members":{
+        "NodeId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the node.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "CreateProposalInput":{
+      "type":"structure",
+      "required":[
         "ClientRequestToken",
         "NetworkId",
         "MemberId",
         "Actions"
       ],
-      "type": "structure"
-    },
-    "CreateProposalOutput": {
-      "members": {
-        "ProposalId": {
-          "documentation": "<p>The unique identifier of the proposal.</p>",
-          "shape": "ResourceIdString"
-        }
-      },
-      "type": "structure"
-    },
-    "DeleteMemberInput": {
-      "members": {
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member to remove.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
+      "members":{
+        "ClientRequestToken":{
+          "shape":"ClientRequestTokenString",
+          "documentation":"<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.</p>",
+          "idempotencyToken":true
         },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network from which the member is removed.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the network for which the proposal is made.</p>",
+          "location":"uri",
+          "locationName":"networkId"
+        },
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member that is creating the proposal. This identifier is especially useful for identifying the member making the proposal when multiple members exist in a single AWS account.</p>"
+        },
+        "Actions":{
+          "shape":"ProposalActions",
+          "documentation":"<p>The type of actions proposed, such as inviting a member or removing a member. The types of <code>Actions</code> in a proposal are mutually exclusive. For example, a proposal with <code>Invitations</code> actions cannot also contain <code>Removals</code> actions.</p>"
+        },
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>A description for the proposal that is visible to voting members, for example, \"Proposal to add Example Corp. as member.\"</p>"
+        },
+        "Tags":{
+          "shape":"InputTagMap",
+          "documentation":"<p>Tags to assign to the proposal. Each tag consists of a key and optional value.</p> <p>When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. If the proposal is for a network invitation, the invitation inherits the tags added to the proposal.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "CreateProposalOutput":{
+      "type":"structure",
+      "members":{
+        "ProposalId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the proposal.</p>"
+        }
+      }
+    },
+    "DeleteMemberInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
         "MemberId"
       ],
-      "type": "structure"
-    },
-    "DeleteMemberOutput": {
-      "members": {},
-      "type": "structure"
-    },
-    "DeleteNodeInput": {
-      "members": {
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member that owns this node.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network from which the member is removed.</p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network that the node belongs to.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        },
-        "NodeId": {
-          "documentation": "<p>The unique identifier of the node.</p>",
-          "location": "uri",
-          "locationName": "nodeId",
-          "shape": "ResourceIdString"
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member to remove.</p>",
+          "location":"uri",
+          "locationName":"memberId"
         }
-      },
-      "required": [
+      }
+    },
+    "DeleteMemberOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DeleteNodeInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
-        "MemberId",
         "NodeId"
       ],
-      "type": "structure"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network that the node is on.</p> <p>Ethereum public networks have the following <code>NetworkId</code>s:</p> <ul> <li> <p> <code>n-ethereum-mainnet</code> </p> </li> <li> <p> <code>n-ethereum-rinkeby</code> </p> </li> <li> <p> <code>n-ethereum-ropsten</code> </p> </li> </ul>",
+          "location":"uri",
+          "locationName":"networkId"
+        },
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member that owns this node.</p> <p>Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.</p>",
+          "location":"querystring",
+          "locationName":"memberId"
+        },
+        "NodeId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the node.</p>",
+          "location":"uri",
+          "locationName":"nodeId"
+        }
+      }
     },
-    "DeleteNodeOutput": {
-      "members": {},
-      "type": "structure"
+    "DeleteNodeOutput":{
+      "type":"structure",
+      "members":{
+      }
     },
-    "DescriptionString": {
-      "max": 128,
-      "type": "string"
+    "DescriptionString":{
+      "type":"string",
+      "max":128
     },
-    "Edition": {
-      "enum": [
+    "Edition":{
+      "type":"string",
+      "enum":[
         "STARTER",
         "STANDARD"
-      ],
-      "type": "string"
+      ]
     },
-    "Enabled": {
-      "box": true,
-      "type": "boolean"
+    "Enabled":{
+      "type":"boolean",
+      "box":true
     },
-    "Framework": {
-      "enum": [
-        "HYPERLEDGER_FABRIC"
-      ],
-      "type": "string"
+    "ExceptionMessage":{"type":"string"},
+    "Framework":{
+      "type":"string",
+      "enum":[
+        "HYPERLEDGER_FABRIC",
+        "ETHEREUM"
+      ]
     },
-    "FrameworkVersionString": {
-      "max": 8,
-      "min": 1,
-      "type": "string"
+    "FrameworkVersionString":{
+      "type":"string",
+      "max":8,
+      "min":1
     },
-    "GetMemberInput": {
-      "members": {
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
-        },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network to which the member belongs.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        }
-      },
-      "required": [
+    "GetMemberInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
         "MemberId"
       ],
-      "type": "structure"
-    },
-    "GetMemberOutput": {
-      "members": {
-        "Member": {
-          "documentation": "<p>The properties of a member.</p>",
-          "shape": "Member"
-        }
-      },
-      "type": "structure"
-    },
-    "GetNetworkInput": {
-      "members": {
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network to get information about.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        }
-      },
-      "required": [
-        "NetworkId"
-      ],
-      "type": "structure"
-    },
-    "GetNetworkOutput": {
-      "members": {
-        "Network": {
-          "documentation": "<p>An object containing network configuration parameters.</p>",
-          "shape": "Network"
-        }
-      },
-      "type": "structure"
-    },
-    "GetNodeInput": {
-      "members": {
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member that owns the node.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network to which the member belongs.</p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network to which the node belongs.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        },
-        "NodeId": {
-          "documentation": "<p>The unique identifier of the node.</p>",
-          "location": "uri",
-          "locationName": "nodeId",
-          "shape": "ResourceIdString"
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member.</p>",
+          "location":"uri",
+          "locationName":"memberId"
         }
-      },
-      "required": [
+      }
+    },
+    "GetMemberOutput":{
+      "type":"structure",
+      "members":{
+        "Member":{
+          "shape":"Member",
+          "documentation":"<p>The properties of a member.</p>"
+        }
+      }
+    },
+    "GetNetworkInput":{
+      "type":"structure",
+      "required":["NetworkId"],
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network to get information about.</p>",
+          "location":"uri",
+          "locationName":"networkId"
+        }
+      }
+    },
+    "GetNetworkOutput":{
+      "type":"structure",
+      "members":{
+        "Network":{
+          "shape":"Network",
+          "documentation":"<p>An object containing network configuration parameters.</p>"
+        }
+      }
+    },
+    "GetNodeInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
-        "MemberId",
         "NodeId"
       ],
-      "type": "structure"
-    },
-    "GetNodeOutput": {
-      "members": {
-        "Node": {
-          "documentation": "<p>Properties of the node configuration.</p>",
-          "shape": "Node"
-        }
-      },
-      "type": "structure"
-    },
-    "GetProposalInput": {
-      "members": {
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network for which the proposal is made.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network that the node is on.</p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "ProposalId": {
-          "documentation": "<p>The unique identifier of the proposal.</p>",
-          "location": "uri",
-          "locationName": "proposalId",
-          "shape": "ResourceIdString"
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member that owns the node.</p> <p>Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.</p>",
+          "location":"querystring",
+          "locationName":"memberId"
+        },
+        "NodeId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the node.</p>",
+          "location":"uri",
+          "locationName":"nodeId"
         }
-      },
-      "required": [
+      }
+    },
+    "GetNodeOutput":{
+      "type":"structure",
+      "members":{
+        "Node":{
+          "shape":"Node",
+          "documentation":"<p>Properties of the node configuration.</p>"
+        }
+      }
+    },
+    "GetProposalInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
         "ProposalId"
       ],
-      "type": "structure"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network for which the proposal is made.</p>",
+          "location":"uri",
+          "locationName":"networkId"
+        },
+        "ProposalId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the proposal.</p>",
+          "location":"uri",
+          "locationName":"proposalId"
+        }
+      }
     },
-    "GetProposalOutput": {
-      "members": {
-        "Proposal": {
-          "documentation": "<p>Information about a proposal.</p>",
-          "shape": "Proposal"
+    "GetProposalOutput":{
+      "type":"structure",
+      "members":{
+        "Proposal":{
+          "shape":"Proposal",
+          "documentation":"<p>Information about a proposal.</p>"
+        }
+      }
+    },
+    "IllegalActionException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "documentation":"<p/>",
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
+    "InputTagMap":{
+      "type":"map",
+      "key":{"shape":"TagKey"},
+      "value":{"shape":"TagValue"},
+      "max":50,
+      "min":0
+    },
+    "InstanceTypeString":{"type":"string"},
+    "InternalServiceErrorException":{
+      "type":"structure",
+      "members":{
+      },
+      "documentation":"<p>The request processing has failed because of an unknown error, exception or failure.</p>",
+      "error":{"httpStatusCode":500},
+      "exception":true
+    },
+    "InvalidRequestException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "documentation":"<p>The action or operation requested is invalid. Verify that the action is typed correctly.</p>",
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
+    "Invitation":{
+      "type":"structure",
+      "members":{
+        "InvitationId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier for the invitation.</p>"
+        },
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the invitation was created.</p>"
+        },
+        "ExpirationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the invitation expires. This is the <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that is specified in the <code>ProposalThresholdPolicy</code>. After this date and time, the invitee can no longer create a member and join the network using this <code>InvitationId</code>.</p>"
+        },
+        "Status":{
+          "shape":"InvitationStatus",
+          "documentation":"<p>The status of the invitation:</p> <ul> <li> <p> <code>PENDING</code> - The invitee has not created a member to join the network, and the invitation has not yet expired.</p> </li> <li> <p> <code>ACCEPTING</code> - The invitee has begun creating a member, and creation has not yet completed.</p> </li> <li> <p> <code>ACCEPTED</code> - The invitee created a member and joined the network using the <code>InvitationID</code>.</p> </li> <li> <p> <code>REJECTED</code> - The invitee rejected the invitation.</p> </li> <li> <p> <code>EXPIRED</code> - The invitee neither created a member nor rejected the invitation before the <code>ExpirationDate</code>.</p> </li> </ul>"
+        },
+        "NetworkSummary":{"shape":"NetworkSummary"},
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the invitation. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>An invitation to an AWS account to create a member and join the network.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "IllegalActionException": {
-      "documentation": "<p/>",
-      "error": {
-        "httpStatusCode": 400
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "String"
-        }
-      },
-      "type": "structure"
+    "InvitationList":{
+      "type":"list",
+      "member":{"shape":"Invitation"}
     },
-    "InstanceTypeString": {
-      "type": "string"
-    },
-    "InternalServiceErrorException": {
-      "documentation": "<p>The request processing has failed because of an unknown error, exception or failure.</p>",
-      "error": {
-        "httpStatusCode": 500
-      },
-      "exception": true,
-      "members": {},
-      "type": "structure"
-    },
-    "InvalidRequestException": {
-      "documentation": "<p>The action or operation requested is invalid. Verify that the action is typed correctly.</p>",
-      "error": {
-        "httpStatusCode": 400
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "Invitation": {
-      "documentation": "<p>An invitation to an AWS account to create a member and join the network.</p>",
-      "members": {
-        "CreationDate": {
-          "documentation": "<p>The date and time that the invitation was created.</p>",
-          "shape": "Timestamp"
-        },
-        "ExpirationDate": {
-          "documentation": "<p>The date and time that the invitation expires. This is the <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that is specified in the <code>ProposalThresholdPolicy</code>. After this date and time, the invitee can no longer create a member and join the network using this <code>InvitationId</code>.</p>",
-          "shape": "Timestamp"
-        },
-        "InvitationId": {
-          "documentation": "<p>The unique identifier for the invitation.</p>",
-          "shape": "ResourceIdString"
-        },
-        "NetworkSummary": {
-          "shape": "NetworkSummary"
-        },
-        "Status": {
-          "documentation": "<p>The status of the invitation:</p> <ul> <li> <p> <code>PENDING</code> - The invitee has not created a member to join the network, and the invitation has not yet expired.</p> </li> <li> <p> <code>ACCEPTING</code> - The invitee has begun creating a member, and creation has not yet completed.</p> </li> <li> <p> <code>ACCEPTED</code> - The invitee created a member and joined the network using the <code>InvitationID</code>.</p> </li> <li> <p> <code>REJECTED</code> - The invitee rejected the invitation.</p> </li> <li> <p> <code>EXPIRED</code> - The invitee neither created a member nor rejected the invitation before the <code>ExpirationDate</code>.</p> </li> </ul>",
-          "shape": "InvitationStatus"
-        }
-      },
-      "type": "structure"
-    },
-    "InvitationList": {
-      "member": {
-        "shape": "Invitation"
-      },
-      "type": "list"
-    },
-    "InvitationStatus": {
-      "enum": [
+    "InvitationStatus":{
+      "type":"string",
+      "enum":[
         "PENDING",
         "ACCEPTED",
         "ACCEPTING",
         "REJECTED",
         "EXPIRED"
-      ],
-      "type": "string"
+      ]
     },
-    "InviteAction": {
-      "documentation": "<p>An action to invite a specific AWS account to create a member and join the network. The <code>InviteAction</code> is carried out when a <code>Proposal</code> is <code>APPROVED</code>.</p>",
-      "members": {
-        "Principal": {
-          "documentation": "<p>The AWS account ID to invite.</p>",
-          "shape": "PrincipalString"
+    "InviteAction":{
+      "type":"structure",
+      "required":["Principal"],
+      "members":{
+        "Principal":{
+          "shape":"PrincipalString",
+          "documentation":"<p>The AWS account ID to invite.</p>"
         }
       },
-      "required": [
-        "Principal"
-      ],
-      "type": "structure"
+      "documentation":"<p>An action to invite a specific AWS account to create a member and join the network. The <code>InviteAction</code> is carried out when a <code>Proposal</code> is <code>APPROVED</code>.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "InviteActionList": {
-      "member": {
-        "shape": "InviteAction"
-      },
-      "type": "list"
+    "InviteActionList":{
+      "type":"list",
+      "member":{"shape":"InviteAction"}
     },
-    "IsOwned": {
-      "box": true,
-      "type": "boolean"
+    "IsOwned":{
+      "type":"boolean",
+      "box":true
     },
-    "ListInvitationsInput": {
-      "members": {
-        "MaxResults": {
-          "documentation": "<p>The maximum number of invitations to return.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "ProposalListMaxResults"
+    "ListInvitationsInput":{
+      "type":"structure",
+      "members":{
+        "MaxResults":{
+          "shape":"ProposalListMaxResults",
+          "documentation":"<p>The maximum number of invitations to return.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "PaginationToken"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
-      },
-      "type": "structure"
+      }
     },
-    "ListInvitationsOutput": {
-      "members": {
-        "Invitations": {
-          "documentation": "<p>The invitations for the network.</p>",
-          "shape": "InvitationList"
+    "ListInvitationsOutput":{
+      "type":"structure",
+      "members":{
+        "Invitations":{
+          "shape":"InvitationList",
+          "documentation":"<p>The invitations for the network.</p>"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "shape": "PaginationToken"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "ListMembersInput": {
-      "members": {
-        "IsOwned": {
-          "documentation": "<p>An optional Boolean value. If provided, the request is limited either to members that the current AWS account owns (<code>true</code>) or that other AWS accounts own (<code>false</code>). If omitted, all members are listed.</p>",
-          "location": "querystring",
-          "locationName": "isOwned",
-          "shape": "IsOwned"
+    "ListMembersInput":{
+      "type":"structure",
+      "required":["NetworkId"],
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network for which to list members.</p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "MaxResults": {
-          "documentation": "<p>The maximum number of members to return in the request.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "MemberListMaxResults"
+        "Name":{
+          "shape":"String",
+          "documentation":"<p>The optional name of the member to list.</p>",
+          "location":"querystring",
+          "locationName":"name"
         },
-        "Name": {
-          "documentation": "<p>The optional name of the member to list.</p>",
-          "location": "querystring",
-          "locationName": "name",
-          "shape": "String"
+        "Status":{
+          "shape":"MemberStatus",
+          "documentation":"<p>An optional status specifier. If provided, only members currently in this status are listed.</p>",
+          "location":"querystring",
+          "locationName":"status"
         },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network for which to list members.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
+        "IsOwned":{
+          "shape":"IsOwned",
+          "documentation":"<p>An optional Boolean value. If provided, the request is limited either to members that the current AWS account owns (<code>true</code>) or that other AWS accounts own (<code>false</code>). If omitted, all members are listed.</p>",
+          "location":"querystring",
+          "locationName":"isOwned"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "PaginationToken"
+        "MaxResults":{
+          "shape":"MemberListMaxResults",
+          "documentation":"<p>The maximum number of members to return in the request.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "Status": {
-          "documentation": "<p>An optional status specifier. If provided, only members currently in this status are listed.</p>",
-          "location": "querystring",
-          "locationName": "status",
-          "shape": "MemberStatus"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
-      },
-      "required": [
-        "NetworkId"
-      ],
-      "type": "structure"
+      }
     },
-    "ListMembersOutput": {
-      "members": {
-        "Members": {
-          "documentation": "<p>An array of <code>MemberSummary</code> objects. Each object contains details about a network member.</p>",
-          "shape": "MemberSummaryList"
+    "ListMembersOutput":{
+      "type":"structure",
+      "members":{
+        "Members":{
+          "shape":"MemberSummaryList",
+          "documentation":"<p>An array of <code>MemberSummary</code> objects. Each object contains details about a network member.</p>"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "shape": "PaginationToken"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "ListNetworksInput": {
-      "members": {
-        "Framework": {
-          "documentation": "<p>An optional framework specifier. If provided, only networks of this framework type are listed.</p>",
-          "location": "querystring",
-          "locationName": "framework",
-          "shape": "Framework"
+    "ListNetworksInput":{
+      "type":"structure",
+      "members":{
+        "Name":{
+          "shape":"String",
+          "documentation":"<p>The name of the network.</p>",
+          "location":"querystring",
+          "locationName":"name"
         },
-        "MaxResults": {
-          "documentation": "<p>The maximum number of networks to list.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "NetworkListMaxResults"
+        "Framework":{
+          "shape":"Framework",
+          "documentation":"<p>An optional framework specifier. If provided, only networks of this framework type are listed.</p>",
+          "location":"querystring",
+          "locationName":"framework"
         },
-        "Name": {
-          "documentation": "<p>The name of the network.</p>",
-          "location": "querystring",
-          "locationName": "name",
-          "shape": "String"
+        "Status":{
+          "shape":"NetworkStatus",
+          "documentation":"<p>An optional status specifier. If provided, only networks currently in this status are listed.</p> <p>Applies only to Hyperledger Fabric.</p>",
+          "location":"querystring",
+          "locationName":"status"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "PaginationToken"
+        "MaxResults":{
+          "shape":"NetworkListMaxResults",
+          "documentation":"<p>The maximum number of networks to list.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "Status": {
-          "documentation": "<p>An optional status specifier. If provided, only networks currently in this status are listed.</p>",
-          "location": "querystring",
-          "locationName": "status",
-          "shape": "NetworkStatus"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
-      },
-      "type": "structure"
+      }
     },
-    "ListNetworksOutput": {
-      "members": {
-        "Networks": {
-          "documentation": "<p>An array of <code>NetworkSummary</code> objects that contain configuration properties for each network.</p>",
-          "shape": "NetworkSummaryList"
+    "ListNetworksOutput":{
+      "type":"structure",
+      "members":{
+        "Networks":{
+          "shape":"NetworkSummaryList",
+          "documentation":"<p>An array of <code>NetworkSummary</code> objects that contain configuration properties for each network.</p>"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "shape": "PaginationToken"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "ListNodesInput": {
-      "members": {
-        "MaxResults": {
-          "documentation": "<p>The maximum number of nodes to list.</p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "NodeListMaxResults"
+    "ListNodesInput":{
+      "type":"structure",
+      "required":["NetworkId"],
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network for which to list nodes.</p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member who owns the nodes to list.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member who owns the nodes to list.</p> <p>Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.</p>",
+          "location":"querystring",
+          "locationName":"memberId"
         },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network for which to list nodes.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
+        "Status":{
+          "shape":"NodeStatus",
+          "documentation":"<p>An optional status specifier. If provided, only nodes currently in this status are listed.</p>",
+          "location":"querystring",
+          "locationName":"status"
         },
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "PaginationToken"
+        "MaxResults":{
+          "shape":"NodeListMaxResults",
+          "documentation":"<p>The maximum number of nodes to list.</p>",
+          "location":"querystring",
+          "locationName":"maxResults"
         },
-        "Status": {
-          "documentation": "<p>An optional status specifier. If provided, only nodes currently in this status are listed.</p>",
-          "location": "querystring",
-          "locationName": "status",
-          "shape": "NodeStatus"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>",
+          "location":"querystring",
+          "locationName":"nextToken"
         }
-      },
-      "required": [
-        "NetworkId",
-        "MemberId"
-      ],
-      "type": "structure"
+      }
     },
-    "ListNodesOutput": {
-      "members": {
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "shape": "PaginationToken"
+    "ListNodesOutput":{
+      "type":"structure",
+      "members":{
+        "Nodes":{
+          "shape":"NodeSummaryList",
+          "documentation":"<p>An array of <code>NodeSummary</code> objects that contain configuration properties for each node.</p>"
         },
-        "Nodes": {
-          "documentation": "<p>An array of <code>NodeSummary</code> objects that contain configuration properties for each node.</p>",
-          "shape": "NodeSummaryList"
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "ListProposalVotesInput": {
-      "members": {
-        "MaxResults": {
-          "documentation": "<p> The maximum number of votes to return. </p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "ProposalListMaxResults"
-        },
-        "NetworkId": {
-          "documentation": "<p> The unique identifier of the network. </p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        },
-        "NextToken": {
-          "documentation": "<p> The pagination token that indicates the next set of results to retrieve. </p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "PaginationToken"
-        },
-        "ProposalId": {
-          "documentation": "<p> The unique identifier of the proposal. </p>",
-          "location": "uri",
-          "locationName": "proposalId",
-          "shape": "ResourceIdString"
-        }
-      },
-      "required": [
+    "ListProposalVotesInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
         "ProposalId"
       ],
-      "type": "structure"
-    },
-    "ListProposalVotesOutput": {
-      "members": {
-        "NextToken": {
-          "documentation": "<p> The pagination token that indicates the next set of results to retrieve. </p>",
-          "shape": "PaginationToken"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the network. </p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "ProposalVotes": {
-          "documentation": "<p> The listing of votes. </p>",
-          "shape": "ProposalVoteList"
+        "ProposalId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the proposal. </p>",
+          "location":"uri",
+          "locationName":"proposalId"
+        },
+        "MaxResults":{
+          "shape":"ProposalListMaxResults",
+          "documentation":"<p> The maximum number of votes to return. </p>",
+          "location":"querystring",
+          "locationName":"maxResults"
+        },
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p> The pagination token that indicates the next set of results to retrieve. </p>",
+          "location":"querystring",
+          "locationName":"nextToken"
+        }
+      }
+    },
+    "ListProposalVotesOutput":{
+      "type":"structure",
+      "members":{
+        "ProposalVotes":{
+          "shape":"ProposalVoteList",
+          "documentation":"<p> The list of votes. </p>"
+        },
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p> The pagination token that indicates the next set of results to retrieve. </p>"
+        }
+      }
+    },
+    "ListProposalsInput":{
+      "type":"structure",
+      "required":["NetworkId"],
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the network. </p>",
+          "location":"uri",
+          "locationName":"networkId"
+        },
+        "MaxResults":{
+          "shape":"ProposalListMaxResults",
+          "documentation":"<p> The maximum number of proposals to return. </p>",
+          "location":"querystring",
+          "locationName":"maxResults"
+        },
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p> The pagination token that indicates the next set of results to retrieve. </p>",
+          "location":"querystring",
+          "locationName":"nextToken"
+        }
+      }
+    },
+    "ListProposalsOutput":{
+      "type":"structure",
+      "members":{
+        "Proposals":{
+          "shape":"ProposalSummaryList",
+          "documentation":"<p>The summary of each proposal made on the network.</p>"
+        },
+        "NextToken":{
+          "shape":"PaginationToken",
+          "documentation":"<p>The pagination token that indicates the next set of results to retrieve.</p>"
+        }
+      }
+    },
+    "ListTagsForResourceRequest":{
+      "type":"structure",
+      "required":["ResourceArn"],
+      "members":{
+        "ResourceArn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>",
+          "location":"uri",
+          "locationName":"resourceArn"
+        }
+      }
+    },
+    "ListTagsForResourceResponse":{
+      "type":"structure",
+      "members":{
+        "Tags":{
+          "shape":"OutputTagMap",
+          "documentation":"<p>The tags assigned to the resource.</p>"
+        }
+      }
+    },
+    "LogConfiguration":{
+      "type":"structure",
+      "members":{
+        "Enabled":{
+          "shape":"Enabled",
+          "documentation":"<p>Indicates whether logging is enabled.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>A configuration for logging events.</p>"
     },
-    "ListProposalsInput": {
-      "members": {
-        "MaxResults": {
-          "documentation": "<p> The maximum number of proposals to return. </p>",
-          "location": "querystring",
-          "locationName": "maxResults",
-          "shape": "ProposalListMaxResults"
-        },
-        "NetworkId": {
-          "documentation": "<p> The unique identifier of the network. </p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        },
-        "NextToken": {
-          "documentation": "<p> The pagination token that indicates the next set of results to retrieve. </p>",
-          "location": "querystring",
-          "locationName": "nextToken",
-          "shape": "PaginationToken"
+    "LogConfigurations":{
+      "type":"structure",
+      "members":{
+        "Cloudwatch":{
+          "shape":"LogConfiguration",
+          "documentation":"<p>Parameters for publishing logs to Amazon CloudWatch Logs.</p>"
         }
       },
-      "required": [
-        "NetworkId"
-      ],
-      "type": "structure"
+      "documentation":"<p>A collection of log configurations.</p>"
     },
-    "ListProposalsOutput": {
-      "members": {
-        "NextToken": {
-          "documentation": "<p>The pagination token that indicates the next set of results to retrieve.</p>",
-          "shape": "PaginationToken"
+    "Member":{
+      "type":"structure",
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network to which the member belongs.</p>"
         },
-        "Proposals": {
-          "documentation": "<p>The summary of each proposal made on the network.</p>",
-          "shape": "ProposalSummaryList"
+        "Id":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member.</p>"
+        },
+        "Name":{
+          "shape":"NetworkMemberNameString",
+          "documentation":"<p>The name of the member.</p>"
+        },
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>An optional description for the member.</p>"
+        },
+        "FrameworkAttributes":{
+          "shape":"MemberFrameworkAttributes",
+          "documentation":"<p>Attributes relevant to a member for the blockchain framework that the Managed Blockchain network uses.</p>"
+        },
+        "LogPublishingConfiguration":{
+          "shape":"MemberLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for logging events associated with a member.</p>"
+        },
+        "Status":{
+          "shape":"MemberStatus",
+          "documentation":"<p>The status of a member.</p> <ul> <li> <p> <code>CREATING</code> - The AWS account is in the process of creating a member.</p> </li> <li> <p> <code>AVAILABLE</code> - The member has been created and can participate in the network.</p> </li> <li> <p> <code>CREATE_FAILED</code> - The AWS account attempted to create a member and creation failed.</p> </li> <li> <p> <code>UPDATING</code> - The member is in the process of being updated.</p> </li> <li> <p> <code>DELETING</code> - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> <li> <p> <code>DELETED</code> - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> <li> <p> <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The member is impaired and might not function as expected because it cannot access the specified customer managed key in AWS KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked.</p> <p>The effect of disabling or deleting a key, or revoking a grant is not immediate. The member resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.</p> </li> </ul>"
+        },
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the member was created.</p>"
+        },
+        "Tags":{
+          "shape":"OutputTagMap",
+          "documentation":"<p>Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
+        },
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
+        },
+        "KmsKeyArn":{
+          "shape":"String",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) that the member uses for encryption at rest. If the value of this parameter is <code>\"AWS Owned KMS Key\"</code>, the member uses an AWS owned KMS key for encryption. This parameter is inherited by the nodes that this member owns.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Member configuration properties.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "LogConfiguration": {
-      "documentation": "<p>A configuration for logging events.</p>",
-      "members": {
-        "Enabled": {
-          "documentation": "<p>Indicates whether logging is enabled.</p>",
-          "shape": "Enabled"
-        }
-      },
-      "type": "structure"
-    },
-    "LogConfigurations": {
-      "documentation": "<p>A collection of log configurations.</p>",
-      "members": {
-        "Cloudwatch": {
-          "documentation": "<p>Parameters for publishing logs to Amazon CloudWatch Logs.</p>",
-          "shape": "LogConfiguration"
-        }
-      },
-      "type": "structure"
-    },
-    "Member": {
-      "documentation": "<p>Member configuration properties.</p>",
-      "members": {
-        "CreationDate": {
-          "documentation": "<p>The date and time that the member was created.</p>",
-          "shape": "Timestamp"
-        },
-        "Description": {
-          "documentation": "<p>An optional description for the member.</p>",
-          "shape": "DescriptionString"
-        },
-        "FrameworkAttributes": {
-          "documentation": "<p>Attributes relevant to a member for the blockchain framework that the Managed Blockchain network uses.</p>",
-          "shape": "MemberFrameworkAttributes"
-        },
-        "Id": {
-          "documentation": "<p>The unique identifier of the member.</p>",
-          "shape": "ResourceIdString"
-        },
-        "LogPublishingConfiguration": {
-          "documentation": "<p>Configuration properties for logging events associated with a member.</p>",
-          "shape": "MemberLogPublishingConfiguration"
-        },
-        "Name": {
-          "documentation": "<p>The name of the member.</p>",
-          "shape": "NetworkMemberNameString"
-        },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network to which the member belongs.</p>",
-          "shape": "ResourceIdString"
-        },
-        "Status": {
-          "documentation": "<p>The status of a member.</p> <ul> <li> <p> <code>CREATING</code> - The AWS account is in the process of creating a member.</p> </li> <li> <p> <code>AVAILABLE</code> - The member has been created and can participate in the network.</p> </li> <li> <p> <code>CREATE_FAILED</code> - The AWS account attempted to create a member and creation failed.</p> </li> <li> <p> <code>DELETING</code> - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> <li> <p> <code>DELETED</code> - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> </ul>",
-          "shape": "MemberStatus"
-        }
-      },
-      "type": "structure"
-    },
-    "MemberConfiguration": {
-      "documentation": "<p>Configuration properties of the member.</p>",
-      "members": {
-        "Description": {
-          "documentation": "<p>An optional description of the member.</p>",
-          "shape": "DescriptionString"
-        },
-        "FrameworkConfiguration": {
-          "documentation": "<p>Configuration properties of the blockchain framework relevant to the member.</p>",
-          "shape": "MemberFrameworkConfiguration"
-        },
-        "LogPublishingConfiguration": {
-          "documentation": "<p/>",
-          "shape": "MemberLogPublishingConfiguration"
-        },
-        "Name": {
-          "documentation": "<p>The name of the member.</p>",
-          "shape": "NetworkMemberNameString"
-        }
-      },
-      "required": [
+    "MemberConfiguration":{
+      "type":"structure",
+      "required":[
         "Name",
         "FrameworkConfiguration"
       ],
-      "type": "structure"
-    },
-    "MemberFabricAttributes": {
-      "documentation": "<p>Attributes of Hyperledger Fabric for a member in a Managed Blockchain network using the Hyperledger Fabric framework.</p>",
-      "members": {
-        "AdminUsername": {
-          "documentation": "<p>The user name for the initial administrator user for the member.</p>",
-          "shape": "UsernameString"
+      "members":{
+        "Name":{
+          "shape":"NetworkMemberNameString",
+          "documentation":"<p>The name of the member.</p>"
         },
-        "CaEndpoint": {
-          "documentation": "<p>The endpoint used to access the member's certificate authority.</p>",
-          "shape": "String"
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>An optional description of the member.</p>"
+        },
+        "FrameworkConfiguration":{
+          "shape":"MemberFrameworkConfiguration",
+          "documentation":"<p>Configuration properties of the blockchain framework relevant to the member.</p>"
+        },
+        "LogPublishingConfiguration":{
+          "shape":"MemberLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for logging events associated with a member of a Managed Blockchain network.</p>"
+        },
+        "Tags":{
+          "shape":"InputTagMap",
+          "documentation":"<p>Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p> <p>When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.</p>"
+        },
+        "KmsKeyArn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) to use for encryption at rest in the member. This parameter is inherited by any nodes that this member creates.</p> <p>Use one of the following options to specify this parameter:</p> <ul> <li> <p> <b>Undefined or empty string</b> - The member uses an AWS owned KMS key for encryption by default.</p> </li> <li> <p> <b>A valid symmetric customer managed KMS key</b> - The member uses the specified key for encryption.</p> <p>Amazon Managed Blockchain doesn't support asymmetric keys. For more information, see <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html\">Using symmetric and asymmetric keys</a> in the <i>AWS Key Management Service Developer Guide</i>.</p> <p>The following is an example of a KMS key ARN: <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code> </p> </li> </ul>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Configuration properties of the member.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "MemberFabricConfiguration": {
-      "documentation": "<p>Configuration properties for Hyperledger Fabric for a member in a Managed Blockchain network using the Hyperledger Fabric framework.</p>",
-      "members": {
-        "AdminPassword": {
-          "documentation": "<p>The password for the member's initial administrative user. The <code>AdminPassword</code> must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quote(\u2018), double quote(\u201c), forward slash(/), backward slash(\\), @, or a space.</p>",
-          "shape": "PasswordString"
+    "MemberFabricAttributes":{
+      "type":"structure",
+      "members":{
+        "AdminUsername":{
+          "shape":"UsernameString",
+          "documentation":"<p>The user name for the initial administrator user for the member.</p>"
         },
-        "AdminUsername": {
-          "documentation": "<p>The user name for the member's initial administrative user.</p>",
-          "shape": "UsernameString"
+        "CaEndpoint":{
+          "shape":"String",
+          "documentation":"<p>The endpoint used to access the member's certificate authority.</p>"
         }
       },
-      "required": [
+      "documentation":"<p>Attributes of Hyperledger Fabric for a member in a Managed Blockchain network using the Hyperledger Fabric framework.</p>"
+    },
+    "MemberFabricConfiguration":{
+      "type":"structure",
+      "required":[
         "AdminUsername",
         "AdminPassword"
       ],
-      "type": "structure"
-    },
-    "MemberFabricLogPublishingConfiguration": {
-      "documentation": "<p>Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.</p>",
-      "members": {
-        "CaLogs": {
-          "documentation": "<p>Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA.</p>",
-          "shape": "LogConfigurations"
+      "members":{
+        "AdminUsername":{
+          "shape":"UsernameString",
+          "documentation":"<p>The user name for the member's initial administrative user.</p>"
+        },
+        "AdminPassword":{
+          "shape":"PasswordString",
+          "documentation":"<p>The password for the member's initial administrative user. The <code>AdminPassword</code> must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (‘), a double quotation marks (“), a forward slash(/), a backward slash(\\), @, or a space.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Configuration properties for Hyperledger Fabric for a member in a Managed Blockchain network using the Hyperledger Fabric framework.</p>"
     },
-    "MemberFrameworkAttributes": {
-      "documentation": "<p>Attributes relevant to a member for the blockchain framework that the Managed Blockchain network uses.</p>",
-      "members": {
-        "Fabric": {
-          "documentation": "<p>Attributes of Hyperledger Fabric relevant to a member on a Managed Blockchain network that uses Hyperledger Fabric.</p>",
-          "shape": "MemberFabricAttributes"
+    "MemberFabricLogPublishingConfiguration":{
+      "type":"structure",
+      "members":{
+        "CaLogs":{
+          "shape":"LogConfigurations",
+          "documentation":"<p>Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.</p>"
     },
-    "MemberFrameworkConfiguration": {
-      "documentation": "<p>Configuration properties relevant to a member for the blockchain framework that the Managed Blockchain network uses.</p>",
-      "members": {
-        "Fabric": {
-          "documentation": "<p>Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric.</p>",
-          "shape": "MemberFabricConfiguration"
+    "MemberFrameworkAttributes":{
+      "type":"structure",
+      "members":{
+        "Fabric":{
+          "shape":"MemberFabricAttributes",
+          "documentation":"<p>Attributes of Hyperledger Fabric relevant to a member on a Managed Blockchain network that uses Hyperledger Fabric.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Attributes relevant to a member for the blockchain framework that the Managed Blockchain network uses.</p>"
     },
-    "MemberListMaxResults": {
-      "box": true,
-      "max": 20,
-      "min": 1,
-      "type": "integer"
-    },
-    "MemberLogPublishingConfiguration": {
-      "documentation": "<p>Configuration properties for logging events associated with a member of a Managed Blockchain network.</p>",
-      "members": {
-        "Fabric": {
-          "documentation": "<p>Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.</p>",
-          "shape": "MemberFabricLogPublishingConfiguration"
+    "MemberFrameworkConfiguration":{
+      "type":"structure",
+      "members":{
+        "Fabric":{
+          "shape":"MemberFabricConfiguration",
+          "documentation":"<p>Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Configuration properties relevant to a member for the blockchain framework that the Managed Blockchain network uses.</p>"
     },
-    "MemberStatus": {
-      "enum": [
-        "CREATING",
-        "AVAILABLE",
-        "CREATE_FAILED",
-        "UPDATING",
-        "DELETING",
-        "DELETED"
-      ],
-      "type": "string"
+    "MemberListMaxResults":{
+      "type":"integer",
+      "box":true,
+      "max":20,
+      "min":1
     },
-    "MemberSummary": {
-      "documentation": "<p>A summary of configuration properties for a member.</p>",
-      "members": {
-        "CreationDate": {
-          "documentation": "<p>The date and time that the member was created.</p>",
-          "shape": "Timestamp"
-        },
-        "Description": {
-          "documentation": "<p>An optional description of the member.</p>",
-          "shape": "DescriptionString"
-        },
-        "Id": {
-          "documentation": "<p>The unique identifier of the member.</p>",
-          "shape": "ResourceIdString"
-        },
-        "IsOwned": {
-          "documentation": "<p>An indicator of whether the member is owned by your AWS account or a different AWS account.</p>",
-          "shape": "IsOwned"
-        },
-        "Name": {
-          "documentation": "<p>The name of the member.</p>",
-          "shape": "NetworkMemberNameString"
-        },
-        "Status": {
-          "documentation": "<p>The status of the member.</p> <ul> <li> <p> <code>CREATING</code> - The AWS account is in the process of creating a member.</p> </li> <li> <p> <code>AVAILABLE</code> - The member has been created and can participate in the network.</p> </li> <li> <p> <code>CREATE_FAILED</code> - The AWS account attempted to create a member and creation failed.</p> </li> <li> <p> <code>DELETING</code> - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> <li> <p> <code>DELETED</code> - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> </ul>",
-          "shape": "MemberStatus"
+    "MemberLogPublishingConfiguration":{
+      "type":"structure",
+      "members":{
+        "Fabric":{
+          "shape":"MemberFabricLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Configuration properties for logging events associated with a member of a Managed Blockchain network.</p>"
     },
-    "MemberSummaryList": {
-      "member": {
-        "shape": "MemberSummary"
-      },
-      "type": "list"
-    },
-    "NameString": {
-      "max": 64,
-      "min": 1,
-      "pattern": ".*\\S.*",
-      "type": "string"
-    },
-    "Network": {
-      "documentation": "<p>Network configuration properties.</p>",
-      "members": {
-        "CreationDate": {
-          "documentation": "<p>The date and time that the network was created.</p>",
-          "shape": "Timestamp"
-        },
-        "Description": {
-          "documentation": "<p>Attributes of the blockchain framework for the network.</p>",
-          "shape": "DescriptionString"
-        },
-        "Framework": {
-          "documentation": "<p>The blockchain framework that the network uses.</p>",
-          "shape": "Framework"
-        },
-        "FrameworkAttributes": {
-          "documentation": "<p>Attributes of the blockchain framework that the network uses.</p>",
-          "shape": "NetworkFrameworkAttributes"
-        },
-        "FrameworkVersion": {
-          "documentation": "<p>The version of the blockchain framework that the network uses.</p>",
-          "shape": "FrameworkVersionString"
-        },
-        "Id": {
-          "documentation": "<p>The unique identifier of the network.</p>",
-          "shape": "ResourceIdString"
-        },
-        "Name": {
-          "documentation": "<p>The name of the network.</p>",
-          "shape": "NameString"
-        },
-        "Status": {
-          "documentation": "<p>The current status of the network.</p>",
-          "shape": "NetworkStatus"
-        },
-        "VotingPolicy": {
-          "documentation": "<p>The voting rules for the network to decide if a proposal is accepted.</p>",
-          "shape": "VotingPolicy"
-        },
-        "VpcEndpointServiceName": {
-          "documentation": "<p>The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.</p>",
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "NetworkFabricAttributes": {
-      "documentation": "<p>Attributes of Hyperledger Fabric for a network.</p>",
-      "members": {
-        "Edition": {
-          "documentation": "<p>The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For more information, see <a href=\"http://aws.amazon.com/managed-blockchain/pricing/\">Amazon Managed Blockchain Pricing</a>.</p>",
-          "shape": "Edition"
-        },
-        "OrderingServiceEndpoint": {
-          "documentation": "<p>The endpoint of the ordering service for the network.</p>",
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "NetworkFabricConfiguration": {
-      "documentation": "<p>Hyperledger Fabric configuration properties for the network.</p>",
-      "members": {
-        "Edition": {
-          "documentation": "<p>The edition of Amazon Managed Blockchain that the network uses. For more information, see <a href=\"http://aws.amazon.com/managed-blockchain/pricing/\">Amazon Managed Blockchain Pricing</a>.</p>",
-          "shape": "Edition"
-        }
-      },
-      "required": [
-        "Edition"
-      ],
-      "type": "structure"
-    },
-    "NetworkFrameworkAttributes": {
-      "documentation": "<p>Attributes relevant to the network for the blockchain framework that the network uses.</p>",
-      "members": {
-        "Fabric": {
-          "documentation": "<p>Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.</p>",
-          "shape": "NetworkFabricAttributes"
-        }
-      },
-      "type": "structure"
-    },
-    "NetworkFrameworkConfiguration": {
-      "documentation": "<p> Configuration properties relevant to the network for the blockchain framework that the network uses. </p>",
-      "members": {
-        "Fabric": {
-          "documentation": "<p> Hyperledger Fabric configuration properties for a Managed Blockchain network that uses Hyperledger Fabric. </p>",
-          "shape": "NetworkFabricConfiguration"
-        }
-      },
-      "type": "structure"
-    },
-    "NetworkListMaxResults": {
-      "box": true,
-      "max": 10,
-      "min": 1,
-      "type": "integer"
-    },
-    "NetworkMemberNameString": {
-      "max": 64,
-      "min": 1,
-      "pattern": "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$",
-      "type": "string"
-    },
-    "NetworkStatus": {
-      "enum": [
-        "CREATING",
-        "AVAILABLE",
-        "CREATE_FAILED",
-        "DELETING",
-        "DELETED"
-      ],
-      "type": "string"
-    },
-    "NetworkSummary": {
-      "documentation": "<p>A summary of network configuration properties.</p>",
-      "members": {
-        "CreationDate": {
-          "documentation": "<p>The date and time that the network was created.</p>",
-          "shape": "Timestamp"
-        },
-        "Description": {
-          "documentation": "<p>An optional description of the network.</p>",
-          "shape": "DescriptionString"
-        },
-        "Framework": {
-          "documentation": "<p>The blockchain framework that the network uses.</p>",
-          "shape": "Framework"
-        },
-        "FrameworkVersion": {
-          "documentation": "<p>The version of the blockchain framework that the network uses.</p>",
-          "shape": "FrameworkVersionString"
-        },
-        "Id": {
-          "documentation": "<p>The unique identifier of the network.</p>",
-          "shape": "ResourceIdString"
-        },
-        "Name": {
-          "documentation": "<p>The name of the network.</p>",
-          "shape": "NameString"
-        },
-        "Status": {
-          "documentation": "<p>The current status of the network.</p>",
-          "shape": "NetworkStatus"
-        }
-      },
-      "type": "structure"
-    },
-    "NetworkSummaryList": {
-      "member": {
-        "shape": "NetworkSummary"
-      },
-      "type": "list"
-    },
-    "Node": {
-      "documentation": "<p>Configuration properties of a peer node.</p>",
-      "members": {
-        "AvailabilityZone": {
-          "documentation": "<p>The Availability Zone in which the node exists.</p>",
-          "shape": "AvailabilityZoneString"
-        },
-        "CreationDate": {
-          "documentation": "<p>The date and time that the node was created.</p>",
-          "shape": "Timestamp"
-        },
-        "FrameworkAttributes": {
-          "documentation": "<p>Attributes of the blockchain framework being used.</p>",
-          "shape": "NodeFrameworkAttributes"
-        },
-        "Id": {
-          "documentation": "<p>The unique identifier of the node.</p>",
-          "shape": "ResourceIdString"
-        },
-        "InstanceType": {
-          "documentation": "<p>The instance type of the node.</p>",
-          "shape": "InstanceTypeString"
-        },
-        "LogPublishingConfiguration": {
-          "documentation": "<p/>",
-          "shape": "NodeLogPublishingConfiguration"
-        },
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member to which the node belongs.</p>",
-          "shape": "ResourceIdString"
-        },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network that the node is in.</p>",
-          "shape": "ResourceIdString"
-        },
-        "Status": {
-          "documentation": "<p>The status of the node.</p>",
-          "shape": "NodeStatus"
-        }
-      },
-      "type": "structure"
-    },
-    "NodeConfiguration": {
-      "documentation": "<p>Configuration properties of a peer node.</p>",
-      "members": {
-        "AvailabilityZone": {
-          "documentation": "<p>The Availability Zone in which the node exists.</p>",
-          "shape": "AvailabilityZoneString"
-        },
-        "InstanceType": {
-          "documentation": "<p>The Amazon Managed Blockchain instance type for the node.</p>",
-          "shape": "InstanceTypeString"
-        },
-        "LogPublishingConfiguration": {
-          "documentation": "<p/>",
-          "shape": "NodeLogPublishingConfiguration"
-        }
-      },
-      "required": [
-        "InstanceType",
-        "AvailabilityZone"
-      ],
-      "type": "structure"
-    },
-    "NodeFabricAttributes": {
-      "documentation": "<p>Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.</p>",
-      "members": {
-        "PeerEndpoint": {
-          "documentation": "<p>The endpoint that identifies the peer node for all services except peer channel-based event services.</p>",
-          "shape": "String"
-        },
-        "PeerEventEndpoint": {
-          "documentation": "<p>The endpoint that identifies the peer node for peer channel-based event services.</p>",
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "NodeFabricLogPublishingConfiguration": {
-      "documentation": "<p>Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.</p>",
-      "members": {
-        "ChaincodeLogs": {
-          "documentation": "<p>Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode.</p>",
-          "shape": "LogConfigurations"
-        },
-        "PeerLogs": {
-          "documentation": "<p>Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. </p>",
-          "shape": "LogConfigurations"
-        }
-      },
-      "type": "structure"
-    },
-    "NodeFrameworkAttributes": {
-      "documentation": "<p>Attributes relevant to a peer node on a Managed Blockchain network for the blockchain framework that the network uses.</p>",
-      "members": {
-        "Fabric": {
-          "documentation": "<p>Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.</p>",
-          "shape": "NodeFabricAttributes"
-        }
-      },
-      "type": "structure"
-    },
-    "NodeListMaxResults": {
-      "box": true,
-      "max": 20,
-      "min": 1,
-      "type": "integer"
-    },
-    "NodeLogPublishingConfiguration": {
-      "documentation": "<p>Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.</p>",
-      "members": {
-        "Fabric": {
-          "documentation": "<p>Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework.</p>",
-          "shape": "NodeFabricLogPublishingConfiguration"
-        }
-      },
-      "type": "structure"
-    },
-    "NodeStatus": {
-      "enum": [
+    "MemberStatus":{
+      "type":"string",
+      "enum":[
         "CREATING",
         "AVAILABLE",
         "CREATE_FAILED",
         "UPDATING",
         "DELETING",
         "DELETED",
-        "FAILED"
-      ],
-      "type": "string"
+        "INACCESSIBLE_ENCRYPTION_KEY"
+      ]
     },
-    "NodeSummary": {
-      "documentation": "<p>A summary of configuration properties for a peer node.</p>",
-      "members": {
-        "AvailabilityZone": {
-          "documentation": "<p>The Availability Zone in which the node exists.</p>",
-          "shape": "AvailabilityZoneString"
+    "MemberSummary":{
+      "type":"structure",
+      "members":{
+        "Id":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member.</p>"
         },
-        "CreationDate": {
-          "documentation": "<p>The date and time that the node was created.</p>",
-          "shape": "Timestamp"
+        "Name":{
+          "shape":"NetworkMemberNameString",
+          "documentation":"<p>The name of the member.</p>"
         },
-        "Id": {
-          "documentation": "<p>The unique identifier of the node.</p>",
-          "shape": "ResourceIdString"
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>An optional description of the member.</p>"
         },
-        "InstanceType": {
-          "documentation": "<p>The EC2 instance type for the node.</p>",
-          "shape": "InstanceTypeString"
+        "Status":{
+          "shape":"MemberStatus",
+          "documentation":"<p>The status of the member.</p> <ul> <li> <p> <code>CREATING</code> - The AWS account is in the process of creating a member.</p> </li> <li> <p> <code>AVAILABLE</code> - The member has been created and can participate in the network.</p> </li> <li> <p> <code>CREATE_FAILED</code> - The AWS account attempted to create a member and creation failed.</p> </li> <li> <p> <code>UPDATING</code> - The member is in the process of being updated.</p> </li> <li> <p> <code>DELETING</code> - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> <li> <p> <code>DELETED</code> - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.</p> </li> <li> <p> <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The member is impaired and might not function as expected because it cannot access the specified customer managed key in AWS Key Management Service (AWS KMS) for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked.</p> <p>The effect of disabling or deleting a key, or revoking a grant is not immediate. The member resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.</p> </li> </ul>"
         },
-        "Status": {
-          "documentation": "<p>The status of the node.</p>",
-          "shape": "NodeStatus"
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the member was created.</p>"
+        },
+        "IsOwned":{
+          "shape":"IsOwned",
+          "documentation":"<p>An indicator of whether the member is owned by your AWS account or a different AWS account.</p>"
+        },
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>A summary of configuration properties for a member.</p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "NodeSummaryList": {
-      "member": {
-        "shape": "NodeSummary"
-      },
-      "type": "list"
+    "MemberSummaryList":{
+      "type":"list",
+      "member":{"shape":"MemberSummary"}
     },
-    "PaginationToken": {
-      "max": 128,
-      "type": "string"
+    "NameString":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":".*\\S.*"
     },
-    "PasswordString": {
-      "max": 32,
-      "min": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?!.*[@'\\\\\"/])[a-zA-Z0-9\\S]*$",
-      "sensitive": true,
-      "type": "string"
-    },
-    "PrincipalString": {
-      "type": "string"
-    },
-    "Proposal": {
-      "documentation": "<p>Properties of a proposal on a Managed Blockchain network.</p>",
-      "members": {
-        "Actions": {
-          "documentation": "<p>The actions to perform on the network if the proposal is <code>APPROVED</code>.</p>",
-          "shape": "ProposalActions"
+    "Network":{
+      "type":"structure",
+      "members":{
+        "Id":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network.</p>"
         },
-        "CreationDate": {
-          "documentation": "<p> The date and time that the proposal was created. </p>",
-          "shape": "Timestamp"
+        "Name":{
+          "shape":"NameString",
+          "documentation":"<p>The name of the network.</p>"
         },
-        "Description": {
-          "documentation": "<p>The description of the proposal.</p>",
-          "shape": "DescriptionString"
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>Attributes of the blockchain framework for the network.</p>"
         },
-        "ExpirationDate": {
-          "documentation": "<p> The date and time that the proposal expires. This is the <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that is specified in the <code>ProposalThresholdPolicy</code>. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is <code>EXPIRED</code> and <code>Actions</code> are not carried out. </p>",
-          "shape": "Timestamp"
+        "Framework":{
+          "shape":"Framework",
+          "documentation":"<p>The blockchain framework that the network uses.</p>"
         },
-        "NetworkId": {
-          "documentation": "<p>The unique identifier of the network for which the proposal is made.</p>",
-          "shape": "ResourceIdString"
+        "FrameworkVersion":{
+          "shape":"FrameworkVersionString",
+          "documentation":"<p>The version of the blockchain framework that the network uses.</p>"
         },
-        "NoVoteCount": {
-          "documentation": "<p> The current total of <code>NO</code> votes cast on the proposal by members. </p>",
-          "shape": "VoteCount"
+        "FrameworkAttributes":{
+          "shape":"NetworkFrameworkAttributes",
+          "documentation":"<p>Attributes of the blockchain framework that the network uses.</p>"
         },
-        "OutstandingVoteCount": {
-          "documentation": "<p> The number of votes remaining to be cast on the proposal by members. In other words, the number of members minus the sum of <code>YES</code> votes and <code>NO</code> votes. </p>",
-          "shape": "VoteCount"
+        "VpcEndpointServiceName":{
+          "shape":"String",
+          "documentation":"<p>The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.</p>"
         },
-        "ProposalId": {
-          "documentation": "<p>The unique identifier of the proposal.</p>",
-          "shape": "ResourceIdString"
+        "VotingPolicy":{
+          "shape":"VotingPolicy",
+          "documentation":"<p>The voting rules for the network to decide if a proposal is accepted.</p>"
         },
-        "ProposedByMemberId": {
-          "documentation": "<p>The unique identifier of the member that created the proposal.</p>",
-          "shape": "ResourceIdString"
+        "Status":{
+          "shape":"NetworkStatus",
+          "documentation":"<p>The current status of the network.</p>"
         },
-        "ProposedByMemberName": {
-          "documentation": "<p>The name of the member that created the proposal.</p>",
-          "shape": "NetworkMemberNameString"
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the network was created.</p>"
         },
-        "Status": {
-          "documentation": "<p>The status of the proposal. Values are as follows:</p> <ul> <li> <p> <code>IN_PROGRESS</code> - The proposal is active and open for member voting.</p> </li> <li> <p> <code>APPROVED</code> - The proposal was approved with sufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified proposal actions are carried out.</p> </li> <li> <p> <code>REJECTED</code> - The proposal was rejected with insufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>EXPIRED</code> - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>ACTION_FAILED</code> - One or more of the specified <code>ProposalActions</code> in a proposal that was approved could not be completed because of an error. The <code>ACTION_FAILED</code> status occurs even if only one ProposalAction fails and other actions are successful.</p> </li> </ul>",
-          "shape": "ProposalStatus"
+        "Tags":{
+          "shape":"OutputTagMap",
+          "documentation":"<p>Tags assigned to the network. Each tag consists of a key and optional value.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
         },
-        "YesVoteCount": {
-          "documentation": "<p> The current total of <code>YES</code> votes cast on the proposal by members. </p>",
-          "shape": "VoteCount"
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Network configuration properties.</p>"
     },
-    "ProposalActions": {
-      "documentation": "<p> The actions to carry out if a proposal is <code>APPROVED</code>. </p>",
-      "members": {
-        "Invitations": {
-          "documentation": "<p> The actions to perform for an <code>APPROVED</code> proposal to invite an AWS account to create a member and join the network. </p>",
-          "shape": "InviteActionList"
-        },
-        "Removals": {
-          "documentation": "<p> The actions to perform for an <code>APPROVED</code> proposal to remove a member from the network, which deletes the member and all associated member resources from the network. </p>",
-          "shape": "RemoveActionList"
+    "NetworkEthereumAttributes":{
+      "type":"structure",
+      "members":{
+        "ChainId":{
+          "shape":"String",
+          "documentation":"<p>The Ethereum <code>CHAIN_ID</code> associated with the Ethereum network. Chain IDs are as follows:</p> <ul> <li> <p>mainnet = <code>1</code> </p> </li> <li> <p>rinkeby = <code>4</code> </p> </li> <li> <p>ropsten = <code>3</code> </p> </li> </ul>"
         }
       },
-      "type": "structure"
+      "documentation":"<p>Attributes of Ethereum for a network. </p>"
     },
-    "ProposalDurationInt": {
-      "box": true,
-      "max": 168,
-      "min": 1,
-      "type": "integer"
+    "NetworkFabricAttributes":{
+      "type":"structure",
+      "members":{
+        "OrderingServiceEndpoint":{
+          "shape":"String",
+          "documentation":"<p>The endpoint of the ordering service for the network.</p>"
+        },
+        "Edition":{
+          "shape":"Edition",
+          "documentation":"<p>The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For more information, see <a href=\"http://aws.amazon.com/managed-blockchain/pricing/\">Amazon Managed Blockchain Pricing</a>.</p>"
+        }
+      },
+      "documentation":"<p>Attributes of Hyperledger Fabric for a network.</p>"
     },
-    "ProposalListMaxResults": {
-      "box": true,
-      "max": 100,
-      "min": 1,
-      "type": "integer"
+    "NetworkFabricConfiguration":{
+      "type":"structure",
+      "required":["Edition"],
+      "members":{
+        "Edition":{
+          "shape":"Edition",
+          "documentation":"<p>The edition of Amazon Managed Blockchain that the network uses. For more information, see <a href=\"http://aws.amazon.com/managed-blockchain/pricing/\">Amazon Managed Blockchain Pricing</a>.</p>"
+        }
+      },
+      "documentation":"<p>Hyperledger Fabric configuration properties for the network.</p>"
     },
-    "ProposalStatus": {
-      "enum": [
+    "NetworkFrameworkAttributes":{
+      "type":"structure",
+      "members":{
+        "Fabric":{
+          "shape":"NetworkFabricAttributes",
+          "documentation":"<p>Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.</p>"
+        },
+        "Ethereum":{
+          "shape":"NetworkEthereumAttributes",
+          "documentation":"<p>Attributes of an Ethereum network for Managed Blockchain resources participating in an Ethereum network. </p>"
+        }
+      },
+      "documentation":"<p>Attributes relevant to the network for the blockchain framework that the network uses.</p>"
+    },
+    "NetworkFrameworkConfiguration":{
+      "type":"structure",
+      "members":{
+        "Fabric":{
+          "shape":"NetworkFabricConfiguration",
+          "documentation":"<p> Hyperledger Fabric configuration properties for a Managed Blockchain network that uses Hyperledger Fabric. </p>"
+        }
+      },
+      "documentation":"<p> Configuration properties relevant to the network for the blockchain framework that the network uses. </p>"
+    },
+    "NetworkListMaxResults":{
+      "type":"integer",
+      "box":true,
+      "max":10,
+      "min":1
+    },
+    "NetworkMemberNameString":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"^(?!-|[0-9])(?!.*-$)(?!.*?--)[a-zA-Z0-9-]+$"
+    },
+    "NetworkStatus":{
+      "type":"string",
+      "enum":[
+        "CREATING",
+        "AVAILABLE",
+        "CREATE_FAILED",
+        "DELETING",
+        "DELETED"
+      ]
+    },
+    "NetworkSummary":{
+      "type":"structure",
+      "members":{
+        "Id":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network.</p>"
+        },
+        "Name":{
+          "shape":"NameString",
+          "documentation":"<p>The name of the network.</p>"
+        },
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>An optional description of the network.</p>"
+        },
+        "Framework":{
+          "shape":"Framework",
+          "documentation":"<p>The blockchain framework that the network uses.</p>"
+        },
+        "FrameworkVersion":{
+          "shape":"FrameworkVersionString",
+          "documentation":"<p>The version of the blockchain framework that the network uses.</p>"
+        },
+        "Status":{
+          "shape":"NetworkStatus",
+          "documentation":"<p>The current status of the network.</p>"
+        },
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the network was created.</p>"
+        },
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
+        }
+      },
+      "documentation":"<p>A summary of network configuration properties.</p>"
+    },
+    "NetworkSummaryList":{
+      "type":"list",
+      "member":{"shape":"NetworkSummary"}
+    },
+    "Node":{
+      "type":"structure",
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network that the node is on.</p>"
+        },
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member to which the node belongs.</p> <p>Applies only to Hyperledger Fabric.</p>"
+        },
+        "Id":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the node.</p>"
+        },
+        "InstanceType":{
+          "shape":"InstanceTypeString",
+          "documentation":"<p>The instance type of the node.</p>"
+        },
+        "AvailabilityZone":{
+          "shape":"AvailabilityZoneString",
+          "documentation":"<p>The Availability Zone in which the node exists. Required for Ethereum nodes. </p>"
+        },
+        "FrameworkAttributes":{
+          "shape":"NodeFrameworkAttributes",
+          "documentation":"<p>Attributes of the blockchain framework being used.</p>"
+        },
+        "LogPublishingConfiguration":{
+          "shape":"NodeLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain.</p>"
+        },
+        "StateDB":{
+          "shape":"StateDBType",
+          "documentation":"<p>The state database that the node uses. Values are <code>LevelDB</code> or <code>CouchDB</code>.</p> <p>Applies only to Hyperledger Fabric.</p>"
+        },
+        "Status":{
+          "shape":"NodeStatus",
+          "documentation":"<p>The status of the node.</p> <ul> <li> <p> <code>CREATING</code> - The AWS account is in the process of creating a node.</p> </li> <li> <p> <code>AVAILABLE</code> - The node has been created and can participate in the network.</p> </li> <li> <p> <code>UNHEALTHY</code> - The node is impaired and might not function as expected. Amazon Managed Blockchain automatically finds nodes in this state and tries to recover them. If a node is recoverable, it returns to <code>AVAILABLE</code>. Otherwise, it moves to <code>FAILED</code> status.</p> </li> <li> <p> <code>CREATE_FAILED</code> - The AWS account attempted to create a node and creation failed.</p> </li> <li> <p> <code>UPDATING</code> - The node is in the process of being updated.</p> </li> <li> <p> <code>DELETING</code> - The node is in the process of being deleted.</p> </li> <li> <p> <code>DELETED</code> - The node can no longer participate on the network.</p> </li> <li> <p> <code>FAILED</code> - The node is no longer functional, cannot be recovered, and must be deleted.</p> </li> <li> <p> <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The node is impaired and might not function as expected because it cannot access the specified customer managed key in AWS KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked.</p> <p>The effect of disabling or deleting a key, or revoking a grant is not immediate. The node resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.</p> </li> </ul>"
+        },
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the node was created.</p>"
+        },
+        "Tags":{
+          "shape":"OutputTagMap",
+          "documentation":"<p>Tags assigned to the node. Each tag consists of a key and optional value.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
+        },
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
+        },
+        "KmsKeyArn":{
+          "shape":"String",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) that the node uses for encryption at rest. If the value of this parameter is <code>\"AWS Owned KMS Key\"</code>, the node uses an AWS owned KMS key for encryption. The node inherits this parameter from the member that it belongs to.</p> <p>Applies only to Hyperledger Fabric.</p>"
+        }
+      },
+      "documentation":"<p>Configuration properties of a node.</p>"
+    },
+    "NodeConfiguration":{
+      "type":"structure",
+      "required":["InstanceType"],
+      "members":{
+        "InstanceType":{
+          "shape":"InstanceTypeString",
+          "documentation":"<p>The Amazon Managed Blockchain instance type for the node.</p>"
+        },
+        "AvailabilityZone":{
+          "shape":"AvailabilityZoneString",
+          "documentation":"<p>The Availability Zone in which the node exists. Required for Ethereum nodes. </p>"
+        },
+        "LogPublishingConfiguration":{
+          "shape":"NodeLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain. </p>"
+        },
+        "StateDB":{
+          "shape":"StateDBType",
+          "documentation":"<p>The state database that the node uses. Values are <code>LevelDB</code> or <code>CouchDB</code>. When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is <code>CouchDB</code>.</p> <p>Applies only to Hyperledger Fabric.</p>"
+        }
+      },
+      "documentation":"<p>Configuration properties of a node.</p>"
+    },
+    "NodeEthereumAttributes":{
+      "type":"structure",
+      "members":{
+        "HttpEndpoint":{
+          "shape":"String",
+          "documentation":"<p>The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over HTTP connections from a client. Use this endpoint in client code for smart contracts when using an HTTP connection. Connections to this endpoint are authenticated using <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4</a>.</p>"
+        },
+        "WebSocketEndpoint":{
+          "shape":"String",
+          "documentation":"<p>The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSockets connections from a client. Use this endpoint in client code for smart contracts when using a WebSockets connection. Connections to this endpoint are authenticated using <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4</a>.</p>"
+        }
+      },
+      "documentation":"<p>Attributes of an Ethereum node.</p>"
+    },
+    "NodeFabricAttributes":{
+      "type":"structure",
+      "members":{
+        "PeerEndpoint":{
+          "shape":"String",
+          "documentation":"<p>The endpoint that identifies the peer node for all services except peer channel-based event services.</p>"
+        },
+        "PeerEventEndpoint":{
+          "shape":"String",
+          "documentation":"<p>The endpoint that identifies the peer node for peer channel-based event services.</p>"
+        }
+      },
+      "documentation":"<p>Attributes of Hyperledger Fabric for a peer node on a Hyperledger Fabric network on Managed Blockchain.</p>"
+    },
+    "NodeFabricLogPublishingConfiguration":{
+      "type":"structure",
+      "members":{
+        "ChaincodeLogs":{
+          "shape":"LogConfigurations",
+          "documentation":"<p>Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode.</p>"
+        },
+        "PeerLogs":{
+          "shape":"LogConfigurations",
+          "documentation":"<p>Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. </p>"
+        }
+      },
+      "documentation":"<p>Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.</p>"
+    },
+    "NodeFrameworkAttributes":{
+      "type":"structure",
+      "members":{
+        "Fabric":{
+          "shape":"NodeFabricAttributes",
+          "documentation":"<p>Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.</p>"
+        },
+        "Ethereum":{
+          "shape":"NodeEthereumAttributes",
+          "documentation":"<p>Attributes of Ethereum for a node on a Managed Blockchain network that uses Ethereum. </p>"
+        }
+      },
+      "documentation":"<p>Attributes relevant to a node on a Managed Blockchain network for the blockchain framework that the network uses.</p>"
+    },
+    "NodeListMaxResults":{
+      "type":"integer",
+      "box":true,
+      "max":20,
+      "min":1
+    },
+    "NodeLogPublishingConfiguration":{
+      "type":"structure",
+      "members":{
+        "Fabric":{
+          "shape":"NodeFabricLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework.</p>"
+        }
+      },
+      "documentation":"<p>Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain.</p>"
+    },
+    "NodeStatus":{
+      "type":"string",
+      "enum":[
+        "CREATING",
+        "AVAILABLE",
+        "UNHEALTHY",
+        "CREATE_FAILED",
+        "UPDATING",
+        "DELETING",
+        "DELETED",
+        "FAILED",
+        "INACCESSIBLE_ENCRYPTION_KEY"
+      ]
+    },
+    "NodeSummary":{
+      "type":"structure",
+      "members":{
+        "Id":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the node.</p>"
+        },
+        "Status":{
+          "shape":"NodeStatus",
+          "documentation":"<p>The status of the node.</p>"
+        },
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p>The date and time that the node was created.</p>"
+        },
+        "AvailabilityZone":{
+          "shape":"AvailabilityZoneString",
+          "documentation":"<p>The Availability Zone in which the node exists.</p>"
+        },
+        "InstanceType":{
+          "shape":"InstanceTypeString",
+          "documentation":"<p>The EC2 instance type for the node.</p>"
+        },
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
+        }
+      },
+      "documentation":"<p>A summary of configuration properties for a node.</p>"
+    },
+    "NodeSummaryList":{
+      "type":"list",
+      "member":{"shape":"NodeSummary"}
+    },
+    "OutputTagMap":{
+      "type":"map",
+      "key":{"shape":"TagKey"},
+      "value":{"shape":"TagValue"},
+      "max":200,
+      "min":0
+    },
+    "PaginationToken":{
+      "type":"string",
+      "max":128
+    },
+    "PasswordString":{
+      "type":"string",
+      "max":32,
+      "min":8,
+      "pattern":"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?!.*[@'\\\\\"/])[a-zA-Z0-9\\S]*$",
+      "sensitive":true
+    },
+    "PrincipalString":{"type":"string"},
+    "Proposal":{
+      "type":"structure",
+      "members":{
+        "ProposalId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the proposal.</p>"
+        },
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network for which the proposal is made.</p>"
+        },
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p>The description of the proposal.</p>"
+        },
+        "Actions":{
+          "shape":"ProposalActions",
+          "documentation":"<p>The actions to perform on the network if the proposal is <code>APPROVED</code>.</p>"
+        },
+        "ProposedByMemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member that created the proposal.</p>"
+        },
+        "ProposedByMemberName":{
+          "shape":"NetworkMemberNameString",
+          "documentation":"<p>The name of the member that created the proposal.</p>"
+        },
+        "Status":{
+          "shape":"ProposalStatus",
+          "documentation":"<p>The status of the proposal. Values are as follows:</p> <ul> <li> <p> <code>IN_PROGRESS</code> - The proposal is active and open for member voting.</p> </li> <li> <p> <code>APPROVED</code> - The proposal was approved with sufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified proposal actions are carried out.</p> </li> <li> <p> <code>REJECTED</code> - The proposal was rejected with insufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>EXPIRED</code> - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>ACTION_FAILED</code> - One or more of the specified <code>ProposalActions</code> in a proposal that was approved could not be completed because of an error. The <code>ACTION_FAILED</code> status occurs even if only one ProposalAction fails and other actions are successful.</p> </li> </ul>"
+        },
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p> The date and time that the proposal was created. </p>"
+        },
+        "ExpirationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p> The date and time that the proposal expires. This is the <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that is specified in the <code>ProposalThresholdPolicy</code>. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is <code>EXPIRED</code> and <code>Actions</code> are not carried out. </p>"
+        },
+        "YesVoteCount":{
+          "shape":"VoteCount",
+          "documentation":"<p> The current total of <code>YES</code> votes cast on the proposal by members. </p>"
+        },
+        "NoVoteCount":{
+          "shape":"VoteCount",
+          "documentation":"<p> The current total of <code>NO</code> votes cast on the proposal by members. </p>"
+        },
+        "OutstandingVoteCount":{
+          "shape":"VoteCount",
+          "documentation":"<p> The number of votes remaining to be cast on the proposal by members. In other words, the number of members minus the sum of <code>YES</code> votes and <code>NO</code> votes. </p>"
+        },
+        "Tags":{
+          "shape":"OutputTagMap",
+          "documentation":"<p>Tags assigned to the proposal. Each tag consists of a key and optional value.</p> <p>For more information about tags, see <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer Guide</i>, or <a href=\"https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html\">Tagging Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer Guide</i>.</p>"
+        },
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
+        }
+      },
+      "documentation":"<p>Properties of a proposal on a Managed Blockchain network.</p> <p>Applies only to Hyperledger Fabric.</p>"
+    },
+    "ProposalActions":{
+      "type":"structure",
+      "members":{
+        "Invitations":{
+          "shape":"InviteActionList",
+          "documentation":"<p> The actions to perform for an <code>APPROVED</code> proposal to invite an AWS account to create a member and join the network. </p>"
+        },
+        "Removals":{
+          "shape":"RemoveActionList",
+          "documentation":"<p> The actions to perform for an <code>APPROVED</code> proposal to remove a member from the network, which deletes the member and all associated member resources from the network. </p>"
+        }
+      },
+      "documentation":"<p> The actions to carry out if a proposal is <code>APPROVED</code>. </p> <p>Applies only to Hyperledger Fabric.</p>"
+    },
+    "ProposalDurationInt":{
+      "type":"integer",
+      "box":true,
+      "max":168,
+      "min":1
+    },
+    "ProposalListMaxResults":{
+      "type":"integer",
+      "box":true,
+      "max":100,
+      "min":1
+    },
+    "ProposalStatus":{
+      "type":"string",
+      "enum":[
         "IN_PROGRESS",
         "APPROVED",
         "REJECTED",
         "EXPIRED",
         "ACTION_FAILED"
+      ]
+    },
+    "ProposalSummary":{
+      "type":"structure",
+      "members":{
+        "ProposalId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the proposal. </p>"
+        },
+        "Description":{
+          "shape":"DescriptionString",
+          "documentation":"<p> The description of the proposal. </p>"
+        },
+        "ProposedByMemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the member that created the proposal. </p>"
+        },
+        "ProposedByMemberName":{
+          "shape":"NetworkMemberNameString",
+          "documentation":"<p> The name of the member that created the proposal. </p>"
+        },
+        "Status":{
+          "shape":"ProposalStatus",
+          "documentation":"<p>The status of the proposal. Values are as follows:</p> <ul> <li> <p> <code>IN_PROGRESS</code> - The proposal is active and open for member voting.</p> </li> <li> <p> <code>APPROVED</code> - The proposal was approved with sufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified proposal actions are carried out.</p> </li> <li> <p> <code>REJECTED</code> - The proposal was rejected with insufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>EXPIRED</code> - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>ACTION_FAILED</code> - One or more of the specified <code>ProposalActions</code> in a proposal that was approved could not be completed because of an error.</p> </li> </ul>"
+        },
+        "CreationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p> The date and time that the proposal was created. </p>"
+        },
+        "ExpirationDate":{
+          "shape":"Timestamp",
+          "documentation":"<p> The date and time that the proposal expires. This is the <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that is specified in the <code>ProposalThresholdPolicy</code>. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is <code>EXPIRED</code> and <code>Actions</code> are not carried out. </p>"
+        },
+        "Arn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>"
+        }
+      },
+      "documentation":"<p>Properties of a proposal.</p> <p>Applies only to Hyperledger Fabric.</p>"
+    },
+    "ProposalSummaryList":{
+      "type":"list",
+      "member":{"shape":"ProposalSummary"}
+    },
+    "ProposalVoteList":{
+      "type":"list",
+      "member":{"shape":"VoteSummary"}
+    },
+    "RejectInvitationInput":{
+      "type":"structure",
+      "required":["InvitationId"],
+      "members":{
+        "InvitationId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the invitation to reject.</p>",
+          "location":"uri",
+          "locationName":"invitationId"
+        }
+      }
+    },
+    "RejectInvitationOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "RemoveAction":{
+      "type":"structure",
+      "required":["MemberId"],
+      "members":{
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member to remove.</p>"
+        }
+      },
+      "documentation":"<p>An action to remove a member from a Managed Blockchain network as the result of a removal proposal that is <code>APPROVED</code>. The member and all associated resources are deleted from the network.</p> <p>Applies only to Hyperledger Fabric.</p>"
+    },
+    "RemoveActionList":{
+      "type":"list",
+      "member":{"shape":"RemoveAction"}
+    },
+    "ResourceAlreadyExistsException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "documentation":"<p>A resource request is issued for a resource that already exists.</p>",
+      "error":{"httpStatusCode":409},
+      "exception":true
+    },
+    "ResourceIdString":{
+      "type":"string",
+      "max":32,
+      "min":1
+    },
+    "ResourceLimitExceededException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "documentation":"<p>The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.</p>",
+      "error":{"httpStatusCode":429},
+      "exception":true
+    },
+    "ResourceNotFoundException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"},
+        "ResourceName":{
+          "shape":"ArnString",
+          "documentation":"<p>A requested resource does not exist. It may have been deleted or referenced inaccurately.</p>"
+        }
+      },
+      "documentation":"<p>A requested resource does not exist. It may have been deleted or referenced inaccurately.</p>",
+      "error":{"httpStatusCode":404},
+      "exception":true
+    },
+    "ResourceNotReadyException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "documentation":"<p>The requested resource exists but is not in a status that can complete the operation.</p>",
+      "error":{"httpStatusCode":409},
+      "exception":true
+    },
+    "StateDBType":{
+      "type":"string",
+      "enum":[
+        "LevelDB",
+        "CouchDB"
+      ]
+    },
+    "String":{"type":"string"},
+    "TagKey":{
+      "type":"string",
+      "max":128,
+      "min":1
+    },
+    "TagKeyList":{
+      "type":"list",
+      "member":{"shape":"TagKey"},
+      "max":200,
+      "min":0
+    },
+    "TagResourceRequest":{
+      "type":"structure",
+      "required":[
+        "ResourceArn",
+        "Tags"
       ],
-      "type": "string"
-    },
-    "ProposalSummary": {
-      "documentation": "<p>Properties of a proposal.</p>",
-      "members": {
-        "CreationDate": {
-          "documentation": "<p> The date and time that the proposal was created. </p>",
-          "shape": "Timestamp"
+      "members":{
+        "ResourceArn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>",
+          "location":"uri",
+          "locationName":"resourceArn"
         },
-        "Description": {
-          "documentation": "<p> The description of the proposal. </p>",
-          "shape": "DescriptionString"
-        },
-        "ExpirationDate": {
-          "documentation": "<p> The date and time that the proposal expires. This is the <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that is specified in the <code>ProposalThresholdPolicy</code>. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is <code>EXPIRED</code> and <code>Actions</code> are not carried out. </p>",
-          "shape": "Timestamp"
-        },
-        "ProposalId": {
-          "documentation": "<p> The unique identifier of the proposal. </p>",
-          "shape": "ResourceIdString"
-        },
-        "ProposedByMemberId": {
-          "documentation": "<p> The unique identifier of the member that created the proposal. </p>",
-          "shape": "ResourceIdString"
-        },
-        "ProposedByMemberName": {
-          "documentation": "<p> The name of the member that created the proposal. </p>",
-          "shape": "NetworkMemberNameString"
-        },
-        "Status": {
-          "documentation": "<p>The status of the proposal. Values are as follows:</p> <ul> <li> <p> <code>IN_PROGRESS</code> - The proposal is active and open for member voting.</p> </li> <li> <p> <code>APPROVED</code> - The proposal was approved with sufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified proposal actions are carried out.</p> </li> <li> <p> <code>REJECTED</code> - The proposal was rejected with insufficient <code>YES</code> votes among members according to the <code>VotingPolicy</code> specified for the <code>Network</code>. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>EXPIRED</code> - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified <code>ProposalActions</code> are not carried out.</p> </li> <li> <p> <code>ACTION_FAILED</code> - One or more of the specified <code>ProposalActions</code> in a proposal that was approved could not be completed because of an error.</p> </li> </ul>",
-          "shape": "ProposalStatus"
+        "Tags":{
+          "shape":"InputTagMap",
+          "documentation":"<p>The tags to assign to the specified resource. Tag values can be empty, for example, <code>\"MyTagKey\" : \"\"</code>. You can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.</p>"
         }
-      },
-      "type": "structure"
+      }
     },
-    "ProposalSummaryList": {
-      "member": {
-        "shape": "ProposalSummary"
-      },
-      "type": "list"
+    "TagResourceResponse":{
+      "type":"structure",
+      "members":{
+      }
     },
-    "ProposalVoteList": {
-      "member": {
-        "shape": "VoteSummary"
-      },
-      "type": "list"
+    "TagValue":{
+      "type":"string",
+      "max":256,
+      "min":0
     },
-    "RejectInvitationInput": {
-      "members": {
-        "InvitationId": {
-          "documentation": "<p>The unique identifier of the invitation to reject.</p>",
-          "location": "uri",
-          "locationName": "invitationId",
-          "shape": "ResourceIdString"
-        }
-      },
-      "required": [
-        "InvitationId"
-      ],
-      "type": "structure"
-    },
-    "RejectInvitationOutput": {
-      "members": {},
-      "type": "structure"
-    },
-    "RemoveAction": {
-      "documentation": "<p>An action to remove a member from a Managed Blockchain network as the result of a removal proposal that is <code>APPROVED</code>. The member and all associated resources are deleted from the network.</p>",
-      "members": {
-        "MemberId": {
-          "documentation": "<p>The unique identifier of the member to remove.</p>",
-          "shape": "ResourceIdString"
-        }
-      },
-      "required": [
-        "MemberId"
-      ],
-      "type": "structure"
-    },
-    "RemoveActionList": {
-      "member": {
-        "shape": "RemoveAction"
-      },
-      "type": "list"
-    },
-    "ResourceAlreadyExistsException": {
-      "documentation": "<p>A resource request is issued for a resource that already exists.</p>",
-      "error": {
-        "httpStatusCode": 409
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "ResourceIdString": {
-      "max": 32,
-      "min": 1,
-      "type": "string"
-    },
-    "ResourceLimitExceededException": {
-      "documentation": "<p>The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.</p>",
-      "error": {
-        "httpStatusCode": 429
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "ResourceNotFoundException": {
-      "documentation": "<p>A requested resource does not exist on the network. It may have been deleted or referenced inaccurately.</p>",
-      "error": {
-        "httpStatusCode": 404
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "ResourceNotReadyException": {
-      "documentation": "<p>The requested resource exists but is not in a status that can complete the operation.</p>",
-      "error": {
-        "httpStatusCode": 409
-      },
-      "exception": true,
-      "members": {
-        "Message": {
-          "shape": "String"
-        }
-      },
-      "type": "structure"
-    },
-    "String": {
-      "type": "string"
-    },
-    "ThresholdComparator": {
-      "enum": [
+    "ThresholdComparator":{
+      "type":"string",
+      "enum":[
         "GREATER_THAN",
         "GREATER_THAN_OR_EQUAL_TO"
-      ],
-      "type": "string"
+      ]
     },
-    "ThresholdPercentageInt": {
-      "box": true,
-      "max": 100,
-      "min": 0,
-      "type": "integer"
+    "ThresholdPercentageInt":{
+      "type":"integer",
+      "box":true,
+      "max":100,
+      "min":0
     },
-    "ThrottlingException": {
-      "documentation": "<p>The request or operation could not be performed because a service is throttling requests. The most common source of throttling errors is launching EC2 instances such that your service limit for EC2 instances is exceeded. Request a limit increase or delete unused resources if possible.</p>",
-      "error": {
-        "httpStatusCode": 429
+    "ThrottlingException":{
+      "type":"structure",
+      "members":{
       },
-      "exception": true,
-      "members": {},
-      "type": "structure"
+      "documentation":"<p>The request or operation could not be performed because a service is throttling requests. The most common source of throttling errors is launching EC2 instances such that your service limit for EC2 instances is exceeded. Request a limit increase or delete unused resources if possible.</p>",
+      "error":{"httpStatusCode":429},
+      "exception":true
     },
-    "Timestamp": {
-      "timestampFormat": "iso8601",
-      "type": "timestamp"
+    "Timestamp":{
+      "type":"timestamp",
+      "timestampFormat":"iso8601"
     },
-    "UpdateMemberInput": {
-      "members": {
-        "LogPublishingConfiguration": {
-          "documentation": "<p>Configuration properties for publishing to Amazon CloudWatch Logs.</p>",
-          "shape": "MemberLogPublishingConfiguration"
-        },
-        "MemberId": {
-          "documentation": "<p>The unique ID of the member.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
-        },
-        "NetworkId": {
-          "documentation": "<p>The unique ID of the Managed Blockchain network to which the member belongs.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
+    "TooManyTagsException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ExceptionMessage"},
+        "ResourceName":{
+          "shape":"ArnString",
+          "documentation":"<p/>"
         }
       },
-      "required": [
+      "documentation":"<p/>",
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
+    "UntagResourceRequest":{
+      "type":"structure",
+      "required":[
+        "ResourceArn",
+        "TagKeys"
+      ],
+      "members":{
+        "ResourceArn":{
+          "shape":"ArnString",
+          "documentation":"<p>The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.</p>",
+          "location":"uri",
+          "locationName":"resourceArn"
+        },
+        "TagKeys":{
+          "shape":"TagKeyList",
+          "documentation":"<p>The tag keys.</p>",
+          "location":"querystring",
+          "locationName":"tagKeys"
+        }
+      }
+    },
+    "UntagResourceResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "UpdateMemberInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
         "MemberId"
       ],
-      "type": "structure"
-    },
-    "UpdateMemberOutput": {
-      "members": {},
-      "type": "structure"
-    },
-    "UpdateNodeInput": {
-      "members": {
-        "LogPublishingConfiguration": {
-          "documentation": "<p>Configuration properties for publishing to Amazon CloudWatch Logs.</p>",
-          "shape": "NodeLogPublishingConfiguration"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the Managed Blockchain network to which the member belongs.</p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "MemberId": {
-          "documentation": "<p>The unique ID of the member that owns the node.</p>",
-          "location": "uri",
-          "locationName": "memberId",
-          "shape": "ResourceIdString"
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member.</p>",
+          "location":"uri",
+          "locationName":"memberId"
         },
-        "NetworkId": {
-          "documentation": "<p>The unique ID of the Managed Blockchain network to which the node belongs.</p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
-        },
-        "NodeId": {
-          "documentation": "<p>The unique ID of the node.</p>",
-          "location": "uri",
-          "locationName": "nodeId",
-          "shape": "ResourceIdString"
+        "LogPublishingConfiguration":{
+          "shape":"MemberLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for publishing to Amazon CloudWatch Logs.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "UpdateMemberOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "UpdateNodeInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
-        "MemberId",
         "NodeId"
       ],
-      "type": "structure"
-    },
-    "UpdateNodeOutput": {
-      "members": {},
-      "type": "structure"
-    },
-    "UsernameString": {
-      "max": 16,
-      "min": 1,
-      "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
-      "type": "string"
-    },
-    "VoteCount": {
-      "box": true,
-      "type": "integer"
-    },
-    "VoteOnProposalInput": {
-      "members": {
-        "NetworkId": {
-          "documentation": "<p> The unique identifier of the network. </p>",
-          "location": "uri",
-          "locationName": "networkId",
-          "shape": "ResourceIdString"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the network that the node is on.</p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "ProposalId": {
-          "documentation": "<p> The unique identifier of the proposal. </p>",
-          "location": "uri",
-          "locationName": "proposalId",
-          "shape": "ResourceIdString"
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member that owns the node.</p> <p>Applies only to Hyperledger Fabric.</p>"
         },
-        "Vote": {
-          "documentation": "<p> The value of the vote. </p>",
-          "shape": "VoteValue"
+        "NodeId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the node.</p>",
+          "location":"uri",
+          "locationName":"nodeId"
         },
-        "VoterMemberId": {
-          "documentation": "<p>The unique identifier of the member casting the vote. </p>",
-          "shape": "ResourceIdString"
+        "LogPublishingConfiguration":{
+          "shape":"NodeLogPublishingConfiguration",
+          "documentation":"<p>Configuration properties for publishing to Amazon CloudWatch Logs.</p>"
         }
-      },
-      "required": [
+      }
+    },
+    "UpdateNodeOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "UsernameString":{
+      "type":"string",
+      "max":16,
+      "min":1,
+      "pattern":"^[a-zA-Z][a-zA-Z0-9]*$"
+    },
+    "VoteCount":{
+      "type":"integer",
+      "box":true
+    },
+    "VoteOnProposalInput":{
+      "type":"structure",
+      "required":[
         "NetworkId",
         "ProposalId",
         "VoterMemberId",
         "Vote"
       ],
-      "type": "structure"
-    },
-    "VoteOnProposalOutput": {
-      "members": {},
-      "type": "structure"
-    },
-    "VoteSummary": {
-      "documentation": "<p> Properties of an individual vote that a member cast for a proposal. </p>",
-      "members": {
-        "MemberId": {
-          "documentation": "<p> The unique identifier of the member that cast the vote. </p>",
-          "shape": "ResourceIdString"
+      "members":{
+        "NetworkId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the network. </p>",
+          "location":"uri",
+          "locationName":"networkId"
         },
-        "MemberName": {
-          "documentation": "<p> The name of the member that cast the vote. </p>",
-          "shape": "NetworkMemberNameString"
+        "ProposalId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the proposal. </p>",
+          "location":"uri",
+          "locationName":"proposalId"
         },
-        "Vote": {
-          "documentation": "<p> The vote value, either <code>YES</code> or <code>NO</code>. </p>",
-          "shape": "VoteValue"
+        "VoterMemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p>The unique identifier of the member casting the vote. </p>"
+        },
+        "Vote":{
+          "shape":"VoteValue",
+          "documentation":"<p> The value of the vote. </p>"
+        }
+      }
+    },
+    "VoteOnProposalOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "VoteSummary":{
+      "type":"structure",
+      "members":{
+        "Vote":{
+          "shape":"VoteValue",
+          "documentation":"<p> The vote value, either <code>YES</code> or <code>NO</code>. </p>"
+        },
+        "MemberName":{
+          "shape":"NetworkMemberNameString",
+          "documentation":"<p> The name of the member that cast the vote. </p>"
+        },
+        "MemberId":{
+          "shape":"ResourceIdString",
+          "documentation":"<p> The unique identifier of the member that cast the vote. </p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p> Properties of an individual vote that a member cast for a proposal. </p> <p>Applies only to Hyperledger Fabric.</p>"
     },
-    "VoteValue": {
-      "enum": [
+    "VoteValue":{
+      "type":"string",
+      "enum":[
         "YES",
         "NO"
-      ],
-      "type": "string"
+      ]
     },
-    "VotingPolicy": {
-      "documentation": "<p> The voting rules for the network to decide if a proposal is accepted </p>",
-      "members": {
-        "ApprovalThresholdPolicy": {
-          "documentation": "<p>Defines the rules for the network for voting on proposals, such as the percentage of <code>YES</code> votes required for the proposal to be approved and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.</p>",
-          "shape": "ApprovalThresholdPolicy"
+    "VotingPolicy":{
+      "type":"structure",
+      "members":{
+        "ApprovalThresholdPolicy":{
+          "shape":"ApprovalThresholdPolicy",
+          "documentation":"<p>Defines the rules for the network for voting on proposals, such as the percentage of <code>YES</code> votes required for the proposal to be approved and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.</p>"
         }
       },
-      "type": "structure"
+      "documentation":"<p> The voting rules for the network to decide if a proposal is accepted </p> <p>Applies only to Hyperledger Fabric.</p>"
     }
   },
-  "version": "2.0"
+  "documentation":"<p/> <p>Amazon Managed Blockchain is a fully managed service for creating and managing blockchain networks using open-source frameworks. Blockchain allows you to build applications where multiple parties can securely and transparently run transactions and share data without the need for a trusted, central authority.</p> <p>Managed Blockchain supports the Hyperledger Fabric and Ethereum open-source frameworks. Because of fundamental differences between the frameworks, some API actions or data types may only apply in the context of one framework and not the other. For example, actions related to Hyperledger Fabric network members such as <code>CreateMember</code> and <code>DeleteMember</code> do not apply to Ethereum.</p> <p>The description for each action indicates the framework or frameworks to which it applies. Data types and properties that apply only in the context of a particular framework are similarly indicated.</p>"
 }

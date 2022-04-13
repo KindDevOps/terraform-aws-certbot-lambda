@@ -1,6 +1,26 @@
 Thist is fork from original https://github.com/binbashar/terraform-aws-certbot-lambda which present in terraform registry as [certbot-lambda module](https://registry.terraform.io/modules/binbashar/certbot-lambda/aws/latest). \
 Unfortunately latest  certbot-lambda module v.0.8.0 [uncompatible with terraform version >0.15](https://github.com/binbashar/terraform-aws-certbot-lambda/issues/5). So - I fixed this! 
 
+# Что это
+Это модуль terraform создает Lambda-функцию (и все что нужно для ее работы), котораяя делает вот что:
+  * Проверяет в ACM срок действия сертификата с указанным ARN и если срок действия истекает меньше, чем через месяц - запрашивает новый сертификат. 
+  * Получает сертификат Let's Encrypt для заданной записи в заданной DNS-зоне.
+  * Заливает полученный сертификат на AWS S3.
+  * заливает полученный сертификат на Amazon Certificate Manager.
+  * Для Lambda-функции создается триггер, который запускает ее по расписанию.
+
+# Код Lambda-функции
+Код лежит в файлике ./src/main.py
+## Как обновить код Lambda-функции
+https://stackoverflow.com/questions/57189352/aws-lambda-unable-to-import-module-python-handler-no-module-named-cffi-bac \
+https://aws.amazon.com/premiumsupport/knowledge-center/lambda-layer-simulated-docker/ \
+Если нужно обновить код, то удаляем из ./src/ всё, кроме requirements.txt и main.py и выполняем такое:
+```
+cd ./src/
+docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.6" /bin/sh -c "pip install --upgrade pip && pip install --requirement /var/task/requirements.txt --target /var/task/; chmod a+rw /var/task/* -R ; exit"
+```
+
+
 # Certbot Lambda
 
 This module deploys an AWS Lambda function that generates Let's Encrypt certificates via *certbot*, for the given domains.

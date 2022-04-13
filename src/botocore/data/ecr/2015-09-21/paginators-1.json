@@ -1,5 +1,23 @@
 {
   "pagination": {
+    "ListImages": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "imageIds"
+    },
+    "DescribeImages": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "imageDetails"
+    },
+    "DescribeRepositories": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "repositories"
+    },
     "DescribeImageScanFindings": {
       "input_token": "nextToken",
       "limit_key": "maxResults",
@@ -11,19 +29,10 @@
         "imageScanFindings"
       ],
       "output_token": "nextToken",
-      "result_key": "imageScanFindings.findings"
-    },
-    "DescribeImages": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
-      "output_token": "nextToken",
-      "result_key": "imageDetails"
-    },
-    "DescribeRepositories": {
-      "input_token": "nextToken",
-      "limit_key": "maxResults",
-      "output_token": "nextToken",
-      "result_key": "repositories"
+      "result_key": [
+        "imageScanFindings.findings",
+        "imageScanFindings.enhancedFindings"
+      ]
     },
     "GetLifecyclePolicyPreview": {
       "input_token": "nextToken",
@@ -38,11 +47,11 @@
       "output_token": "nextToken",
       "result_key": "previewResults"
     },
-    "ListImages": {
+    "DescribePullThroughCacheRules": {
       "input_token": "nextToken",
       "limit_key": "maxResults",
       "output_token": "nextToken",
-      "result_key": "imageIds"
+      "result_key": "pullThroughCacheRules"
     }
   }
 }

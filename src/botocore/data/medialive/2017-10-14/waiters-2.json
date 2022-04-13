@@ -2,216 +2,297 @@
   "version": 2,
   "waiters": {
     "ChannelCreated": {
-      "acceptors": [
-        {
-          "argument": "State",
-          "expected": "IDLE",
-          "matcher": "path",
-          "state": "success"
-        },
-        {
-          "argument": "State",
-          "expected": "CREATING",
-          "matcher": "path",
-          "state": "retry"
-        },
-        {
-          "expected": 500,
-          "matcher": "status",
-          "state": "retry"
-        },
-        {
-          "argument": "State",
-          "expected": "CREATE_FAILED",
-          "matcher": "path",
-          "state": "failure"
-        }
-      ],
-      "delay": 3,
       "description": "Wait until a channel has been created",
+      "operation": "DescribeChannel",
+      "delay": 3,
       "maxAttempts": 5,
-      "operation": "DescribeChannel"
-    },
-    "ChannelDeleted": {
       "acceptors": [
         {
-          "argument": "State",
-          "expected": "DELETED",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "State",
+          "expected": "IDLE"
         },
         {
-          "argument": "State",
-          "expected": "DELETING",
+          "state": "retry",
           "matcher": "path",
-          "state": "retry"
+          "argument": "State",
+          "expected": "CREATING"
         },
         {
-          "expected": 500,
+          "state": "retry",
           "matcher": "status",
-          "state": "retry"
+          "expected": 500
+        },
+        {
+          "state": "failure",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "CREATE_FAILED"
         }
-      ],
-      "delay": 5,
-      "description": "Wait until a channel has been deleted",
-      "maxAttempts": 84,
-      "operation": "DescribeChannel"
+      ]
     },
     "ChannelRunning": {
+      "description": "Wait until a channel is running",
+      "operation": "DescribeChannel",
+      "delay": 5,
+      "maxAttempts": 120,
       "acceptors": [
         {
-          "argument": "State",
-          "expected": "RUNNING",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "State",
+          "expected": "RUNNING"
         },
         {
-          "argument": "State",
-          "expected": "STARTING",
+          "state": "retry",
           "matcher": "path",
-          "state": "retry"
+          "argument": "State",
+          "expected": "STARTING"
         },
         {
-          "expected": 500,
+          "state": "retry",
           "matcher": "status",
-          "state": "retry"
+          "expected": 500
         }
-      ],
-      "delay": 5,
-      "description": "Wait until a channel is running",
-      "maxAttempts": 120,
-      "operation": "DescribeChannel"
+      ]
     },
     "ChannelStopped": {
+      "description": "Wait until a channel has is stopped",
+      "operation": "DescribeChannel",
+      "delay": 5,
+      "maxAttempts": 60,
       "acceptors": [
         {
-          "argument": "State",
-          "expected": "IDLE",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "State",
+          "expected": "IDLE"
         },
         {
-          "argument": "State",
-          "expected": "STOPPING",
+          "state": "retry",
           "matcher": "path",
-          "state": "retry"
+          "argument": "State",
+          "expected": "STOPPING"
         },
         {
-          "expected": 500,
+          "state": "retry",
           "matcher": "status",
-          "state": "retry"
+          "expected": 500
         }
-      ],
+      ]
+    },
+    "ChannelDeleted": {
+      "description": "Wait until a channel has been deleted",
+      "operation": "DescribeChannel",
       "delay": 5,
-      "description": "Wait until a channel has is stopped",
-      "maxAttempts": 60,
-      "operation": "DescribeChannel"
+      "maxAttempts": 84,
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DELETED"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DELETING"
+        },
+        {
+          "state": "retry",
+          "matcher": "status",
+          "expected": 500
+        }
+      ]
+    },
+    "InputAttached": {
+      "description": "Wait until an input has been attached",
+      "operation": "DescribeInput",
+      "delay": 5,
+      "maxAttempts": 20,
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "ATTACHED"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DETACHED"
+        },
+        {
+          "state": "retry",
+          "matcher": "status",
+          "expected": 500
+        }
+      ]
+    },
+    "InputDetached": {
+      "description": "Wait until an input has been detached",
+      "operation": "DescribeInput",
+      "delay": 5,
+      "maxAttempts": 84,
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DETACHED"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "CREATING"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "ATTACHED"
+        },
+        {
+          "state": "retry",
+          "matcher": "status",
+          "expected": 500
+        }
+      ]
+    },
+    "InputDeleted": {
+      "description": "Wait until an input has been deleted",
+      "operation": "DescribeInput",
+      "delay": 5,
+      "maxAttempts": 20,
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DELETED"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DELETING"
+        },
+        {
+          "state": "retry",
+          "matcher": "status",
+          "expected": 500
+        }
+      ]
     },
     "MultiplexCreated": {
-      "acceptors": [
-        {
-          "argument": "State",
-          "expected": "IDLE",
-          "matcher": "path",
-          "state": "success"
-        },
-        {
-          "argument": "State",
-          "expected": "CREATING",
-          "matcher": "path",
-          "state": "retry"
-        },
-        {
-          "expected": 500,
-          "matcher": "status",
-          "state": "retry"
-        },
-        {
-          "argument": "State",
-          "expected": "CREATE_FAILED",
-          "matcher": "path",
-          "state": "failure"
-        }
-      ],
-      "delay": 3,
       "description": "Wait until a multiplex has been created",
+      "operation": "DescribeMultiplex",
+      "delay": 3,
       "maxAttempts": 5,
-      "operation": "DescribeMultiplex"
-    },
-    "MultiplexDeleted": {
       "acceptors": [
         {
-          "argument": "State",
-          "expected": "DELETED",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "State",
+          "expected": "IDLE"
         },
         {
-          "argument": "State",
-          "expected": "DELETING",
+          "state": "retry",
           "matcher": "path",
-          "state": "retry"
+          "argument": "State",
+          "expected": "CREATING"
         },
         {
-          "expected": 500,
+          "state": "retry",
           "matcher": "status",
-          "state": "retry"
+          "expected": 500
+        },
+        {
+          "state": "failure",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "CREATE_FAILED"
         }
-      ],
-      "delay": 5,
-      "description": "Wait until a multiplex has been deleted",
-      "maxAttempts": 20,
-      "operation": "DescribeMultiplex"
+      ]
     },
     "MultiplexRunning": {
+      "description": "Wait until a multiplex is running",
+      "operation": "DescribeMultiplex",
+      "delay": 5,
+      "maxAttempts": 120,
       "acceptors": [
         {
-          "argument": "State",
-          "expected": "RUNNING",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "State",
+          "expected": "RUNNING"
         },
         {
-          "argument": "State",
-          "expected": "STARTING",
+          "state": "retry",
           "matcher": "path",
-          "state": "retry"
+          "argument": "State",
+          "expected": "STARTING"
         },
         {
-          "expected": 500,
+          "state": "retry",
           "matcher": "status",
-          "state": "retry"
+          "expected": 500
         }
-      ],
-      "delay": 5,
-      "description": "Wait until a multiplex is running",
-      "maxAttempts": 120,
-      "operation": "DescribeMultiplex"
+      ]
     },
     "MultiplexStopped": {
+      "description": "Wait until a multiplex has is stopped",
+      "operation": "DescribeMultiplex",
+      "delay": 5,
+      "maxAttempts": 28,
       "acceptors": [
         {
-          "argument": "State",
-          "expected": "IDLE",
+          "state": "success",
           "matcher": "path",
-          "state": "success"
+          "argument": "State",
+          "expected": "IDLE"
         },
         {
-          "argument": "State",
-          "expected": "STOPPING",
+          "state": "retry",
           "matcher": "path",
-          "state": "retry"
+          "argument": "State",
+          "expected": "STOPPING"
         },
         {
-          "expected": 500,
+          "state": "retry",
           "matcher": "status",
-          "state": "retry"
+          "expected": 500
         }
-      ],
+      ]
+    },
+    "MultiplexDeleted": {
+      "description": "Wait until a multiplex has been deleted",
+      "operation": "DescribeMultiplex",
       "delay": 5,
-      "description": "Wait until a multiplex has is stopped",
-      "maxAttempts": 28,
-      "operation": "DescribeMultiplex"
+      "maxAttempts": 20,
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DELETED"
+        },
+        {
+          "state": "retry",
+          "matcher": "path",
+          "argument": "State",
+          "expected": "DELETING"
+        },
+        {
+          "state": "retry",
+          "matcher": "status",
+          "expected": 500
+        }
+      ]
     }
   }
 }

@@ -101,15 +101,13 @@ information that doesn't quite fit in the original models, but is still needed
 for the sdk. For instance, additional operation parameters might be added here
 which don't represent the actual service api.
 """
-import os
 import logging
+import os
 
 from botocore import BOTOCORE_ROOT
-from botocore.compat import json
-from botocore.compat import OrderedDict
+from botocore.compat import OrderedDict, json
 from botocore.exceptions import DataNotFoundError, UnknownServiceError
 from botocore.utils import deep_merge
-
 
 logger = logging.getLogger(__name__)
 
@@ -171,8 +169,9 @@ class JSONFileLoader(object):
         # We specify "utf8" here to ensure the correct behavior.
         with open(full_path, 'rb') as fp:
             payload = fp.read().decode('utf-8')
-            logger.debug("Loading JSON file: %s", full_path)
-            return json.loads(payload, object_pairs_hook=OrderedDict)
+
+        logger.debug("Loading JSON file: %s", full_path)
+        return json.loads(payload, object_pairs_hook=OrderedDict)
 
 
 def create_loader(search_path_string=None):

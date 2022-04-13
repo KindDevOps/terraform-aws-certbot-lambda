@@ -1,13 +1,8 @@
 {
+  "version": "1.0",
   "examples": {
     "BatchGetItem": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example reads multiple items from the Music table using a batch of three GetItem requests.  Only the AlbumTitle attribute is returned.",
-        "id": "to-retrieve-multiple-items-from-a-table-1476118438992",
         "input": {
           "RequestItems": {
             "Music": {
@@ -62,17 +57,19 @@
             ]
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example reads multiple items from the Music table using a batch of three GetItem requests.  Only the AlbumTitle attribute is returned.",
+        "id": "to-retrieve-multiple-items-from-a-table-1476118438992",
         "title": "To retrieve multiple items from a table"
       }
     ],
     "BatchWriteItem": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example adds three new items to the Music table using a batch of three PutItem requests.",
-        "id": "to-add-multiple-items-to-a-table-1476118519747",
         "input": {
           "RequestItems": {
             "Music": [
@@ -124,18 +121,21 @@
             ]
           }
         },
-        "output": {},
+        "output": {
+        },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example adds three new items to the Music table using a batch of three PutItem requests.",
+        "id": "to-add-multiple-items-to-a-table-1476118519747",
         "title": "To add multiple items to a table"
       }
     ],
     "CreateTable": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example creates a table named Music.",
-        "id": "to-create-a-table-1476116291743",
         "input": {
           "AttributeDefinitions": [
             {
@@ -196,17 +196,19 @@
             "TableStatus": "CREATING"
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example creates a table named Music.",
+        "id": "to-create-a-table-1476116291743",
         "title": "To create a table"
       }
     ],
     "DeleteItem": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example deletes an item from the Music table.",
-        "id": "to-delete-an-item-1475884573758",
         "input": {
           "Key": {
             "Artist": {
@@ -224,17 +226,19 @@
             "TableName": "Music"
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example deletes an item from the Music table.",
+        "id": "to-delete-an-item-1475884573758",
         "title": "To delete an item"
       }
     ],
     "DeleteTable": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example deletes the Music table.",
-        "id": "to-delete-a-table-1475884368755",
         "input": {
           "TableName": "Music"
         },
@@ -251,35 +255,40 @@
             "TableStatus": "DELETING"
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example deletes the Music table.",
+        "id": "to-delete-a-table-1475884368755",
         "title": "To delete a table"
       }
     ],
     "DescribeLimits": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
+        "input": {
         },
-        "description": "The following example returns the maximum read and write capacity units per table, and for the AWS account, in the current AWS region.",
-        "id": "to-determine-capacity-limits-per-table-and-account-in-the-current-aws-region-1475884162064",
-        "input": {},
         "output": {
           "AccountMaxReadCapacityUnits": 20000,
           "AccountMaxWriteCapacityUnits": 20000,
           "TableMaxReadCapacityUnits": 10000,
           "TableMaxWriteCapacityUnits": 10000
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "The following example returns the maximum read and write capacity units per table, and for the AWS account, in the current AWS region.",
+        "id": "to-determine-capacity-limits-per-table-and-account-in-the-current-aws-region-1475884162064",
         "title": "To determine capacity limits per table and account, in the current AWS region"
       }
     ],
     "DescribeTable": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example describes the Music table.",
-        "id": "to-describe-a-table-1475884440502",
         "input": {
           "TableName": "Music"
         },
@@ -317,17 +326,19 @@
             "TableStatus": "ACTIVE"
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example describes the Music table.",
+        "id": "to-describe-a-table-1475884440502",
         "title": "To describe a table"
       }
     ],
     "GetItem": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example retrieves an item from the Music table. The table has a partition key and a sort key (Artist and SongTitle), so you must specify both of these attributes.",
-        "id": "to-read-an-item-from-a-table-1475884258350",
         "input": {
           "Key": {
             "Artist": {
@@ -352,18 +363,21 @@
             }
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example retrieves an item from the Music table. The table has a partition key and a sort key (Artist and SongTitle), so you must specify both of these attributes.",
+        "id": "to-read-an-item-from-a-table-1475884258350",
         "title": "To read an item from a table"
       }
     ],
     "ListTables": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
+        "input": {
         },
-        "description": "This example lists all of the tables associated with the current AWS account and endpoint.",
-        "id": "to-list-tables-1475884741238",
-        "input": {},
         "output": {
           "TableNames": [
             "Forum",
@@ -372,17 +386,19 @@
             "Thread"
           ]
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example lists all of the tables associated with the current AWS account and endpoint.",
+        "id": "to-list-tables-1475884741238",
         "title": "To list tables"
       }
     ],
     "PutItem": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example adds a new item to the Music table.",
-        "id": "to-add-an-item-to-a-table-1476116191110",
         "input": {
           "Item": {
             "AlbumTitle": {
@@ -404,17 +420,19 @@
             "TableName": "Music"
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example adds a new item to the Music table.",
+        "id": "to-add-an-item-to-a-table-1476116191110",
         "title": "To add an item to a table"
       }
     ],
     "Query": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example queries items in the Music table. The table has a partition key and sort key (Artist and SongTitle), but this query only specifies the partition key value. It returns song titles by the artist named \"No One You Know\".",
-        "id": "to-query-an-item-1475883874631",
         "input": {
           "ExpressionAttributeValues": {
             ":v1": {
@@ -426,7 +444,8 @@
           "TableName": "Music"
         },
         "output": {
-          "ConsumedCapacity": {},
+          "ConsumedCapacity": {
+          },
           "Count": 2,
           "Items": [
             {
@@ -437,21 +456,23 @@
           ],
           "ScannedCount": 2
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example queries items in the Music table. The table has a partition key and sort key (Artist and SongTitle), but this query only specifies the partition key value. It returns song titles by the artist named \"No One You Know\".",
+        "id": "to-query-an-item-1475883874631",
         "title": "To query an item"
       }
     ],
     "Scan": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example scans the entire Music table, and then narrows the results to songs by the artist \"No One You Know\". For each item, only the album title and song title are returned.",
-        "id": "to-scan-a-table-1475883652470",
         "input": {
           "ExpressionAttributeNames": {
-            "AT": "AlbumTitle",
-            "ST": "SongTitle"
+            "#AT": "AlbumTitle",
+            "#ST": "SongTitle"
           },
           "ExpressionAttributeValues": {
             ":a": {
@@ -463,7 +484,8 @@
           "TableName": "Music"
         },
         "output": {
-          "ConsumedCapacity": {},
+          "ConsumedCapacity": {
+          },
           "Count": 2,
           "Items": [
             {
@@ -485,17 +507,19 @@
           ],
           "ScannedCount": 3
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example scans the entire Music table, and then narrows the results to songs by the artist \"No One You Know\". For each item, only the album title and song title are returned.",
+        "id": "to-scan-a-table-1475883652470",
         "title": "To scan a table"
       }
     ],
     "UpdateItem": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example updates an item in the Music table. It adds a new attribute (Year) and modifies the AlbumTitle attribute.  All of the attributes in the item, as they appear after the update, are returned in the response.",
-        "id": "to-update-an-item-in-a-table-1476118250055",
         "input": {
           "ExpressionAttributeNames": {
             "#AT": "AlbumTitle",
@@ -537,17 +561,19 @@
             }
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example updates an item in the Music table. It adds a new attribute (Year) and modifies the AlbumTitle attribute.  All of the attributes in the item, as they appear after the update, are returned in the response.",
+        "id": "to-update-an-item-in-a-table-1476118250055",
         "title": "To update an item in a table"
       }
     ],
     "UpdateTable": [
       {
-        "comments": {
-          "input": {},
-          "output": {}
-        },
-        "description": "This example increases the provisioned read and write capacity on the Music table.",
-        "id": "to-modify-a-tables-provisioned-throughput-1476118076147",
         "input": {
           "ProvisionedThroughput": {
             "ReadCapacityUnits": 10,
@@ -590,9 +616,16 @@
             "TableStatus": "UPDATING"
           }
         },
+        "comments": {
+          "input": {
+          },
+          "output": {
+          }
+        },
+        "description": "This example increases the provisioned read and write capacity on the Music table.",
+        "id": "to-modify-a-tables-provisioned-throughput-1476118076147",
         "title": "To modify a table's provisioned throughput"
       }
     ]
-  },
-  "version": "1.0"
+  }
 }

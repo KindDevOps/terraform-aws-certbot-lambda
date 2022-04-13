@@ -9,16 +9,34 @@ The framework presented here is somewhat based on `Go's "json" package`_
 import abc
 import binascii
 import logging
+from typing import Any, Callable, Dict, List, Mapping, Optional, Type, TypeVar
 
-import OpenSSL
-import six
+from OpenSSL import crypto
 
 from josepy import b64, errors, interfaces, util
 
 logger = logging.getLogger(__name__)
 
 
-class Field(object):
+def field(json_name: str, default: Any = None, omitempty: bool = False,
+          decoder: Callable[[Any], Any] = None, encoder: Callable[[Any], Any] = None) -> Any:
+    """Convenient function to declare a :class:`Field` with proper type annotations.
+
+    This function allows to write the following code:
+
+    import josepy
+    class JSON(josepy.JSONObjectWithFields):
+        typ: str = josepy.field('type')
+
+        def other_type(self) -> str:
+            return self.typ
+
+    """
+    return _TypedField(json_name=json_name, default=default, omitempty=omitempty,
+                       decoder=decoder, encoder=encoder)
+
+
+class Field:
     """JSON object field.
 
     :class:`Field` is meant to be used together with
@@ -44,9 +62,9 @@ class Field(object):
     """
     __slots__ = ('json_name', 'default', 'omitempty', 'fdec', 'fenc')
 
-    def __init__(self, json_name, default=None, omitempty=False,
-                 decoder=None, encoder=None):
-        # pylint: disable=too-many-arguments
+    def __init__(self, json_name: str, default: Any = None, omitempty: bool = False,
+                 decoder: Callable[[Any], Any] = None,
+                 encoder: Callable[[Any], Any] = None) -> None:
         self.json_name = json_name
         self.default = default
         self.omitempty = omitempty
@@ -55,7 +73,7 @@ class Field(object):
         self.fenc = self.default_encoder if encoder is None else encoder
 
     @classmethod
-    def _empty(cls, value):
+    def _empty(cls, value: Any) -> bool:
         """Is the provided value considered "empty" for this field?
 
         This is useful for subclasses that might want to override the
@@ -64,35 +82,39 @@ class Field(object):
         """
         return not isinstance(value, bool) and not value
 
-    def omit(self, value):
+    def omit(self, value: Any) -> bool:
         """Omit the value in output?"""
         return self._empty(value) and self.omitempty
 
-    def _update_params(self, **kwargs):
-        current = dict(json_name=self.json_name, default=self.default,
-                       omitempty=self.omitempty,
-                       decoder=self.fdec, encoder=self.fenc)
-        current.update(kwargs)
-        return type(self)(**current)  # pylint: disable=star-args
+    def _update_params(self, **kwargs: Any) -> 'Field':
+        current = {
+            "json_name": self.json_name,
+            "default": self.default,
+            "omitempty": self.omitempty,
+            "decoder": self.fdec,
+            "encoder": self.fenc,
+            **kwargs,
+        }
+        return type(self)(**current)  # type: ignore[arg-type]
 
-    def decoder(self, fdec):
+    def decoder(self, fdec: Callable[[Any], Any]) -> 'Field':
         """Descriptor to change the decoder on JSON object field."""
         return self._update_params(decoder=fdec)
 
-    def encoder(self, fenc):
+    def encoder(self, fenc: Callable[[Any], Any]) -> 'Field':
         """Descriptor to change the encoder on JSON object field."""
         return self._update_params(encoder=fenc)
 
-    def decode(self, value):
+    def decode(self, value: Any) -> Any:
         """Decode a value, optionally with context JSON object."""
         return self.fdec(value)
 
-    def encode(self, value):
+    def encode(self, value: Any) -> Any:
         """Encode a value, optionally with context JSON object."""
         return self.fenc(value)
 
     @classmethod
-    def default_decoder(cls, value):
+    def default_decoder(cls, value: Any) -> Any:
         """Default decoder.
 
         Recursively deserialize into immutable types (
@@ -105,17 +127,26 @@ class Field(object):
             return tuple(cls.default_decoder(subvalue) for subvalue in value)
         elif isinstance(value, dict):
             return util.frozendict(
-                dict((cls.default_decoder(key), cls.default_decoder(value))
-                     for key, value in six.iteritems(value)))
+                {cls.default_decoder(key): cls.default_decoder(value)
+                 for key, value in value.items()})
         else:  # integer or string
             return value
 
     @classmethod
-    def default_encoder(cls, value):
+    def default_encoder(cls, value: Any) -> Any:
         """Default (passthrough) encoder."""
         # field.to_partial_json() is no good as encoder has to do partial
         # serialization only
         return value
+
+
+class _TypedField(Field):
+    """Specialized class to mark a JSON object field with typed annotations.
+
+    This class is kept private because fields are supposed to be declared
+    using the :function:`field` in this situation.
+
+    In the future the :class:`Field` may be removed in favor of this one."""
 
 
 class JSONObjectWithFieldsMeta(abc.ABCMeta):
@@ -138,7 +169,7 @@ class JSONObjectWithFieldsMeta(abc.ABCMeta):
 
       some_field = Field('someField', default=())
 
-      class Foo(object):
+      class Foo:
           __metaclass__ = JSONObjectWithFieldsMeta
           __slots__ = ('baz',)
           some_field = some_field
@@ -158,28 +189,40 @@ class JSONObjectWithFieldsMeta(abc.ABCMeta):
 
     """
 
-    def __new__(mcs, name, bases, dikt):
+    _fields: Dict[str, Field] = {}
+
+    def __new__(mcs, name: str, bases: List[str],
+                namespace: Dict[str, Any]) -> 'JSONObjectWithFieldsMeta':
         fields = {}
 
         for base in bases:
             fields.update(getattr(base, '_fields', {}))
         # Do not reorder, this class might override fields from base classes!
-        for key, value in tuple(six.iteritems(dikt)):
-            # not six.iterkeys() (in-place edit!)
+        # We use a copy of namespace in the loop because the loop modifies it.
+        for key, value in namespace.copy().items():
             if isinstance(value, Field):
-                fields[key] = dikt.pop(key)
+                if isinstance(value, _TypedField):
+                    # Ensure the type annotation has been set for the field.
+                    # Error out if it is not the case.
+                    if key not in namespace.get('__annotations__', {}):
+                        raise ValueError(
+                            f'Field `{key}` in JSONObject `{name}` has no type annotation.')
+                fields[key] = namespace.pop(key)
 
-        dikt['_orig_slots'] = dikt.get('__slots__', ())
-        dikt['__slots__'] = tuple(
-            list(dikt['_orig_slots']) + list(six.iterkeys(fields)))
-        dikt['_fields'] = fields
+        namespace['_orig_slots'] = namespace.get('__slots__', ())
+        namespace['__slots__'] = tuple(
+            list(namespace['_orig_slots']) + list(fields.keys()))
+        namespace['_fields'] = fields
 
-        return abc.ABCMeta.__new__(mcs, name, bases, dikt)
+        return abc.ABCMeta.__new__(mcs, name, bases, namespace)  # type: ignore[call-overload]
 
 
-@six.add_metaclass(JSONObjectWithFieldsMeta)
-class JSONObjectWithFields(util.ImmutableMap, interfaces.JSONDeSerializable):
-    # pylint: disable=too-few-public-methods
+GenericJSONObjectWithFields = TypeVar('GenericJSONObjectWithFields', bound='JSONObjectWithFields')
+
+
+class JSONObjectWithFields(util.ImmutableMap,
+                           interfaces.JSONDeSerializable,
+                           metaclass=JSONObjectWithFieldsMeta):
     """JSON object with fields.
 
     Example::
@@ -205,19 +248,17 @@ class JSONObjectWithFields(util.ImmutableMap, interfaces.JSONDeSerializable):
       assert Foo(bar='baz').bar == 'baz'
 
     """
-
     @classmethod
-    def _defaults(cls):
+    def _defaults(cls) -> Dict[str, Any]:
         """Get default fields values."""
-        return dict([(slot, field.default) for slot, field
-                     in six.iteritems(cls._fields)])
+        return {
+            slot: field.default for slot, field in cls._fields.items()
+        }
 
-    def __init__(self, **kwargs):
-        # pylint: disable=star-args
-        super(JSONObjectWithFields, self).__init__(
-            **(dict(self._defaults(), **kwargs)))
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**{**self._defaults(), **kwargs})
 
-    def encode(self, name):
+    def encode(self, name: str) -> Any:
         """Encode a single field.
 
         :param str name: Name of the field to be encoded.
@@ -227,17 +268,17 @@ class JSONObjectWithFields(util.ImmutableMap, interfaces.JSONDeSerializable):
 
         """
         try:
-            field = self._fields[name]
+            field = self._fields[name]  # type: ignore[attr-defined]
         except KeyError:
             raise errors.Error("Field not found: {0}".format(name))
 
         return field.encode(getattr(self, name))
 
-    def fields_to_partial_json(self):
+    def fields_to_partial_json(self) -> Dict[str, Any]:
         """Serialize fields to JSON."""
         jobj = {}
         omitted = set()
-        for slot, field in six.iteritems(self._fields):
+        for slot, field in self._fields.items():  # type: ignore[attr-defined]
             value = getattr(self, slot)
 
             if field.omit(value):
@@ -251,13 +292,13 @@ class JSONObjectWithFields(util.ImmutableMap, interfaces.JSONDeSerializable):
                             slot, value, error))
         return jobj
 
-    def to_partial_json(self):
+    def to_partial_json(self) -> Dict[str, Any]:
         return self.fields_to_partial_json()
 
     @classmethod
-    def _check_required(cls, jobj):
+    def _check_required(cls, jobj: Mapping[str, Any]) -> None:
         missing = set()
-        for _, field in six.iteritems(cls._fields):
+        for _, field in cls._fields.items():
             if not field.omitempty and field.json_name not in jobj:
                 missing.add(field.json_name)
 
@@ -267,11 +308,11 @@ class JSONObjectWithFields(util.ImmutableMap, interfaces.JSONDeSerializable):
                     ','.join(missing)))
 
     @classmethod
-    def fields_from_json(cls, jobj):
+    def fields_from_json(cls, jobj: Mapping[str, Any]) -> Any:
         """Deserialize fields from JSON."""
         cls._check_required(jobj)
         fields = {}
-        for slot, field in six.iteritems(cls._fields):
+        for slot, field in cls._fields.items():
             if field.json_name not in jobj and field.omitempty:
                 fields[slot] = field.default
             else:
@@ -279,28 +320,29 @@ class JSONObjectWithFields(util.ImmutableMap, interfaces.JSONDeSerializable):
                 try:
                     fields[slot] = field.decode(value)
                 except errors.DeserializationError as error:
-                    raise errors.DeserializationError(
-                        'Could not decode {0!r} ({1!r}): {2}'.format(
-                            slot, value, error))
+                    raise errors.DeserializationError('Could not decode {0!r} ({1!r}): {2}'.format(
+                        slot, value, error))
         return fields
 
     @classmethod
-    def from_json(cls, jobj):
+    def from_json(
+        cls: Type[GenericJSONObjectWithFields], jobj: Mapping[str, Any]
+    ) -> GenericJSONObjectWithFields:
         return cls(**cls.fields_from_json(jobj))
 
 
-def encode_b64jose(data):
+def encode_b64jose(data: bytes) -> str:
     """Encode JOSE Base-64 field.
 
     :param bytes data:
-    :rtype: `unicode`
+    :rtype: `str`
 
     """
     # b64encode produces ASCII characters only
     return b64.b64encode(data).decode('ascii')
 
 
-def decode_b64jose(data, size=None, minimum=False):
+def decode_b64jose(data: str, size: Optional[int] = None, minimum: bool = False) -> bytes:
     """Decode JOSE Base-64 field.
 
     :param unicode data:
@@ -311,10 +353,9 @@ def decode_b64jose(data, size=None, minimum=False):
     :rtype: bytes
 
     """
-    error_cls = TypeError if six.PY2 else binascii.Error
     try:
         decoded = b64.b64decode(data.encode())
-    except error_cls as error:
+    except binascii.Error as error:
         raise errors.DeserializationError(error)
 
     if size is not None and ((not minimum and len(decoded) != size) or
@@ -325,7 +366,7 @@ def decode_b64jose(data, size=None, minimum=False):
     return decoded
 
 
-def encode_hex16(value):
+def encode_hex16(value: bytes) -> str:
     """Hexlify.
 
     :param bytes value:
@@ -335,7 +376,7 @@ def encode_hex16(value):
     return binascii.hexlify(value).decode()
 
 
-def decode_hex16(value, size=None, minimum=False):
+def decode_hex16(value: str, size: Optional[int] = None, minimum: bool = False) -> bytes:
     """Decode hexlified field.
 
     :param unicode value:
@@ -346,29 +387,31 @@ def decode_hex16(value, size=None, minimum=False):
     :rtype: bytes
 
     """
-    value = value.encode()
-    if size is not None and ((not minimum and len(value) != size * 2) or
-                             (minimum and len(value) < size * 2)):
+    value_b = value.encode()
+    if size is not None and ((not minimum and len(value_b) != size * 2) or
+                             (minimum and len(value_b) < size * 2)):
         raise errors.DeserializationError()
-    error_cls = TypeError if six.PY2 else binascii.Error
     try:
-        return binascii.unhexlify(value)
-    except error_cls as error:
+        return binascii.unhexlify(value_b)
+    except binascii.Error as error:
         raise errors.DeserializationError(error)
 
 
-def encode_cert(cert):
+def encode_cert(cert: util.ComparableX509) -> str:
     """Encode certificate as JOSE Base-64 DER.
 
     :type cert: `OpenSSL.crypto.X509` wrapped in `.ComparableX509`
     :rtype: unicode
 
     """
-    return encode_b64jose(OpenSSL.crypto.dump_certificate(
-        OpenSSL.crypto.FILETYPE_ASN1, cert.wrapped))
+    if isinstance(cert.wrapped, crypto.X509Req):
+        raise ValueError("Error input is actually a certificate request.")
+
+    return encode_b64jose(crypto.dump_certificate(
+        crypto.FILETYPE_ASN1, cert.wrapped))
 
 
-def decode_cert(b64der):
+def decode_cert(b64der: str) -> util.ComparableX509:
     """Decode JOSE Base-64 DER-encoded certificate.
 
     :param unicode b64der:
@@ -376,24 +419,27 @@ def decode_cert(b64der):
 
     """
     try:
-        return util.ComparableX509(OpenSSL.crypto.load_certificate(
-            OpenSSL.crypto.FILETYPE_ASN1, decode_b64jose(b64der)))
-    except OpenSSL.crypto.Error as error:
+        return util.ComparableX509(crypto.load_certificate(
+            crypto.FILETYPE_ASN1, decode_b64jose(b64der)))
+    except crypto.Error as error:
         raise errors.DeserializationError(error)
 
 
-def encode_csr(csr):
+def encode_csr(csr: util.ComparableX509) -> str:
     """Encode CSR as JOSE Base-64 DER.
 
     :type csr: `OpenSSL.crypto.X509Req` wrapped in `.ComparableX509`
     :rtype: unicode
 
     """
-    return encode_b64jose(OpenSSL.crypto.dump_certificate_request(
-        OpenSSL.crypto.FILETYPE_ASN1, csr.wrapped))
+    if isinstance(csr.wrapped, crypto.X509):
+        raise ValueError("Error input is actually a certificate.")
+
+    return encode_b64jose(crypto.dump_certificate_request(
+        crypto.FILETYPE_ASN1, csr.wrapped))
 
 
-def decode_csr(b64der):
+def decode_csr(b64der: str) -> util.ComparableX509:
     """Decode JOSE Base-64 DER-encoded CSR.
 
     :param unicode b64der:
@@ -401,39 +447,44 @@ def decode_csr(b64der):
 
     """
     try:
-        return util.ComparableX509(OpenSSL.crypto.load_certificate_request(
-            OpenSSL.crypto.FILETYPE_ASN1, decode_b64jose(b64der)))
-    except OpenSSL.crypto.Error as error:
+        return util.ComparableX509(crypto.load_certificate_request(
+            crypto.FILETYPE_ASN1, decode_b64jose(b64der)))
+    except crypto.Error as error:
         raise errors.DeserializationError(error)
+
+
+GenericTypedJSONObjectWithFields = TypeVar(
+    'GenericTypedJSONObjectWithFields', bound='TypedJSONObjectWithFields')
 
 
 class TypedJSONObjectWithFields(JSONObjectWithFields):
     """JSON object with type."""
 
-    typ = NotImplemented
+    typ: str = NotImplemented
     """Type of the object. Subclasses must override."""
 
-    type_field_name = "type"
+    type_field_name: str = "type"
     """Field name used to distinguish different object types.
 
     Subclasses will probably have to override this.
 
     """
 
-    TYPES = NotImplemented
+    TYPES: Dict[str, Type] = NotImplemented
     """Types registered for JSON deserialization"""
 
     @classmethod
-    def register(cls, type_cls, typ=None):
+    def register(cls, type_cls: Type[GenericTypedJSONObjectWithFields],
+                 typ: Optional[str] = None) -> Type[GenericTypedJSONObjectWithFields]:
         """Register class for JSON deserialization."""
         typ = type_cls.typ if typ is None else typ
         cls.TYPES[typ] = type_cls
         return type_cls
 
     @classmethod
-    def get_type_cls(cls, jobj):
+    def get_type_cls(cls, jobj: Mapping[str, Any]) -> Type["TypedJSONObjectWithFields"]:
         """Get the registered class for ``jobj``."""
-        if cls in six.itervalues(cls.TYPES):
+        if cls in cls.TYPES.values():
             if cls.type_field_name not in jobj:
                 raise errors.DeserializationError(
                     "Missing type field ({0})".format(cls.type_field_name))
@@ -455,7 +506,7 @@ class TypedJSONObjectWithFields(JSONObjectWithFields):
         except KeyError:
             raise errors.UnrecognizedTypeError(typ, jobj)
 
-    def to_partial_json(self):
+    def to_partial_json(self) -> Dict[str, Any]:
         """Get JSON serializable object.
 
         :returns: Serializable JSON object representing ACME typed object.
@@ -469,7 +520,7 @@ class TypedJSONObjectWithFields(JSONObjectWithFields):
         return jobj
 
     @classmethod
-    def from_json(cls, jobj):
+    def from_json(cls, jobj: Mapping[str, Any]) -> "TypedJSONObjectWithFields":
         """Deserialize ACME object from valid JSON object.
 
         :raises josepy.errors.UnrecognizedTypeError: if type
