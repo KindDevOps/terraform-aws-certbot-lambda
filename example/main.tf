@@ -20,19 +20,18 @@ module "certbot-lambda" {
   hosted_zones_ids                      = data.aws_route53_zone.zones
   certificate_arn                       = aws_acm_certificate.cert.arn
   
-  function_trigger_schedule_expression  = "cron(12 20 * * * *)"
+  function_trigger_schedule_expression  = "cron(12 20 * * ? *)"
 }
 
 locals {
-  #zone_name = replace(regex("(.*)([[:punct:]]$)", "${data.aws_route53_zone.zone.name}")[0], ".", "-")
-  lambda-name = replace(regex("[[:punct:]]?(.*)", "${var.certificate_domains[0]}")[0], ".", "-")
-  certificate_domains = join(",", [ for domain in var.certificate_domains : regex("[[:punct:]]?(.*)", domain)[0] ] )
+  lambda-name = replace(regex("\\.*(.*)", "${var.certificate_domains[0]}")[0], ".", "-")
+  certificate_domains = join(",", [ for domain in var.certificate_domains : regex("\\.*(.*)", domain)[0] ] )
 }
 
 data "aws_route53_zone" "zones" {
   for_each = toset( var.certificate_domains )
 
-  name = regex(".*?[[:punct:]](.*)", each.value)[0] 
+  name = regex(".*?[[:punct:]]*(.*)", each.value)[0] 
   private_zone = false
 }
 

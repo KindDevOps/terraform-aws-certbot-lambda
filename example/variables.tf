@@ -1,17 +1,17 @@
 variable "aws_region" {
   type    = string
-  default = "eu-central-1"
+  default = "us-east-2"
 }
 
 variable "certificate_domains" {
   type = list
   default = [
     ".voximplant.com",
-    "www.voximplant.com",
+    "*.voximplant.com",
     ".voximplant.ru",
-    "www.voximplant.ru"
+    "*.voximplant.ru"
   ]
-  # Dots should be used to allow automatic Route53 zone detection for second level domains.
+  # Front dots should be used to allow automatic Route53 zone id detection for second level domains.
 }
 
 variable "certbot_contact_email" {

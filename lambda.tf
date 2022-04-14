@@ -3,9 +3,9 @@
 # LetsEncrypt certificates and stores them in an S3 bucket.
 #
 module "certbot_lambda_jenkins" {
-  source = "github.com/KindDevOps/terraform-aws-lambda?ref=v1.3.0"
+  source = "github.com/KindDevOps/terraform-aws-lambda?ref=v1.48.0"
 
-  function_name = "${var.name_prefix}_${var.name}"
+  function_name = "${var.name_prefix}_${data.aws_region.current.name}_${var.name}"
   description   = "CertBot Lambda that creates and renews certificates for ${var.certificate_domains}"
   handler       = "main.lambda_handler"
   runtime       = "python3.7"
@@ -16,7 +16,7 @@ module "certbot_lambda_jenkins" {
   trusted_entities = ["events.amazonaws.com"]
 
   policy = {
-    json = data.aws_iam_policy_document.bucket_permissions.json
+    json = data.aws_iam_policy_document.lambda_permissions.json
   }
 
   environment = {
@@ -28,10 +28,12 @@ module "certbot_lambda_jenkins" {
   }
 }
 
+data "aws_region" "current" {}
+
 #
-# Lambda permissions on the bucket used to store certificates.
+# Lambda permissions.
 #
-data "aws_iam_policy_document" "bucket_permissions" {
+data "aws_iam_policy_document" "lambda_permissions" {
   statement {
     actions = [
       "route53:ListHostedZones",

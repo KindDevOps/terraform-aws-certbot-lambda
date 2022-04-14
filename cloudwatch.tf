@@ -1,7 +1,7 @@
 # Create a timer that runs every 12 hours
 resource "aws_cloudwatch_event_rule" "certbot_lambda_timer" {
   name                = "${var.name_prefix}-timer-${var.name}"
-  schedule_expression = "cron(0 */12 * * ? *)"
+  schedule_expression = "${var.function_trigger_schedule_expression}"
 }
 
 # Specify the lambda function to run
