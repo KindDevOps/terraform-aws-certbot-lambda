@@ -24,8 +24,6 @@ module "certbot_lambda_jenkins" {
       EMAIL     = var.contact_email
       DOMAINS   = var.certificate_domains
       CERT_ARN  = var.certificate_arn
-      S3_BUCKET = aws_s3_bucket.certificates_store.id
-      S3_PREFIX = var.name
     }
   }
 }
@@ -34,26 +32,6 @@ module "certbot_lambda_jenkins" {
 # Lambda permissions on the bucket used to store certificates.
 #
 data "aws_iam_policy_document" "bucket_permissions" {
-  statement {
-    actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.certificates_store.arn
-    ]
-  }
-
-  statement {
-    actions = [
-      "s3:PutObject",
-      "s3:GetObject"
-    ]
-    resources = [
-      aws_s3_bucket.certificates_store.arn,
-      "${aws_s3_bucket.certificates_store.arn}/*"
-    ]
-  }
-
   statement {
     actions = [
       "route53:ListHostedZones",

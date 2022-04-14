@@ -35,7 +35,7 @@ was adapted to the needs of the project at hand.
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.28 |
+| terraform | >= 0.15 |
 | aws | ~> 2.70 |
 
 ## Providers
