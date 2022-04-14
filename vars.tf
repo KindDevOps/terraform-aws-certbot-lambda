@@ -3,7 +3,7 @@
 #
 variable "name_prefix" {
   description = "A prefix used for naming resources"
-  default     = "certbot-lambda"
+  default     = "certbot"
 }
 
 variable "name" {
