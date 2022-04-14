@@ -17,7 +17,11 @@ https://aws.amazon.com/premiumsupport/knowledge-center/lambda-layer-simulated-do
 Если нужно обновить код, то удаляем из ./src/ всё, кроме requirements.txt и main.py и выполняем такое:
 ```
 cd ./src/
-docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.6" /bin/sh -c "pip install --upgrade pip && pip install --requirement /var/task/requirements.txt --target /var/task/; chmod a+rw /var/task/* -R ; exit"
+docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.7" \
+/bin/sh -c "pip install --upgrade pip \
+&& pip install --requirement /var/task/requirements.txt --target /var/task/ \
+&& chmod a+rw /var/task/* -R \
+&& exit"
 ```
 
 

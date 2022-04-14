@@ -10,7 +10,7 @@ variable "name" {
   description = "A name for naming resources"
 }
 
-variable "hosted_zone_id" {
+variable "hosted_zones_ids" {
   description = "The id of the hosted zone that will be modified to prove ownership of the domain"
 }
 
@@ -26,9 +26,7 @@ variable "tags" {
 
 variable "certificate_arn" {
   description = "Certificate ARN to update to"
-  default     = "*"
 }
-
 
 #
 # LetsEncrypt Certificate Settings

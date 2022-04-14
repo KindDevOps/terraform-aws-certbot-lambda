@@ -8,7 +8,7 @@ module "certbot_lambda_jenkins" {
   function_name = "${var.name_prefix}_${var.name}"
   description   = "CertBot Lambda that creates and renews certificates for ${var.certificate_domains}"
   handler       = "main.lambda_handler"
-  runtime       = "python3.6"
+  runtime       = "python3.7"
   timeout       = 300
 
   source_path = "${path.module}/src/"
@@ -45,7 +45,7 @@ data "aws_iam_policy_document" "bucket_permissions" {
       "route53:ChangeResourceRecordSets"
     ]
     resources = [
-      "arn:aws:route53:::hostedzone/${var.hosted_zone_id}"
+       for zone_id in var.hosted_zones_ids : format("arn:aws:route53:::hostedzone/%s", zone_id.zone_id)
     ]
   }
 
@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "bucket_permissions" {
       "acm:DescribeCertificate"
     ]
     resources = [
-      "*"
+      var.certificate_arn
     ]
   }
 }

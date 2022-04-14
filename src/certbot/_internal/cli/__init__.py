@@ -223,6 +223,13 @@ def prepare_and_parse_args(plugins: plugins_disco.PluginsRegistry, args: List[st
              "certificate. Not reusing private keys is the default behavior of "
              "Certbot. This option may be used to unset --reuse-key on an "
              "existing certificate.")
+    helpful.add(
+        "automation", "--new-key",
+        dest="new_key", action="store_true", default=flag_default("new_key"),
+        help="When renewing or replacing a certificate, generate a new private key, "
+             "even if --reuse-key is set on the existing certificate. Combining "
+             "--new-key and --reuse-key will result in the private key being replaced and "
+             "then reused in future renewals.")
 
     helpful.add(
         ["automation", "renew", "certonly"],
@@ -264,7 +271,9 @@ def prepare_and_parse_args(plugins: plugins_disco.PluginsRegistry, args: List[st
         [None, "certonly", "run"], "--debug-challenges", action="store_true",
         default=flag_default("debug_challenges"),
         help="After setting up challenges, wait for user input before "
-             "submitting to CA")
+             "submitting to CA. When used in combination with the `-v` "
+             "option, the challenge URLs or FQDNs and their expected "
+             "return values are shown.")
     helpful.add(
         "testing", "--no-verify-ssl", action="store_true",
         help=config_help("no_verify_ssl"),
