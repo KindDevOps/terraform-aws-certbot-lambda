@@ -1,0 +1,16 @@
+certbot_dns_route53-1.26.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+certbot_dns_route53-1.26.0.dist-info/LICENSE.txt,sha256=tAkwu8-AdEyGxGoSvJ2gVmQdcicWw3j1ZZueVV74M-E,11357
+certbot_dns_route53-1.26.0.dist-info/METADATA,sha256=SZs_XZQCJAwy7lc012A6q51-5RV0h_Ld322u4rhplUo,1408
+certbot_dns_route53-1.26.0.dist-info/RECORD,,
+certbot_dns_route53-1.26.0.dist-info/WHEEL,sha256=G16H4A3IeoQmnOrYV4ueZGKSjhipXx8zc8nu9FGlvMA,92
+certbot_dns_route53-1.26.0.dist-info/entry_points.txt,sha256=FWxIRxZI3E4OzBoU2FeHS_UCM1SxMap_iAcRnU9nbZc,159
+certbot_dns_route53-1.26.0.dist-info/top_level.txt,sha256=AYiKUX3JChOzdjmea0JgcYGyU7DenTS_-p8M1YJ57Rw,20
+certbot_dns_route53/__init__.py,sha256=J6hw9cgH7GXec60tZuBvQBzXGjrhCRx52_G0-gZ899s,4329
+certbot_dns_route53/__pycache__/__init__.cpython-37.pyc,,
+certbot_dns_route53/__pycache__/authenticator.cpython-37.pyc,,
+certbot_dns_route53/_internal/__init__.py,sha256=pFQwXo3zUcmVU7AF5uFuTxKohU_C1dLGOARLJFSKDaw,76
+certbot_dns_route53/_internal/__pycache__/__init__.cpython-37.pyc,,
+certbot_dns_route53/_internal/__pycache__/dns_route53.cpython-37.pyc,,
+certbot_dns_route53/_internal/dns_route53.py,sha256=Yl47VV1nHpoudiJrW8hMZfw8JbOwzIKGPLGoHNlti5E,5973
+certbot_dns_route53/authenticator.py,sha256=gGMOymxBpbxTB2XBAb2Wj9aQSkxQJihwgA0DzgAw7OI,594
+certbot_dns_route53/py.typed,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0

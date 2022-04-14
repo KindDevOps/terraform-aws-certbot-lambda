@@ -16,6 +16,7 @@
 !*.gitkeep
 !*.editorconfig
 !*.pre-commit-config.yaml
+!/src
 
 # SSH keys #
 ############
@@ -71,7 +72,6 @@ Thumbs.db
 *.iml
 *.ipr
 .vscode
-/src
 /venv
 
 # Custom Project tools files #
