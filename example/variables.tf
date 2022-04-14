@@ -8,7 +8,7 @@ variable "dns_zone" {
 }
 variable "dns_record" {
   type = string
-  default = "2"
+  default = "5"
 }
 variable "dns_record_type" {
   type = string
@@ -22,3 +22,8 @@ variable "certbot_contact_email" {
   type    = string
   default = "usik@voximplant.com"
 } 
+
+variable "certificate_arn" {
+  description = "Certificate ARN to update to"
+  default     = "arn:aws:acm:eu-central-1:827460979007:certificate/38227fce-b5ca-4e2b-bbb9-7e19a7295ce1"
+}
