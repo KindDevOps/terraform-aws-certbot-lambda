@@ -16,9 +16,7 @@ module "certbot_lambda" {
 
   trusted_entities = ["events.amazonaws.com"]
 
-  layers = [
-    module.lambda_layer_s3.lambda_layer_arn,
-  ]
+  layers = []
 
   environment_variables = {
       EMAIL     = var.contact_email
