@@ -2,29 +2,26 @@
 # Lambda function that takes care of requesting the creation and renewal of
 # LetsEncrypt certificates and stores them in an S3 bucket.
 #
-module "certbot_lambda_jenkins" {
+module "certbot_lambda" {
   source = "github.com/KindDevOps/terraform-aws-lambda?ref=v1.48.0"
 
-  function_name = "${var.name_prefix}_${data.aws_region.current.name}_${var.name}"
+  function_name = local.lambda_function_name
   description   = "CertBot Lambda that creates and renews certificates for ${var.certificate_domains}"
   handler       = "main.lambda_handler"
-  runtime       = "python3.7"
+  runtime       = "python3.9"
   timeout       = 300
 
   source_path = "${path.module}/src/"
 
   trusted_entities = ["events.amazonaws.com"]
+  
+  attach_policy_json = true
+  policy_json = data.aws_iam_policy_document.lambda_permissions.json
 
-  policy = {
-    json = data.aws_iam_policy_document.lambda_permissions.json
-  }
-
-  environment = {
-    variables = {
+  environment_variables = {
       EMAIL     = var.contact_email
       DOMAINS   = var.certificate_domains
       CERT_ARN  = var.certificate_arn
-    }
   }
 }
 
