@@ -4,8 +4,8 @@
 #
 module "certbot_lambda" {
   # source = "github.com/KindDevOps/terraform-aws-lambda?ref=v1.48.0"
-  source = "github.com/KindDevOps/terraform-aws-lambda?ref=v2.37.0"
-  
+  source = "github.com/KindDevOps/terraform-aws-lambda?ref=v3.1.0"
+
   function_name = local.lambda_function_name
   description   = "CertBot Lambda that creates and renews certificates for ${var.certificate_domains}"
   handler       = "main.lambda_handler"
