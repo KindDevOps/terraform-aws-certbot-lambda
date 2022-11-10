@@ -409,7 +409,7 @@ def prepare_and_parse_args(plugins: plugins_disco.PluginsRegistry, args: List[st
         ' the new certificates and keys; the shell variable'
         ' $RENEWED_DOMAINS will contain a space-delimited list of'
         ' renewed certificate domains (for example, "example.com'
-        ' www.example.com"')
+        ' www.example.com")')
     helpful.add(
         "renew", "--disable-hook-validation",
         action="store_false", dest="validate_hooks",
@@ -438,7 +438,7 @@ def prepare_and_parse_args(plugins: plugins_disco.PluginsRegistry, args: List[st
     helpful.add(
         "renew", "--no-autorenew", action="store_false",
         default=flag_default("autorenew"), dest="autorenew",
-        help="Disable auto renewal of certificates.")
+        help="Disable auto renewal of certificates. (default: False)")
 
     # Deprecated arguments
     helpful.add_deprecated_argument("--os-packages-only", 0)

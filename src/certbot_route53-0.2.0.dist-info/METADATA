@@ -22,8 +22,8 @@ Classifier: Topic :: System :: Installation/Setup
 Classifier: Topic :: System :: Networking
 Classifier: Topic :: System :: Systems Administration
 Classifier: Topic :: Utilities
+License-File: LICENSE
 Requires-Dist: certbot-dns-route53
 
 UNKNOWN
-
 

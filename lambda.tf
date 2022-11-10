@@ -24,10 +24,25 @@ module "certbot_lambda" {
       EMAIL     = var.contact_email
       DOMAINS   = var.certificate_domains
       CERT_ARN  = var.certificate_arn
+      SSM_PARAMETER_CERT_NAME = var.ssm_parameter_cert_name
+      SSM_PARAMETER_KEY_NAME = var.ssm_parameter_key_name
+      SSM_PARAMETER_CHAIN_NAME = var.ssm_parameter_chain_name
   }
 }
 
 data "aws_region" "current" {}
+
+# data "aws_ssm_parameter" "cert" {
+#   name = var.ssm_parameter_cert_name
+# }
+
+# data "aws_ssm_parameter" "key" {
+#   name = var.ssm_parameter_key_name
+# }
+
+# data "aws_ssm_parameter" "chain" {
+#   name = var.ssm_parameter_chain_name
+# }
 
 #
 # Lambda permissions.
@@ -58,5 +73,16 @@ data "aws_iam_policy_document" "lambda_permissions" {
     resources = [
       var.certificate_arn
     ]
+  }
+
+  statement {
+    actions = [
+      "ssm:PutParameter",
+      "ssm:GetParameter",
+    ]
+    resources = [ "*" ]
+      # data.aws_ssm_parameter.cert.arn,
+      # data.aws_ssm_parameter.key.arn,
+      # data.aws_ssm_parameter.chain.arn
   }
 }

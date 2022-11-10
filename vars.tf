@@ -38,3 +38,15 @@ variable "contact_email" {
 variable "certificate_domains" {
   description = "Comma separated domains list that will be included in the certificate"
 }
+
+variable "ssm_parameter_cert_name"{
+  description = "Name of the SSM Parameter to store certificate"
+}
+
+variable "ssm_parameter_key_name"{
+  description = "Name of the SSM Parameter to store private key"
+}
+
+variable "ssm_parameter_chain_name"{
+  description = "Name of the SSM Parameter to store Certificate Chain"
+}

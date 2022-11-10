@@ -7,6 +7,7 @@ Unfortunately latest  certbot-lambda module v.0.8.0 [uncompatible with terraform
   * Получает сертификат Let's Encrypt для заданной записи в заданной DNS-зоне.
   * Заливает полученный сертификат на AWS S3.
   * заливает полученный сертификат на Amazon Certificate Manager.
+  * Заливает сертификат в AWS SSM Paramenetrs Store 
   * Для Lambda-функции создается триггер, который запускает ее по расписанию.
 
 # Код Lambda-функции
@@ -17,11 +18,54 @@ https://aws.amazon.com/premiumsupport/knowledge-center/lambda-layer-simulated-do
 Если нужно обновить код, то удаляем из ./src/ всё, кроме requirements.txt и main.py и выполняем такое:
 ```
 cd ./src/
-docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.7" \
+docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.9" \
 /bin/sh -c "pip install --upgrade pip \
 && pip install --requirement /var/task/requirements.txt --target /var/task/ \
 && chmod a+rw /var/task/* -R \
 && exit"
+```
+
+# AWS SSM Parameters Store
+Хранение в **AWS Parameters Store** - как альтернатива хранению в **S3**. \
+Храним **cert**, **privkey** и **chain**. \
+Сертификаты хранятся в сжатом виде (**zlib**) в кодировке **base64**. \
+Получить сертификат из **AWS SSM Store** можно таким скриптом:
+```
+#!/usr/bin/env python3
+
+import os
+import boto3
+import zlib
+import base64
+
+ssm_client = boto3.client('ssm', region_name='eu-central-1')
+cert_dir='/etc/ssl/private/certs/'
+
+ssm_param_cert_name='/nodes/node1013/certs/wildcard_cert'
+ssm_param_key_name='/nodes/node1013/certs/wildcard_key'
+ssm_param_chain_name='/nodes/node1013/certs/wildcard_chain'
+os.makedirs(cert_dir, mode=0o700, exist_ok=True)
+
+print("Trying to get certificate files from SSM Parameter Store...")
+try:
+    response = ssm_client.get_parameters(
+        Names=[
+            ssm_param_cert_name,
+            ssm_param_key_name,
+            ssm_param_chain_name
+        ]
+    )
+
+    for item in response["Parameters"]:
+        item_name=os.path.basename(item["Name"])
+        item_body=base64.b64decode(item["Value"])
+        item_body=zlib.decompress(item_body).decode()
+        with open(os.path.join(cert_dir, f'{item_name}.pem'), 'w') as f:
+            f.write(item_body)
+
+except Exception as e:
+    print("Getting certificate from parameter store failed...")
+    print(f'Exception - {e}')
 ```
 
 
